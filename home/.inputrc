@@ -10,6 +10,7 @@ set menu-complete-display-prefix on
 set completion-ignore-case on
 # Make hyphens and underscores interchangable
 set completion-map-case on
+set skip-completed-text on
 
 # -----------------------------------------------------------------------------
 # Default keymap group
