@@ -1,0 +1,22 @@
+$include /etc/inputrc
+
+# Do not ring bell on tab-completion.
+set bell-style visible
+
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set menu-complete-display-prefix on
+
+# -----------------------------------------------------------------------------
+# Default keymap group
+set keymap
+
+# up
+"\e[A": history-search-backward
+# down
+"\e[B": history-search-forward
+
+# Cycle thru candidates when completing.
+TAB: menu-complete
+# shift-tab
+"\e[Z": menu-complete-backward
