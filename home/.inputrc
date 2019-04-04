@@ -3,6 +3,8 @@ $include /etc/inputrc
 # Do not ring bell on tab-completion.
 set bell-style visible
 
+set blink-matching-paren on
+
 set show-all-if-ambiguous on
 set menu-complete-display-prefix on
 set completion-ignore-case on
