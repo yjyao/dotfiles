@@ -1,5 +1,8 @@
 $include /etc/inputrc
 
+# Options see `man readline`
+# Keybinding see `bind --help`
+
 # Do not ring bell on tab-completion.
 set bell-style visible
 
