@@ -6,6 +6,8 @@ set bell-style visible
 set blink-matching-paren on
 
 set show-all-if-ambiguous on
+# Colored file names
+set colored-stats on
 set menu-complete-display-prefix on
 set completion-ignore-case on
 # Make hyphens and underscores interchangable
