@@ -8,6 +8,8 @@ set bell-style visible
 
 set blink-matching-paren on
 
+# Completion
+
 set show-all-if-ambiguous on
 set menu-complete-display-prefix on
 set completion-ignore-case on
