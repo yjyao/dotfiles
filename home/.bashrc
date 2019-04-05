@@ -118,4 +118,4 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-[ -r ~/bashrc.local ] && . ~/bashrc.local
+[ -r ~/.bashrc.local ] && . ~/.bashrc.local
