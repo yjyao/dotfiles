@@ -55,7 +55,9 @@ unset color_prompt
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-  [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" \
+    || [ -r ~/.dir_colors/dircolors ] && eval "$(dircolors ~/.dir_colors/dircolors)" \
+    || eval "$(dircolors -b)"
   alias ls='ls --color=auto'
   alias grep='grep --color=auto'
   alias fgrep='fgrep --color=auto'
@@ -97,7 +99,7 @@ fi
 
 # # Automatically enter tmux if
 # # 1) tmux exists on the system
-# # 2) we're in an interactive shell, and 
+# # 2) we're in an interactive shell, and
 # # 3) tmux doesn't try to run within itself:
 # if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
 #   exec tmux
