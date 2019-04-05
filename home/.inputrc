@@ -26,6 +26,10 @@ set keymap
 # down
 "\e[B": history-search-forward
 
+# alt+up and alt+down expand argument
+"\e[1;3A": dabbrev-expand
+"\e[1;3B": "\e-\e[1;3A"
+
 # Cycle thru candidates when completing.
 TAB: menu-complete
 # shift-tab
