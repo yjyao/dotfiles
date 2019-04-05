@@ -11,6 +11,7 @@ if [[ -r ~/.git-completion.bash ]]; then
 fi
 
 alias c=clip
+alias watch="watch --color"
 
 # an online snake game
 alias tron="ssh sshtron.zachlatta.com"
