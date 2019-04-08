@@ -113,8 +113,11 @@ if command -v _fzf_dir_completion &> /dev/null; then
 fi
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --ansi'
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude ".git" --color=always'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+if command -v fd &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='fd --follow --hidden --exclude ".git" --color=auto'
+  export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type directory"
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type --type file"
+fi
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
