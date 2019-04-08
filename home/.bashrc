@@ -118,4 +118,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
+LESS=
+LESS+='R'  # control chars (color, etc.)
+LESS+='F'  # auto exit if short
+LESS+='i'  # ignore case search
+export LESS
+
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
