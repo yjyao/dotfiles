@@ -125,6 +125,6 @@ LESS=
 LESS+='R'  # control chars (color, etc.)
 LESS+='F'  # auto exit if short
 LESS+='i'  # ignore case search
-export LESS
+export $LESS
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
