@@ -1,3 +1,54 @@
+[alias]
+
+  aliases = config --get-regexp '^alias'
+  rc = !vim ~/.gitconfig
+
+  st = status -sb
+
+  a  = add
+  aa = add --all
+  amend = commit --amend
+  ap = add --patch
+  au = add --update
+  unstage = reset HEAD --
+
+  ci = commit
+  cm = commit -m
+
+  co = checkout
+  cob = checkout -b
+
+  br = branch
+  brclean = !git branch --merged | grep -vF '*' | xargs -n1 git branch -d
+  brcurr = symbolic-ref --short HEAD
+  feat = "!f() { git checkout -b feat-${1?} ${2-master} ;};f"
+  fix = "!f() { git checkout -b fix-${1?} ${2-master} ;};f"
+  merc = merge --no-ff
+
+  lg = log --graph --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --perl-regexp
+  mylg = !git lg --author=\"$USER\"
+  lgfile = !git lg --numstat
+  last = log -1 HEAD
+
+  d = diff --color-words
+  dc = !git d --cached
+  ds = !git d --stat
+
+  ss = stash push -m
+  sl = stash list
+  sll = stash list --stat
+  sp = stash pop
+  sd = "!f() { git stash drop \"stash@{$1}\" ;};f"
+  sa = "!f() { git stash apply \"stash@{$1}\" ;};f"
+
+  cp = cherry-pick
+
+  cl = clone
+
+[core]
+
+  pager = less
+
 [include]
 
   path = ~/.gitconfig.local
