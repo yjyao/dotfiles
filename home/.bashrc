@@ -121,9 +121,13 @@ fi
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
+LESSVERSION="$(less -V | head -1 | cut -d' ' -f2)"
+
 LESS=
 LESS+='R'  # control chars (color, etc.)
-LESS+='F'  # auto exit if short
+# auto exit if short
+# for older `less`, 'X' needs to be added to prevent screen clearing after exits
+[[ $LESSVERSION -gt 530 ]] && LESS+='F' || LESS+='XF'
 LESS+='i'  # ignore case search
 export $LESS
 
