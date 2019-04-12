@@ -7,6 +7,8 @@ alias g=git
 # add git completion to alias
 if [[ -r ~/.git-completion.bash ]]; then
   . ~/.git-completion.bash
+fi
+if command -v __git_complete &> /dev/null; then
   __git_complete g __git_main
 fi
 
