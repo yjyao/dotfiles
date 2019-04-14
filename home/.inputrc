@@ -22,8 +22,10 @@ set skip-completed-text on
 set keymap
 
 # up
+"\eOA": history-search-backward
 "\e[A": history-search-backward
 # down
+"\eOB": history-search-backward
 "\e[B": history-search-forward
 
 # alt+up and alt+down expand argument
