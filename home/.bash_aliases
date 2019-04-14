@@ -5,7 +5,9 @@ alias l='ls -CF'
 
 alias g=git
 # add git completion to alias
-if [[ -r ~/.git-completion.bash ]]; then
+if [[ -r /usr/share/bash-completion/completions/git ]]; then
+  . /usr/share/bash-completion/completions/git
+elif [[ -r ~/.git-completion.bash ]]; then
   . ~/.git-completion.bash
 fi
 if command -v __git_complete &> /dev/null; then
