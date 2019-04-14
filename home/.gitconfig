@@ -49,6 +49,10 @@
 
   pager = less
 
+[push]
+
+  default = simple
+
 [include]
 
   path = ~/.gitconfig.local
