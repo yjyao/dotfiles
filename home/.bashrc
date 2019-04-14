@@ -19,6 +19,12 @@ export HISTFILESIZE=
 # ignore duplicate commands and commands starting with spaces
 export HISTCONTROL="ignoreboth:$HISTCONTROL"
 
+# do not store certain common commands and simple 1-2 char commans in history
+# also ignore commands starting with whitespaces
+HISTIGNORE='?:??:history:[ \t]*'
+
+HISTTIMEFORMAT='%F %T '
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
