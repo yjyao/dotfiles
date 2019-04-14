@@ -12,8 +12,9 @@ esac
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# Set HISTFILESIZE to unlimited
+export HISTSIZE=1000
+export HISTFILESIZE=
 
 # ignore duplicate commands and commands starting with spaces
 export HISTCONTROL="ignoreboth:$HISTCONTROL"
