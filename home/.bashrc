@@ -136,6 +136,6 @@ LESS+='R'  # control chars (color, etc.)
 # for older `less`, 'X' needs to be added to prevent screen clearing after exits
 [[ $LESSVERSION -gt 530 ]] && LESS+='F' || LESS+='XF'
 LESS+='i'  # ignore case search
-export $LESS
+export LESS=$LESS
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
