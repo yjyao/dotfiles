@@ -35,10 +35,10 @@
   ds = !git d --stat
 
   ; Like listed by `git status` i.e., = 'fm' + 'fc' + 'fn'
-  files = "!bash -c 'sort -u <(git diff --name-only --cached) <(git ls-files --other --modified)'"
+  files = "!bash -c 'sort -u <(git diff --name-only --cached) <(git ls-files --others --exclude-standard --modified)'"
   filesmodified = diff --name-only  ; or 'ls-files --modified'
   filescached = diff --name-only --cached
-  filesnew = ls-files --other
+  filesnew = ls-files --other --exclude-standard
   f = !git files
   fm = !git filesmodified
   fc = !git filescached
