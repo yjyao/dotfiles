@@ -14,6 +14,7 @@ if command -v __git_complete &> /dev/null; then
   __git_complete g __git_main
 fi
 
+md5() { md5sum "$@" | awk '{ print $1 }'; }
 alias c=clip
 alias watch="watch --color"
 
