@@ -1014,20 +1014,20 @@ let g:vimtex_compiler_latexmk = {
       \ ],
       \ }
 
-let g:tex_flavor                          = 'latex'
-let g:tex_indent_items                    = 0
-let g:Tex_DefaultTargetFormat             = 'pdf'
-let g:Tex_FormatDependency_pdf            = 'pdf'
-let g:vimtex_view_method                  = 'general'
-let g:vimtex_enabled                      = 1
-let g:vimtex_complete_img_use_tail        = 1
+let g:tex_flavor = 'latex'
+let g:tex_indent_items = 0
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_FormatDependency_pdf = 'pdf'
+let g:vimtex_view_method = 'general'
+let g:vimtex_enabled = 1
+let g:vimtex_complete_img_use_tail = 1
 if g:iswindows
   " use SumatraPDF to view PDF, SumatraPDF required
-  let g:vimtex_view_general_viewer          = 'SumatraPDF'
-  let g:vimtex_view_general_options         = '-reuse-instance -forward-search @tex @line @pdf'
+  let g:vimtex_view_general_viewer = 'SumatraPDF'
+  let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
   let g:vimtex_view_general_options_latexmk = '-reuse-instance'
 else
-  let g:vimtex_view_general_viewer          = 'xdg-open'
+  let g:vimtex_view_general_viewer = 'xdg-open'
 endif
 let g:vimtex_quickfix_warnings = {
             \ 'default' : 0,
