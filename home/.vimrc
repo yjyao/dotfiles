@@ -38,12 +38,12 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " 以下为要安装的插件
 
   " let b:use_VimIM = 1
+  let b:use_neocomplete = 1
   " Plugin 'Align'  " use vim-easy-align instead
   " Plugin 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
   " Plugin 'Lokaltog/vim-powerline'
   " Plugin 'Mark--Karkat'
   Plugin 'OmniCppComplete'
-  let b:use_neocomplete = 1
   Plugin 'SirVer/ultisnips'
   " Plugin 'TxtBrowser'
   " Plugin 'Valloric/YouCompleteMe'  " use neocomplete instead
