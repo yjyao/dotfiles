@@ -1,0 +1,305 @@
+priority -40
+
+# environments
+# -----------------------------------------------------------------------------
+
+snippet it "Individual item" b
+\item$0
+endsnippet
+
+# math
+
+snippet def "Definition" b
+\begin{definition}[${1}]
+	\label{def:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	${0:${VISUAL}}
+\end{definition}
+endsnippet
+
+snippet ppt "Property" b
+\begin{property}[${1}]
+	\label{ppt:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	${0:${VISUAL}}
+\end{property}
+endsnippet
+
+snippet thm "Theorem" b
+\begin{theorem}[${1}]
+	\label{thm:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	${0:${VISUAL}}
+\end{theorem}
+endsnippet
+
+snippet alnn "Aligned equations (non-numbered)"
+\begin{align*}
+	$0
+\end{align*}
+endsnippet
+
+snippet lp "Long parenthesis"
+\${1:big}l(${0:${VISUAL:contents}}\$1r)$0
+endsnippet
+
+# font families
+# -----------------------------------------------------------------------------
+
+snippet bf "Boldface text" w
+\textbf{${1:${VISUAL}}$0
+endsnippet
+
+snippet it "Italian text" w
+\textit{${1:${VISUAL}}}$0
+endsnippet
+
+snippet sf "Sans serif text" w
+\textsf{${1:${VISUAL}}}$0
+endsnippet
+
+snippet sc "Small caps text" w
+\textsc{${1:${VISUAL}}}$0
+endsnippet
+
+snippet rm "Roman text" w
+\\${1:m}${1/(m)$|(t)$|(.*)/(?1:ath)(?2:ext)/}rm{${2:${VISUAL}}}$0
+endsnippet
+
+snippet em "Emphasis" w
+\emph{${1:${VISUAL}}}$0
+endsnippet
+
+snippet txt "Text in math modes" w
+\text{${1:${VISUAL}}}$0
+endsnippet
+
+snippet cal "Mathcal" w
+\mathcal{$1}$0
+endsnippet
+
+snippet bb "Mathbb" w
+\mathbb{$1}$0
+endsnippet
+
+# math
+# -----------------------------------------------------------------------------
+
+snippet ma "Inline math mode" w
+$${1:${VISUAL}}`!p snip.rv='\n' if t[1].startswith('\n') else ''`$$0
+endsnippet
+
+snippet \ "display math mode" w
+\[
+	${1:${VISUAL}}
+\]$0
+endsnippet
+
+# greek letters
+
+snippet ga "alpha" w
+\alpha
+endsnippet
+
+snippet gb "beta" w
+\beta
+endsnippet
+
+snippet gc "chi" w
+\chi
+endsnippet
+
+snippet gd "delta" w
+\delta
+endsnippet
+
+snippet ge "varepsilon" w
+\varepsilon
+endsnippet
+
+snippet gf "varphi" w
+\varphi
+endsnippet
+
+snippet gg "gamma" w
+\gamma
+endsnippet
+
+snippet gh "eta" w
+\eta
+endsnippet
+
+snippet gk "kappa" w
+\kappa
+endsnippet
+
+snippet gl "lambda" w
+\lambda
+endsnippet
+
+snippet gm "mu" w
+\mu
+endsnippet
+
+snippet gn "nu" w
+\nu
+endsnippet
+
+snippet go "omega" w
+\omega
+endsnippet
+
+snippet gp "pi" w
+\pi
+endsnippet
+
+snippet gq "theta" w
+\theta
+endsnippet
+
+snippet gr "rho" w
+\rho
+endsnippet
+
+snippet gs "sigma" w
+\sigma
+endsnippet
+
+snippet gt "tau" w
+\tau
+endsnippet
+
+snippet gu "upsilon" w
+\upsilon
+endsnippet
+
+snippet gv "vee" w
+\vee
+endsnippet
+
+snippet gw "wedge" w
+\wedge
+endsnippet
+
+snippet gz "zeta" w
+\zeta
+endsnippet
+
+snippet gD "Delta" w
+\Delta
+endsnippet
+
+snippet gF "Phi" w
+\Phi
+endsnippet
+
+snippet gG "Gamma" w
+\Gamma
+endsnippet
+
+snippet gL "Lambda" w
+\Lambda
+endsnippet
+
+snippet gN "nabla" w
+\nabla
+endsnippet
+
+snippet gO "Omega" w
+\Omega
+endsnippet
+
+snippet gQ "Theta" w
+\Theta
+endsnippet
+
+snippet gR "Varrho" w
+\varrho
+endsnippet
+
+snippet gU "Upsilon" w
+\Upsilon
+endsnippet
+
+snippet gX "Xi" w
+\Xi
+endsnippet
+
+snippet gY "Psi" w
+\Psi
+endsnippet
+
+# symbols
+
+snippet g0 "Empty set" w
+\emptyset
+endsnippet
+
+snippet g6 "Partial symbol" w
+\partial
+endsnippet
+
+snippet g8 "Infinity symbol" w
+\infty
+endsnippet
+
+snippet g@ "Circle" w
+\circ
+endsnippet
+
+snippet g= "Equivalence" w
+\equiv
+endsnippet
+
+snippet g: "Dots / epsilons" w
+\dots
+endsnippet
+
+snippet g. "Centered dot" w
+\cdot
+endsnippet
+
+snippet g~ "tilde{}" w
+\tilde{$1}$0
+endsnippet
+
+snippet g^ "hat{}" w
+\hat{$1}$0
+endsnippet
+
+snippet g- "bar{}" w
+\bar{$1}$0
+endsnippet
+
+snippet g* "times" w
+\times
+endsnippet
+
+snippet g/ "frac" w
+\frac{$1}{$2}$0
+endsnippet
+
+snippet g2 "squre root" w
+\sqrt{${1:${VISUAL}}}$0
+endsnippet
+
+snippet ^ "Superscript" i
+^{$1}$0
+endsnippet
+
+snippet _ "Subscript" i
+_{$1}$0
+endsnippet
+
+snippet int "Integral" w
+\int`!p snip.rv=t[1] and '_{'`${1:from}`!p snip.rv=t[1] and '}'``!p snip.rv=t[2] and '^{'`${2:to}`!p snip.rv=t[2] and '}'` $3 \dd $0
+endsnippet
+
+snippet sum "Summation" w
+\sum`!p snip.rv=t[1] and '_{'`${1:from}`!p snip.rv=t[1] and '}'``!p snip.rv=t[2] and '^{'`${2:to}`!p snip.rv=t[2] and '}'` $0
+endsnippet
+
+snippet lim "Limit" w
+\lim_{${1}`!p snip.rv=t[2] and ' \\to '`${2:\infty}} $0
+endsnippet
+
+snippet lp "Long parenthesis"
+\\${1:big}( ${2:${VISUAL}} \\${3:$1})$0
+endsnippet
