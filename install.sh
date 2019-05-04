@@ -16,12 +16,14 @@ fi
 # Use -mindepth 1 to exclude "$DOTFILES_SRC_DIR" itself.
 for path in $(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 2); do
   dst_path="$DOTFILES_DST_DIR/${path##*/}"
-  if [ -e "$dst_path" ] || [ -L "$dst_path" ]; then
-    mkdir -p "$BACKUP_DIR"
-    mv --backup=numbered "$dst_path" -t "$BACKUP_DIR/"
-    has_backup=1
+  if [ $(readlink -f "$dst_path") != "$path" ]; then
+    if [ -e "$dst_path" ]; then
+      mkdir -p "$BACKUP_DIR"
+      mv --backup=numbered "$dst_path" -t "$BACKUP_DIR/"
+      has_backup=1
+    fi
+    ln -s -t "$DOTFILES_DST_DIR" "$path"
   fi
-  ln -s -t "$DOTFILES_DST_DIR" "$path"
 done
 
 [ -n "$has_backup" ] && echo "Original dotfiles backed up to $BACKUP_DIR."
