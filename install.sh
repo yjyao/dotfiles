@@ -14,7 +14,7 @@ if [ ! -d "$DOTFILES_SRC_DIR" ]; then
 fi
 
 # Use -mindepth 1 to exclude "$DOTFILES_SRC_DIR" itself.
-for path in $(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 2); do
+for path in $(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 1); do
   dst_path="$DOTFILES_DST_DIR/${path##*/}"
   if [ $(readlink -f "$dst_path") != "$path" ]; then
     if [ -e "$dst_path" ]; then
@@ -27,3 +27,12 @@ for path in $(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 2); do
 done
 
 [ -n "$has_backup" ] && echo "Original dotfiles backed up to $BACKUP_DIR."
+
+read -p "Would you like to install Vundle, the package manager for Vim? [Y/n] " -n 1 -r
+echo
+if [[ $REPLY =~ [Yy] ]]; then
+  if [ ! -e ~/.vim/bundle/Vundle.vim ]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  fi
+  vim +PluginInstall +qall
+fi
