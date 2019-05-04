@@ -45,6 +45,10 @@
 
   cl = clone
 
+[merge]
+
+  tool = vimdiff
+
 [core]
 
   pager = less
