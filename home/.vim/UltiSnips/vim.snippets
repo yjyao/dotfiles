@@ -1,0 +1,8 @@
+snippet augroup "Autocmd Group" b
+if has('autocmd')
+	augroup $1
+		autocmd!
+		$0
+	augroup end
+endif
+endsnippet
