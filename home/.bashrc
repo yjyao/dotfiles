@@ -50,12 +50,13 @@ PROMPT_COMMAND+='_GITBRANCH=$(git brcurr 2> /dev/null);'
 
 _PS1='${debian_chroot:+($debian_chroot)}'
 _PS1+='\n'
-_PS1+='\[\033[01;90m\]\u@\h'
-_PS1+='\[\033[00m\]:\[\033[01;90m\]\w'
+_PS1+='\[\033[96m\]\u@\h\[\033[0m\]'
+_PS1+=':'
+_PS1+='\[\033[96m\]\w\[\033[0m\]'
 _PS1+='\n'
-_PS1+='\[\033[01;32m\]$([[ $_GITBRANCH ]] && echo "[$_GITBRANCH] ")'
-_PS1+='\[\033[00m\]\$ '
-_PS1+='\[\033[00m\]'
+_PS1+='\[\033[32m\]$([[ $_GITBRANCH ]] && echo "[$_GITBRANCH] ")\[\033[0m\]'
+_PS1+='\$ '
+_PS1+='\[\033[0m\]'
 PS1=$_PS1
 
 unset color_prompt
