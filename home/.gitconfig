@@ -30,7 +30,7 @@
   lgfile = !git lg --numstat
   last = log -1 HEAD
 
-  d = diff --color-words
+  d = diff
   dc = !git d --cached
   ds = !git d --stat
 
