@@ -986,9 +986,12 @@ if has('autocmd')
   augroup ennable_reftex
     autocmd!
     if g:iswindows
-      au FileType tex source $VIM/vimfiles/ftplugin/reftex.vim
+      let b:reftexpath = '$VIM/vimfiles/ftplugin/reftex.vim'
     else
-      au FileType tex source ~/.vim/ftplugin/reftex.vim
+      let b:reftexpath = '~/.vim/ftplugin/reftex.vim'
+    endif
+    if filereadable(expand(b:reftexpath))
+      exec 'au FileType tex source '.b:reftexpath
     endif
   augroup end
 endif
