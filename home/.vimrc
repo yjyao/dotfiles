@@ -51,6 +51,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'Yggdroot/indentLine'
   " Plugin 'ZoomWin'
   " Plugin 'a.vim'
+  Plugin 'altercation/vim-colors-solarized'  " colorscheme
   " Plugin 'artur-shaik/vim-javacomplete2'
   Plugin 'bkad/CamelCaseMotion'
   " Plugin 'cSyntaxAfter'
