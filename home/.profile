@@ -15,6 +15,11 @@ if [ -d "$HOME/.local/bin" ] ; then
   PATH="$HOME/.local/bin:$PATH"
 fi
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin.local" ] ; then
+  PATH="$HOME/bin.local:$PATH"
+fi
+
 # import local profile configs
 [ -r "$HOME/.profile.local" ] && . "$HOME/.profile.local"
 
