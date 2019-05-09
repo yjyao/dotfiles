@@ -246,6 +246,14 @@ if has('autocmd')
   augroup end
 endif
 
+" 必要时重新生成 spl 拼写检查库
+for d in glob('~/.vim/spell/*.add', 1, 1)
+  if filereadable(d) && (!filereadable(d . '.spl') ||
+        \ getftime(d) > getftime(d . '.spl'))
+    exec 'silent mkspell! ' . fnameescape(d)
+  endif
+endfor
+
 " ========================================================================= }}}
 " 操作
 " ========================================================================= {{{
