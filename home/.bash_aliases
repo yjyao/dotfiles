@@ -15,6 +15,7 @@ if command -v __git_complete &> /dev/null; then
 fi
 
 md5() { md5sum "$@" | awk '{ print $1 }'; }
+alias :e=vim
 alias c=clip
 alias watch="watch --color"
 
