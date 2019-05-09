@@ -57,6 +57,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'cSyntaxAfter'
   " Plugin 'ccvext.vim'
   Plugin 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
+  Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
   Plugin 'cohama/lexima.vim'  "  auto pair closer
   Plugin 'ctrlpvim/ctrlp.vim'  " fuzzy file searcher / buffer manager
