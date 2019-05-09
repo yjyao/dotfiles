@@ -56,7 +56,7 @@ _PS1+='\[\033[96m\]\w\[\033[0m\]'
 _PS1+='\n'
 _PS1+='\[\033[32m\]$([[ $_GITBRANCH ]] && echo "[$_GITBRANCH] ")\[\033[0m\]'
 _PS1+='\$ '
-_PS1+='\[\033[0m\]'
+_PS1+='\[\033[0:0m\]'
 PS1=$_PS1
 
 unset color_prompt
