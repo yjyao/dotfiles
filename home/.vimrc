@@ -41,12 +41,12 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
   " Plugin 'Lokaltog/vim-powerline'
   " Plugin 'Mark--Karkat'
-  Plugin 'OmniCppComplete'
+  " Plugin 'OmniCppComplete'
   Plugin 'Shougo/neocomplete' | let b:has_neocomplete = 1  " fuzzy completion
   Plugin 'SirVer/ultisnips'
   " Plugin 'TxtBrowser'
   " Plugin 'Valloric/YouCompleteMe'  " use neocomplete instead
-  Plugin 'Vimjas/vim-python-pep8-indent'
+  " Plugin 'Vimjas/vim-python-pep8-indent'
   " Plugin 'Yggdroot/indentLine'
   " Plugin 'ZoomWin'
   " Plugin 'a.vim'
@@ -57,10 +57,10 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'ccvext.vim'
   Plugin 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
   Plugin 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
-  Plugin 'closetag.vim'  " close HTML tags with <C-BS>
+  " Plugin 'closetag.vim'  " close HTML tags with <C-BS>
   Plugin 'cohama/lexima.vim'  "  auto pair closer
   Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
-  Plugin 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
+  " Plugin 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
   " Plugin 'dyng/ctrlsf.vim'  " global search
   Plugin 'grep.vim'
   Plugin 'honza/vim-snippets'  " provides a bunch of snippets
@@ -68,9 +68,9 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
   Plugin 'junegunn/vim-easy-align'
   " Plugin 'justinmk/vim-sneak'  " 2-letter `f` and `t`
-  Plugin 'lervag/vimtex'  " LaTeX build / functions
+  " Plugin 'lervag/vimtex'  " LaTeX build / functions
   " Plugin 'majutsushi/tagbar'
-  Plugin 'mattn/emmet-vim' | let b:has_emmet = 1 " https://emmet.io: fast HTML coding
+  " Plugin 'mattn/emmet-vim' | let b:has_emmet = 1 " https://emmet.io: fast HTML coding
   Plugin 'michaeljsmith/vim-indent-object'
   " Plugin 'osyo-manga/vim-over'  " :s preview
   Plugin 'romainl/vim-cool'  "  auto disable search highlights
@@ -79,7 +79,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'scrooloose/syntastic'
   " Plugin 'shawncplus/phpcomplete.vim'
   " Plugin 'std_c.zip'
-  Plugin 'taglist.vim'
+  " Plugin 'taglist.vim'
   Plugin 'takac/vim-hardtime'  " prevents bad habbits
   Plugin 'tpope/vim-commentary'  " motions for commenting code
   Plugin 'tpope/vim-markdown'
