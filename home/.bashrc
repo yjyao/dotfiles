@@ -113,8 +113,8 @@ fi
 #   exec tmux
 # fi
 
-[ -f ~/.z/z.sh ] && source ~/.z/z.sh  # https://github.com/rupa/z
 export _Z_DATA=~/.z.data
+[ -f ~/.z/z.sh ] && source ~/.z/z.sh  # https://github.com/rupa/z
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
