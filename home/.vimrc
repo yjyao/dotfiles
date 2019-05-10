@@ -1200,6 +1200,16 @@ let g:targets_nl = 'nN'
 " Only seek if next/last targets touch current line
 let g:targets_seekRanges = 'cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
 
+" ------------------------------------------------------------
+" netrw
+" ------------------------------------------------------------
+
+let g:netrw_liststyle = 3 " tree style
+let g:netrw_winsize = 20 " percent
+" let g:netrw_browse_split = 4 " open files in previous window
+let g:netrw_banner = 0
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+
 " ========================================================================= }}}
 " 编码配置
 " ========================================================================= {{{
