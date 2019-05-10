@@ -60,7 +60,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
   Plugin 'cohama/lexima.vim'  "  auto pair closer
-  Plugin 'ctrlpvim/ctrlp.vim'  " fuzzy file searcher / buffer manager
+  Plugin 'ctrlpvim/ctrlp.vim' | let g:has_ctrlp = 1 " fuzzy file searcher / buffer manager
   Plugin 'davidhalter/jedi-vim'  "  python autocomplete. 'pip install jedi' required
   " Plugin 'dyng/ctrlsf.vim'  " global search
   Plugin 'grep.vim'
@@ -415,7 +415,11 @@ set backspace=indent,eol,start
 " set whichwrap+=<,>,h,l
 
 " 文件切换控制
-nmap gb :ls<CR>:buffer<space>
+if exists("g:has_ctrlp")
+  nmap gb :CtrlPBuffer<CR>
+else
+  nmap gb :ls<CR>:buffer<space>
+endif
 
 " 使用 ctrl+j,k,h,l 在分割的视窗间跳动
 nnoremap <C-j> <C-w>j
