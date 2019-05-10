@@ -511,6 +511,7 @@ inoremap # X#
 set tabstop=2 shiftwidth=2
 set smarttab        " 使 softtabstop = shiftwidth
 
+set nowrap
 " 不同类型文件的缩进长度和文本宽度
 if has('autocmd')
   augroup indent_and_textwidth
