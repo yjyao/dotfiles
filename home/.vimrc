@@ -239,6 +239,13 @@ if has('autocmd')
   augroup end
 endif
 
+" faster grep programs
+if executable('rg')
+  set grepprg=rg\ --color=never
+elseif executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
 " 必要时重新生成 spl 拼写检查库
 for d in glob('~/.vim/spell/*.add', 1, 1)
   if filereadable(d) && (!filereadable(d . '.spl') ||
