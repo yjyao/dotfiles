@@ -928,6 +928,36 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|aux|pdf|class)$',
   \ }
 
+let g:ctrlp_working_path_mode = 'rc'
+
+let g:ctrlp_max_depth = 4
+
+if executable('fd')
+  let g:ctrlp_user_command = 'fd ^ %s --type f --color=never
+        \ --hidden
+        \ --exclude .git
+        \ --exclude .svn
+        \ --exclude .hg
+        \ --exclude .DS_Store
+        \ --exclude "**/*.pyc"
+        \ --exclude .git5_specs
+        \ --exclude .review
+        \ '
+  let g:ctrlp_use_caching = 0
+elseif executable('ag')
+  let g:ctrlp_user_command = '/usr/bin/ag %s -i --nocolor --nogroup
+        \ --hidden
+        \ --ignore .git
+        \ --ignore .svn
+        \ --ignore .hg
+        \ --ignore .DS_Store
+        \ --ignore "**/*.pyc"
+        \ --ignore .git5_specs
+        \ --ignore .review
+        \ -g ""'
+  let g:ctrlp_use_caching = 0
+endif
+
 " -----------------------------------------------------------------------------
 " emmet-vim
 " -----------------------------------------------------------------------------
