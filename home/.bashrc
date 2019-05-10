@@ -113,6 +113,9 @@ fi
 #   exec tmux
 # fi
 
+[ -f ~/.z/z.sh ] && source ~/.z/z.sh  # https://github.com/rupa/z
+export _Z_DATA=~/.z.data
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Add extra fzf complete supports
