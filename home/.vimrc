@@ -295,6 +295,9 @@ nmap codw :call ToggleDiffopt('iwhite')<CR>
 " 比对时大小写敏感 (change option diff case)
 nmap codc :call ToggleDiffopt('icase')<CR>
 
+" mark (highlight) me: Search for the current word but stay put
+nmap mm *N:hls<CR>
+
 func! ToggleSetting(setting)
   exec 'set '.a:setting.'!'
   exec 'set '.a:setting.'?'
