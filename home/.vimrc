@@ -37,13 +37,12 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
 
   " 以下为要安装的插件
 
-  " let b:use_VimIM = 1
-  let b:use_neocomplete = 1
   " Plugin 'Align'  " use vim-easy-align instead
   " Plugin 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
   " Plugin 'Lokaltog/vim-powerline'
   " Plugin 'Mark--Karkat'
   Plugin 'OmniCppComplete'
+  Plugin 'Shougo/neocomplete' | let b:has_neocomplete = 1  " fuzzy completion
   Plugin 'SirVer/ultisnips'
   " Plugin 'TxtBrowser'
   " Plugin 'Valloric/YouCompleteMe'  " use neocomplete instead
@@ -60,7 +59,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
   Plugin 'cohama/lexima.vim'  "  auto pair closer
-  Plugin 'ctrlpvim/ctrlp.vim' | let g:has_ctrlp = 1 " fuzzy file searcher / buffer manager
+  Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
   Plugin 'davidhalter/jedi-vim'  "  python autocomplete. 'pip install jedi' required
   " Plugin 'dyng/ctrlsf.vim'  " global search
   Plugin 'grep.vim'
@@ -88,15 +87,9 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
   Plugin 'unblevable/quick-scope'  " highlight cues for `f` and `t`
   " Plugin 'vim-javacompleteex'
+  " Plugin 'vim-scripts/VimIM' | let b:has_VimIM = 1
   Plugin 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plugin 'wesleyche/SrcExpl'
-
-  if exists('b:use_VimIM')
-    Plugin 'vim-scripts/VimIM'
-  endif
-  if exists('b:use_neocomplete')
-    Plugin 'Shougo/neocomplete'
-  endif
 
   call vundle#end()
 
@@ -415,7 +408,7 @@ set backspace=indent,eol,start
 " set whichwrap+=<,>,h,l
 
 " 文件切换控制
-if exists("g:has_ctrlp")
+if exists('b:has_ctrlp')
   nmap gb :CtrlPBuffer<CR>
 else
   nmap gb :ls<CR>:buffer<space>
@@ -757,7 +750,7 @@ let OmniCpp_LocalSearchDecl = 1
 let OmniCpp_NamespaceSearch = 1
 
 " C++ 成员引用自动补全
-if !exists('use_neocomplete')
+if !exists('b:has_neocomplete')
   let OmniCpp_MayCompleteDot = 1                  " 输入 . 后自动补全
   let OmniCpp_MayCompleteArrow = 1                " 输入 -> 后自动补全
   let OmniCpp_MayCompleteScope = 1                " 输入 :: 后自动补全
@@ -777,7 +770,7 @@ endif
 " python 补全
 
 " 优先用 NeoComplete 来进行补全
-if exists('use_neocomplete')
+if exists('b:has_neocomplete')
   let g:jedi#completions_enabled = 0
   let g:jedi#auto_vim_configuration = 0
   let g:jedi#smart_auto_mappings = 0
@@ -795,7 +788,7 @@ let g:neocomplete#enable_smart_case = 1             " 只在输入大写字母�
 let g:neocomplete#auto_completion_start_length = 3  " 只在输入超过三个字符时自动打开补全菜单
 let g:neocomplete#sources#syntax#min_keyword_length = 4
 " 默认情况下，在 NeoComplete 补全时按下退格键会撤销补全。这里改为应用补全并删去一个字符
-if exists('use_neocomplete')
+if exists('b:has_neocomplete')
   inoremap <expr><C-h> neocomplete#close_popup()."\<C-h>"
   inoremap <expr><BS>  neocomplete#close_popup()."\<C-h>"
 endif
@@ -866,7 +859,7 @@ func! VIMIM_before()
   endif
 endfunc
 
-if exists('b:use_VimIM')
+if exists('b:has_VimIM')
   " 使用 ctrl-space 打开 / 关闭 VimIM
   inoremap <C-Space> <Space><Esc>:call VIMIM_before()<CR>s<C-r>=g:Vimim_chinese()<CR>
   nnoremap <C-Space> :call VIMIM_before()<CR>a<C-r>=g:Vimim_chinese()<CR><Esc>
