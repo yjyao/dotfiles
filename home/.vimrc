@@ -345,6 +345,20 @@ nmap mm *N:hls<CR>
 " 将大写 Y 改成从光标位置复制到行尾以与大写 D 对应
 nnoremap Y y$
 
+nmap yp :call PlainPaste(1)<CR>
+nmap yP :call PlainPaste(0)<CR>
+
+func! PlainPaste(forward)
+  let l:ispaste = &paste
+  set nopaste
+  if a:forward
+    norm p
+  else
+    norm P
+  endif
+  let &paste = l:ispaste
+endfunc
+
 " ------------------------------------------------------------
 " 使用 ]i 移动到下一个相同缩进行
 " 使用 [i 移动到前一个相同缩进行
