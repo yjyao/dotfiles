@@ -1298,4 +1298,4 @@ endif
 " %:e 扩展名
 " }}}
 
-" vim:nowrap:tw=0:fdm=marker:
+" vim:nowrap:tw=0:fdm=marker:fen:
