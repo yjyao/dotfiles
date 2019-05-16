@@ -617,6 +617,7 @@ if has('autocmd')
     " 拼写检查 spell check
     au FileType text,tex,notes,markdown setlocal spell
     au FileType text,tex,notes,markdown syntax spell toplevel
+    au FileType text,tex,notes,markdown setlocal complete+=kspell
     au FileType notes setlocal spellcapcheck= " 不检查句首大小写
 
     " 识别 LaTeX 导入文件名
