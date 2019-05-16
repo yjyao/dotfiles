@@ -1204,13 +1204,12 @@ endif
 " sneak
 " ------------------------------------------------------------
 
+" DISABLE sneak `;` and `,`
 " preserve `;` and `,` for `f` and `t` motions (so that we can
 " work with other f-enhancement plugins)
-" NOTE the below mappings are essentially DISABLING them because
-" `<S-;>` is actually `:` ;)
-" also, `s<CR>` and `S<CR>` does the sneak `;` and `,` already
-map <S-;> <Plug>Sneak_;
-map <S-,> <Plug>Sneak_,
+" `s<CR>` and `S<CR>` does the sneak `;` and `,` already
+map <Nop> <Plug>Sneak_;
+map <Nop> <Plug>Sneak_,
 
 " ------------------------------------------------------------
 " quick scope
