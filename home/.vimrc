@@ -520,6 +520,8 @@ inoremap # X#
 " 制表符显式为 n 个空格长、缩进为 n 个空格长
 set tabstop=2 shiftwidth=2
 set smarttab        " 使 softtabstop = shiftwidth
+" 使用空格填充制表符
+set expandtab
 
 set nowrap
 " 不同类型文件的缩进长度和文本宽度
@@ -544,9 +546,6 @@ if has('autocmd')
     au FileType sql setlocal commentstring=--\ %s
   augroup end
 endif
-
-" 使用空格填充制表符
-set expandtab
 
 " vim 自带补全功能的列表索引次序
 " 默认值 . , w , b , u , U , t , i
