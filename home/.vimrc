@@ -259,7 +259,7 @@ let g:mapleader = "\<Space>"
 " inoremap <C-s> <Esc>:update<CR>
 nnoremap <Leader>s :update<CR>
 
-" 使用 jk 退出到命令模式（同 Esc）
+" 使用 kj 退出到命令模式（同 Esc）
 inoremap kj <Esc>
 
 noremap gl $
