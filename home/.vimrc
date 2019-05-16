@@ -210,16 +210,11 @@ set viminfo+=!
 set wildmenu
 set wildignorecase fileignorecase
 
-" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
-set mouse=a
-set selection=exclusive
-set selectmode=mouse,key
-
 " 每次命令行命令后告诉我们共更改了文件多少行内容
 " 如 :s 之后会得到如 "3 substitutions on 1 line" 的提示
 set report=0
 
-" 修正 mswin 下 visual 操作问题
+" mswin 下 visual 改成了 exclusive 。恢复默认
 set selection=inclusive
 
 " chinese input
