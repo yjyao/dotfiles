@@ -512,7 +512,6 @@ set nowrap
 if has('autocmd')
   augroup indent_and_textwidth
     autocmd!
-    au FileType python echo 'hey'
     au BufReadPost,BufNewFile *.txt setlocal tabstop=8 shiftwidth=8
     au FileType python setlocal tabstop=2 shiftwidth=2
     au FileType ada setlocal tabstop=3 shiftwidth=3
