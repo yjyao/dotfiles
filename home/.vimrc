@@ -220,13 +220,12 @@ set selection=inclusive
 " chinese input
 " 需要编译时打开 +xim, +multi_byte_ime 或 global-ime 特性版本的 Vim
 set noimcmdline
-set imsearch=0
-set iminsert=0
+set imsearch=0 iminsert=0
 if has('autocmd')
   augroup chinese_input
     autocmd!
-    au InsertLeave * set iminsert=0 | set imsearch=0
-    au CursorMoved * set iminsert=0 | set imsearch=0
+    au InsertLeave * set iminsert=0 imsearch=0
+    au CursorMoved * set iminsert=0 imsearch=0
   augroup end
 endif
 
