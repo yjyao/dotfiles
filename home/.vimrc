@@ -206,13 +206,9 @@ set clipboard=unnamed,unnamedplus
 " 保存全局变量
 set viminfo+=!
 
-" 增强模式中的命令行自动完成操作
+" 命令行模式下补全、模糊大小写
 set wildmenu
-set wildignorecase
-
-" 在命令行中输入文件名时不区分大小写
-set fileignorecase
-set wildignorecase
+set wildignorecase fileignorecase
 
 " 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
 set mouse=a
