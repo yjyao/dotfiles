@@ -595,7 +595,11 @@ if !g:isGUI
 endif
 set background=dark
 try | colo solarized | catch | endtry
+
+" 在终端下给拼写错误标上下划线
 hi SpellBad cterm=underline
+hi SpellRare cterm=underline
+hi SpellLocal cterm=underline
 
 " ========================================================================= }}}
 " Autocommands
