@@ -573,7 +573,7 @@ endif
 
 " 文本格式化设置
 set formatoptions=
-set formatoptions+=coqjr    " 支持注释
+set formatoptions+=cqjr     " 支持注释
 set formatoptions+=n        " 支持列表，不要和 '2' 一起用
 set formatoptions+=mB       " 方便中文文本操作
 set formatoptions+=t
