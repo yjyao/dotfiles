@@ -596,6 +596,7 @@ if !g:isGUI
 endif
 set background=dark
 try | colo solarized | catch | endtry
+hi SpellBad cterm=underline
 
 " ========================================================================= }}}
 " Autocommands
