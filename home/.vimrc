@@ -620,6 +620,7 @@ if has('autocmd')
     " 拼写检查 spell check
     au FileType text,tex,notes,markdown setlocal spell
     au FileType text,tex,notes,markdown syntax spell toplevel
+    au FileType gitcommit setlocal spell
     au FileType text,tex,notes,markdown setlocal complete+=kspell
     au FileType notes setlocal spellcapcheck= " 不检查句首大小写
 
@@ -1229,7 +1230,7 @@ let g:hardtime_default_on = 1
 let g:list_of_normal_keys = [
       \ 'h', 'j', 'k', 'l', '-', '+',
       \ '<UP>', '<DOWN>', '<LEFT>', '<RIGHT>',
-      \ 'e', 'w', 'b'
+      \ 'e', 'w', 'b',
       \ ]
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 3
