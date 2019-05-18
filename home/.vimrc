@@ -1291,6 +1291,11 @@ endif
 " %:t 不带路径的文件名。例 "../path/test.c" -> "test.c"
 " %:r 无扩展名的文件名。例 "../path/test" -> "test"
 " %:e 扩展名
+"
+" 需要移动的操作指令（qm 后跟寄存器而非移动）
+" yd[]zcv mqg
+" 不需要移动的操作指令
+" ruiopasx
 " }}}
 
 " vim:nowrap:tw=0:fdm=marker:fen:
