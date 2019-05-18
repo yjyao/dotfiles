@@ -267,9 +267,6 @@ noremap gh ^
 
 " 更新比对结果 (diff update)
 nmap du :diffupdate<CR>
-" 由于 'du' 的映射。在 'dd' 之后会等待 'du' 的出现。重新映射 'dd' 使其成为一个
-" 独立的映射来打消这个现象。
-nnoremap dd dd
 
 " 快速开关选项
 " 拼写检查 (change option spell)
