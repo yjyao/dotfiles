@@ -268,6 +268,9 @@ noremap gh ^
 " 更新比对结果 (diff update)
 nmap du :diffupdate<CR>
 
+" 查看改动了什么（diff changes）
+nmap dc :w !git diff `readlink %` -<CR>
+
 " 快速开关选项
 " 拼写检查 (change option spell)
 nmap cos :call ToggleSetting('spell')<CR>
