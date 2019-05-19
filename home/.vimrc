@@ -262,6 +262,10 @@ nnoremap <Leader>s :update<CR>
 " 使用 kj 退出到命令模式（同 Esc）
 inoremap kj <Esc>
 
+" Shell 习惯的 <Home> / <End>
+inoremap <C-a> <Esc>I
+inoremap <C-e> <Esc>A
+
 noremap gl $
 noremap gh ^
 
