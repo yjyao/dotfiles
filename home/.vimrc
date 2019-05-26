@@ -633,6 +633,15 @@ if has('autocmd')
           \ | setlocal suffixesadd=.tex
 
   augroup end
+
+  " 带有 shebang 的脚本自动保存成可执行文件
+  if g:islinux
+    augroup shebang
+      autocmd!
+      au BufWritePost * if getline(1) =~ '^#!.*/bin/' | silent execute '!chmod +x %' | endif
+    augroup end
+  endif
+
 endif  " has('autocmd')
 
 " ========================================================================= }}}
