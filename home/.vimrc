@@ -269,6 +269,15 @@ inoremap <C-e> <Esc>A
 noremap gl $
 noremap gh ^
 
+" 搜索并落在结果的最后。用于和其他操作配合
+" `df<char>` 或 `cf<char>` 往往不够精准。需要数一下目标是第几个 `<char>`。这时
+" 候 `d/<pattern><CR>` 则方便得多（有高亮辅助。准确定位）
+" 但是有时我们更倾向于搜索到要操作部分的结尾。而非下一个词的开头。试比较
+"   Lorem [i]psum dolor sit amet, consectetur adipiscing elit.
+" 要删至 sit （含）。用 `/` 搜索则需要从之后的空格开始搜索。这不符合直觉。此时
+" 我们倾向于使用 `d/sit/e`。此映射省去了输入 "/e" 的步骤。
+onoremap <silent> g/ //e<Left><Left>
+
 " 更新比对结果 (diff update)
 nmap du :diffupdate<CR>
 
