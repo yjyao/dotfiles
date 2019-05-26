@@ -946,7 +946,7 @@ else
 endif
 
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn|out)$',
+  \ 'dir':  '\v[\/]\.(git|hg|svn|out|cache)$',
   \ 'file': '\v\.(exe|so|dll|aux|pdf|class)$',
   \ }
 
@@ -954,10 +954,13 @@ let g:ctrlp_working_path_mode = 'rc'
 
 let g:ctrlp_max_depth = 4
 
+let g:ctrlp_follow_symlinks = 1
+
 if executable('fd')
-  let g:ctrlp_user_command = 'fd ^ %s --type f --color=never
+  let g:ctrlp_user_command = 'fd ^ %s --type f --color=never --follow
         \ --hidden
         \ --exclude .git
+        \ --exclude .cache
         \ --exclude .svn
         \ --exclude .hg
         \ --exclude .DS_Store
@@ -967,9 +970,10 @@ if executable('fd')
         \ '
   let g:ctrlp_use_caching = 0
 elseif executable('ag')
-  let g:ctrlp_user_command = '/usr/bin/ag %s -i --nocolor --nogroup
+  let g:ctrlp_user_command = '/usr/bin/ag %s -i --nocolor --nogroup --follow
         \ --hidden
         \ --ignore .git
+        \ --ignore .cache
         \ --ignore .svn
         \ --ignore .hg
         \ --ignore .DS_Store
