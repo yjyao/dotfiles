@@ -1176,7 +1176,7 @@ xmap ga <Plug>(EasyAlign)
 " CamelCaseMotion
 " ------------------------------------------------------------
 
-" Use <Leader>[wbe] to move around in CamelCase and sneak_case words.
+" Use <Leader>[wbe] to move around in CamelCase and snake_case words.
 " Also supports text object so one can ci<Leader>w
 
 nmap <silent> <Leader>w <Plug>CamelCaseMotion_w
