@@ -67,7 +67,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'javacomplete'
   " Plugin 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
   Plugin 'junegunn/vim-easy-align'
-  Plugin 'justinmk/vim-sneak'  " 2-letter `f` and `t`
+  " Plugin 'justinmk/vim-sneak'  " 2-letter `f` and `t`
   Plugin 'lervag/vimtex'  " LaTeX build / functions
   " Plugin 'majutsushi/tagbar'
   Plugin 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
