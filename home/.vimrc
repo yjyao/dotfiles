@@ -611,9 +611,14 @@ set background=dark
 try | colo solarized | catch | endtry
 
 " 在终端下给拼写错误标上下划线
-hi SpellBad cterm=underline
-hi SpellRare cterm=underline
-hi SpellLocal cterm=underline
+if has('autocmd')
+  augroup spellhilight
+    autocmd!
+    autocmd BufReadPost,BufNewFile * hi SpellBad cterm=underline
+    autocmd BufReadPost,BufNewFile * hi SpellRare cterm=underline
+    autocmd BufReadPost,BufNewFile * hi SpellLocal cterm=underline
+  augroup end
+endif
 
 " ========================================================================= }}}
 " Autocommands
