@@ -56,7 +56,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'cSyntaxAfter'
   " Plugin 'ccvext.vim'
   Plugin 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
-  Plugin 'christoomey/vim-tmux-navigator'
+  Plugin 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
   Plugin 'cohama/lexima.vim'  "  auto pair closer
   Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
@@ -439,10 +439,12 @@ else
 endif
 
 " 使用 ctrl+j,k,h,l 在分割的视窗间跳动
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+if !b:has_tmux_navigator
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  nnoremap <C-h> <C-w>h
+  nnoremap <C-l> <C-w>l
+endif
 
 " 标签控制
 " 使用 ctrl+Tab 切换标签
