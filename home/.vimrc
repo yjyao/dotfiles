@@ -1226,6 +1226,7 @@ if has('autocmd')
     au Filetype tex,markdown let g:surround_{char2nr('m')} = "$\r$"
     au Filetype tex,markdown let g:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
 
+    au Filetype * let g:surround_{char2nr('f')} = "\1function: \1(\r)"
     au Filetype tex let g:surround_{char2nr('f')} = "\\\1command: \1{\r}"
     au Filetype lisp let g:surround_{char2nr('f')} = "(\1function: \1 \r)"
 
