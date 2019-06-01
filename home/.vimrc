@@ -984,6 +984,12 @@ if executable('fd')
         \ --exclude "**/*.pyc"
         \ --exclude .git5_specs
         \ --exclude .review
+        \ --exclude "*.aux"
+        \ --exclude "*.pdf"
+        \ --exclude "*.exe"
+        \ --exclude "*.class"
+        \ --exclude "*.dll"
+        \ --exclude "*.out"
         \ '
   let g:ctrlp_use_caching = 0
 elseif executable('ag')
@@ -997,6 +1003,12 @@ elseif executable('ag')
         \ --ignore "**/*.pyc"
         \ --ignore .git5_specs
         \ --ignore .review
+        \ --ignore "*.aux"
+        \ --ignore "*.pdf"
+        \ --ignore "*.exe"
+        \ --ignore "*.class"
+        \ --ignore "*.dll"
+        \ --ignore "*.out"
         \ -g ""'
   let g:ctrlp_use_caching = 0
 endif
