@@ -1284,16 +1284,20 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " ========================================================================= {{{
 
 " 注：使用 utf-8 格式后，软件与程序源码、文件路径不能有中文，否则报错
-" 设定新文件使用的解码
-set encoding=utf-8
-set fileencoding=utf-8
 " 设置支持打开的文件的编码
 set fileencodings=utf-8,cp936,utf-16le,usc-bom,gbk,euc-jp,chinese,gb18030,ucs,gb2312,big5
+" 设定写入文件使用的解码
+set encoding=utf-8
+if &modifiable
+  set fileencoding=utf-8
+endif
 
 " 设置支持的 <EOL> 格式
 set fileformats=unix
-" 设置新文件的 <EOL> 格式
-set fileformat=unix
+" 设置写入文件的 <EOL> 格式
+if &modifiable
+  set fileformat=unix
+endif
 
 " 将程序语言设为英文
 " 设置信息语言
