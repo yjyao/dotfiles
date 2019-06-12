@@ -62,6 +62,7 @@
 [core]
 
   pager = less
+  hooksPath = .githooks
 
 [push]
 
