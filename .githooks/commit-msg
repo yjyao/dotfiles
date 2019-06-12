@@ -8,9 +8,24 @@ joinby() {
   [[ -n $@ ]] && printf "${delim}%s" "$@"
 }
 
+keywords=(
+README
+bash_aliases
+bash_comp
+bashrc
+gitconfig
+githooks
+inputrc
+install
+profile
+tmux
+vim
+)
+
 syntaxes=()
 # Format: "keyword: Message."
-syntaxes+=('^\w+: [^[:lower:][:space:]].*[[:punct:]]$')
+any_keyword_regex="$(joinby '|' "${keywords[@]}")"
+syntaxes+=("^$any_keyword_regex: [^[:lower:][:space:]].*[[:punct:]]$")
 # Format: "Add ..."
 syntaxes+=('^Add .*\.$')
 
