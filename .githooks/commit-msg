@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+joinby() {
+  local delim="$1"
+  shift
+  echo -n "$1"
+  shift
+  [[ -n $@ ]] && printf "${delim}%s" "$@"
+}
+
+syntaxes=()
+# Format: "keyword: Message."
+syntaxes+=('^\w+: [^[:lower:][:space:]].*[[:punct:]]$')
+# Format: "Add ..."
+syntaxes+=('^Add .*\.$')
+
+syntax_verify_regex="$(joinby '|' "${syntaxes[@]}")"
+
+if ! grep -qE "$syntax_verify_regex" "$1"; then
+  >&2 echo "Invalid commit message. Aborting commit."
+  exit 1
+fi
