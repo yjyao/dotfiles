@@ -21,7 +21,7 @@ export HISTCONTROL="ignoreboth:$HISTCONTROL"
 
 # do not store certain common commands and simple 1-2 char commans in history
 # also ignore commands starting with whitespaces
-HISTIGNORE="?:??:history:[[:space:]]*"
+HISTIGNORE="?:??:history:history :history -[naw]:history -d*:[[:space:]]*"
 
 HISTTIMEFORMAT='%F %T '
 
