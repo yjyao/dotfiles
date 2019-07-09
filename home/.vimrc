@@ -1227,8 +1227,14 @@ if has('autocmd')
     au Filetype tex,markdown let g:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
 
     au Filetype * let g:surround_{char2nr('f')} = "\1function: \1(\r)"
+    au Filetype sh let g:surround_{char2nr('f')} = "\"$(\1command: \1 \r)\""
+    au Filetype sh let g:surround_{char2nr('F')} = "$(\1command: \1 \r)"
     au Filetype tex let g:surround_{char2nr('f')} = "\\\1command: \1{\r}"
     au Filetype lisp let g:surround_{char2nr('f')} = "(\1function: \1 \r)"
+
+    " quoted/unquoted shell variable
+    au Filetype sh let g:surround_{char2nr('v')} = "\"${\r}\""
+    au Filetype sh let g:surround_{char2nr('V')} = "${\r}"
 
     " code
     au Filetype markdown let g:surround_{char2nr('c')}
