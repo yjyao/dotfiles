@@ -60,7 +60,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
   Plugin 'cohama/lexima.vim'  "  auto pair closer
   Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
-  Plugin 'davidhalter/jedi-vim'  "  python autocomplete. 'pip install jedi' required
+  Plugin 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
   " Plugin 'dyng/ctrlsf.vim'  " global search
   Plugin 'grep.vim'
   Plugin 'honza/vim-snippets'  " provides a bunch of snippets
@@ -873,7 +873,14 @@ let g:neocomplete#sources#omni#input_patterns.java = '\%(\h\w*\|)\)\.\w*'
 if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
 endif
-au FileType python setlocal omnifunc=jedi#completions
+if exists('b:has_jedi')
+  if has('autocmd')
+    augroup jedicompletions
+      autocmd!
+      au FileType python setlocal omnifunc=jedi#completions
+    augroup end
+  endif
+endif
 let g:neocomplete#force_omni_input_patterns.python =
             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
