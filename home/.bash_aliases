@@ -18,6 +18,7 @@ md5() { md5sum "$@" | awk '{ print $1 }'; }
 alias :e=vim
 alias c=clip
 alias watch="watch --color"
+alias histdel='history -n && history -d `history|tac|fzf -e|awk "{print \$1}"` && history -w'
 
 # an online snake game
 alias tron="ssh sshtron.zachlatta.com"
