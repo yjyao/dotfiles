@@ -557,6 +557,7 @@ if has('autocmd')
   augroup commentstring
     autocmd!
     au BufReadPost,BufNewFile .hgrc setlocal commentstring=#\ %s
+    au FileType cpp setlocal commentstring=//\ %s
     au FileType autohotkey setlocal commentstring=;\ %s
     au FileType crontab setlocal commentstring=#\ %s
     au FileType sql setlocal commentstring=--\ %s
