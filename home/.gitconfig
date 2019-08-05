@@ -24,6 +24,7 @@
   feat = "!f() { git checkout -b feat-${1?} ${2-master} ;};f"
   fix = "!f() { git checkout -b fix-${1?} ${2-master} ;};f"
   merc = merge --no-ff
+  ff = merge --ff-only
 
   lg = log --graph --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --perl-regexp
   mylg = !git lg --author=\"$USER\"
