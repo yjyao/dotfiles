@@ -145,4 +145,12 @@ export LESS=$LESS
 # todo/task manager. requires https://github.com/todotxt/todo.txt-cli.
 export TODOTXT_DEFAULT_ACTION=ls
 
+if [ -d ~/.bash_completion.d ]; then
+  for file in $(find ~/.bash_completion.d); do
+    . "$file"
+  done
+fi
+
+[ -f ~/.bash_completion ] && . ~/.bash_completion
+
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
