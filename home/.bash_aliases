@@ -35,4 +35,15 @@ export MANPATH="$MANPATH:$HOME/.man"
 alias um='man -S jy'
 umedit() { [ -n "$1" ] && vim ~/.man/manjy/"$1.jy" || >&2 echo "USAGE: $FUNCNAME PAGE"; }
 
+# todo/task manager. requires https://github.com/todotxt/todo.txt-cli.
+if command -v todo-txt &>/dev/null; then
+  alias t=todo-txt
+  if [ -f /usr/share/bash-completion/completions/todo-txt ]; then
+    . /usr/share/bash-completion/completions/todo-txt
+  fi
+  if command -v _todo &>/dev/null; then
+    complete -F _todo t
+  fi
+fi
+
 [ -r ~/.bash_aliases.local ] && . ~/.bash_aliases.local

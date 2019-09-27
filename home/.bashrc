@@ -142,4 +142,7 @@ LESS+='R'  # control chars (color, etc.)
 LESS+='i'  # ignore case search
 export LESS=$LESS
 
+# todo/task manager. requires https://github.com/todotxt/todo.txt-cli.
+export TODOTXT_DEFAULT_ACTION=ls
+
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
