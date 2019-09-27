@@ -70,7 +70,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'justinmk/vim-sneak'  " 2-letter `f` and `t`
   Plugin 'lervag/vimtex'  " LaTeX build / functions
   " Plugin 'majutsushi/tagbar'
-  Plugin 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
+  Plugin 'mattn/emmet-vim' | let b:has_emmet = 1 " https://emmet.io: fast HTML coding
   Plugin 'michaeljsmith/vim-indent-object'
   " Plugin 'osyo-manga/vim-over'  " :s preview
   Plugin 'romainl/vim-cool'  "  auto disable search highlights
@@ -1028,11 +1028,13 @@ endif
 
 " make emmet only work in html and css files
 let g:user_emmet_install_global = 0
-if has('autocmd')
-  augroup install_emmet
-    autocmd!
-    au FileType html,haml,css,sass,scss EmmetInstall
-  augroup end
+if exists('b:has_emmet')
+  if has('autocmd')
+    augroup install_emmet
+      autocmd!
+      au FileType html,haml,css,sass,scss EmmetInstall
+    augroup end
+  endif
 endif
 
 let g:user_emmet_leader_key = '<C-e>'
