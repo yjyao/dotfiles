@@ -146,7 +146,7 @@ export LESS=$LESS
 export TODOTXT_DEFAULT_ACTION=ls
 
 if [ -d ~/.bash_completion.d ]; then
-  for file in $(find ~/.bash_completion.d); do
+  for file in $(find ~/.bash_completion.d -type f); do
     . "$file"
   done
 fi
