@@ -600,6 +600,12 @@ set textwidth=79
 
 " 如下符号可以连接两个词（'a_b' 会被当作一个词对待）
 set iskeyword+=_,#
+if has('autocmd')
+  augroup is_keyword
+    autocmd!
+    au FileType javascript setlocal iskeyword+=$
+  augroup end
+endif
 
 " ========================================================================= }}}
 " 配色
