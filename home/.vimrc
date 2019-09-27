@@ -523,6 +523,7 @@ if has('autocmd')
     au BufReadPost,BufNewFile *.notes setlocal filetype=notes
     au BufReadPost,BufNewFile *.glos setlocal filetype=glos
     au BufReadPost,BufNewFile *.gdairy setlocal filetype=gdairy
+    au BufReadPost,BufNewFile *.ts setlocal filetype=javascript
   augroup end
 endif
 
