@@ -98,7 +98,7 @@ stty -ixon
 
 # make Ctrl+w deletion recognize path levels
 stty werase undef
-bind '\C-w:unix-filename-rubout'
+bind '\C-w:backward-kill-word'
 
 # initialize https://github.com/nvbn/thefuck
 if command -v thefuck &> /dev/null; then
