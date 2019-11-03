@@ -231,7 +231,7 @@ endif
 
 " faster grep programs
 if executable('rg')
-  set grepprg=rg\ --color=never
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 elseif executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
