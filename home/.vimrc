@@ -1084,15 +1084,11 @@ let g:user_emmet_leader_key = '<C-e>'
 
 " Trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger = '<Tab>'  " See below
+let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 inoremap <C-j> <C-o>:echo 'Not in a snippet'<CR>
 inoremap <C-k> <C-o>:echo 'Not in a snippet'<CR>
-
-" Disable <Tab> indentation. Use <C-t> / <C-d> for (un)indentation instead.
-let g:UltiSnipsExpandTrigger = '<Nop>'
-inoremap <expr> <Tab> pumvisible() ? "\<C-R>=UltiSnips#ExpandSnippet()\<CR>" : ""
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit = 'vertical'
