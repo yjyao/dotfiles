@@ -499,6 +499,10 @@ func! MyQuickGrep()
     let filename = '*'
   endif
   try
+    exe 'silent grep! ' . pattern . ' ' . filename . '|copen'
+    return
+  endtry
+  try
     exe 'vimgrep /' . pattern . '/j ' . filename . '|copen'
     " j option inhibits jumping to search results
     " open quickfix for result browsing
