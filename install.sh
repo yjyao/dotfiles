@@ -23,15 +23,15 @@ fatal() {
 src_paths=($(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 1))
 for path in "${src_paths[@]}"; do
   dst_path="$DOTFILES_DST_DIR/$(basename "${path}")"
-  if [ $(readlink -f "$dst_path") != "$path" ]; then
-    if [ -e "$dst_path" ]; then
-      mkdir -p "$BACKUP_DIR"
-      mv --backup=numbered "$dst_path" -t "$BACKUP_DIR/"
-      has_backup=1
-    fi
-    ln -s -t "$DOTFILES_DST_DIR" "$path"
-    echo "$dst_path"
+  # Skip files already linking to src.
+  [ "$(readlink -f "$dst_path")" != "$path" ] || continue
+  if [ -e "$dst_path" ]; then
+    mkdir -p "$BACKUP_DIR"
+    mv --backup=numbered "$dst_path" -t "$BACKUP_DIR/"
+    has_backup=1
   fi
+  ln -s -t "$DOTFILES_DST_DIR" "$path"
+  echo "$dst_path"
 done
 
 [ -n "$has_backup" ] && echo "Original dotfiles backed up to $BACKUP_DIR."
