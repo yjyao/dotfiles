@@ -8,6 +8,11 @@ BACKUP_DIR="$DOTFILES_DST_DIR/.dotfiles.backup"
 
 has_backup=
 
+if [[ ! $SHELL =~ .*bash ]]; then
+  >&2 echo "These dotfiles are for bash only; You are running $SHELL."
+  exit 1
+fi
+
 if [ ! -d "$DOTFILES_SRC_DIR" ]; then
   >&2 echo "Cannot find $DOTFILES_SRC_DIR. Pleas run the script under dotfiles/ repo."
   exit 1
