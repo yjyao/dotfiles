@@ -22,7 +22,7 @@ fatal() {
 # Use -mindepth 1 to exclude "$DOTFILES_SRC_DIR" itself.
 src_paths=($(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 1))
 for path in "${src_paths[@]}"; do
-  dst_path="$DOTFILES_DST_DIR/${path##*/}"
+  dst_path="$DOTFILES_DST_DIR/$(basename "${path}")"
   if [ $(readlink -f "$dst_path") != "$path" ]; then
     if [ -e "$dst_path" ]; then
       mkdir -p "$BACKUP_DIR"
