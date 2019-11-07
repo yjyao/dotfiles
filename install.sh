@@ -20,7 +20,8 @@ fatal() {
   "Cannot find $DOTFILES_SRC_DIR. Pleas run the script under dotfiles/ repo."
 
 # Use -mindepth 1 to exclude "$DOTFILES_SRC_DIR" itself.
-for path in $(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 1); do
+src_paths=($(find "$DOTFILES_SRC_DIR" -mindepth 1 -maxdepth 1))
+for path in "${src_paths[@]}"; do
   dst_path="$DOTFILES_DST_DIR/${path##*/}"
   if [ $(readlink -f "$dst_path") != "$path" ]; then
     if [ -e "$dst_path" ]; then
