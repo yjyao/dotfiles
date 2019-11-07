@@ -30,6 +30,7 @@ for path in "${src_paths[@]}"; do
       has_backup=1
     fi
     ln -s -t "$DOTFILES_DST_DIR" "$path"
+    echo "$dst_path"
   fi
 done
 
