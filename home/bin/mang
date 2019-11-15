@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Man Grep
+
+usage() {
+  >&2 echo "USAGE: $(basename "$0") COMMAND OPT1[,OPT2,...] [LINESAFTER]"
+  exit 1
+}
+
+cmd="$1"
+opts="$(sed 's/[[:space:]]//g' <<< "$2")"
+afterlines="${3:-2}"
+
+[[ -n $cmd && -n $opts ]] || usage
+[[ $afterlines -eq $afterlines ]] || usage
+
+(man "$cmd" || "$cmd" --help) | grep -w -A"${afterlines}" -- \
+  '^[[:space:]]*\(-.*\)\?-\+\('"$(sed 's/,/\\|/g' <<< "$opts")"'\)'
+
+IFS=',' read -ra OPTS <<< "$opts"
+for opt in "${OPTS[@]}"; do
+  echo "$cmd $opt" >> ~/.mangreplog
+done
+sort -u ~/.mangreplog -o ~/.mangreplog

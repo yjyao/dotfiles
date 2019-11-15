@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+join() {
+  local sep=$1; shift; echo -n "$1" ; shift; printf "%s" "${@/#/$sep}"
+}
+
+join
