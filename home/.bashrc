@@ -48,7 +48,7 @@ case "$TERM" in
   xterm-color|*-256color) color_prompt=yes;;
 esac
 
-PROMPT_COMMAND+='_GITBRANCH=$(git brcurr 2> /dev/null);'
+[[ $PROMPT_COMMAND =~ _GITBRANCH ]] || PROMPT_COMMAND='[ -d .git ] && _GITBRANCH=$(git brcurr 2> /dev/null);'"$PROMPT_COMMAND"
 
 _PS1='${debian_chroot:+($debian_chroot)}'
 _PS1+='\n'
