@@ -25,6 +25,8 @@ HISTIGNORE="?:??:history:history :history -[naw]:history -d*:[[:space:]]*"
 
 HISTTIMEFORMAT='%F %T '
 
+export EDITOR=vim
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
