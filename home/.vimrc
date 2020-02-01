@@ -486,6 +486,9 @@ set noerrorbells
 " F3 在工作路径中搜索（grep）
 nmap <F3> :call MyQuickGrep()<CR>
 
+" 在已打开的文件中搜索（grep）
+nmap <C-F3> :BufGrep<Space>
+
 " 使用 Vim[grep] 来 grep
 func! MyQuickGrep()
   let pattern = input('Search for pattern: ')
@@ -509,6 +512,19 @@ func! MyQuickGrep()
     " j option inhibits jumping to search results
     " open quickfix for result browsing
   endtry
+endfunc
+
+com! -nargs=* BufGrep :call MyQuickBufGrep(<q-args>)
+
+func! MyQuickBufGrep(pattern)
+  let l:pattern = a:pattern
+  if l:pattern == ''
+    let l:pattern = input('Search for pattern: ')
+  endif
+  " Clear quickfix list.
+  cexpr []
+  exe 'silent bufdo vimgrepadd ' . l:pattern . ' %'
+  botright cwindow
 endfunc
 
 " ========================================================================= }}}
