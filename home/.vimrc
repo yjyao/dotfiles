@@ -1106,7 +1106,16 @@ let g:ultisnips_python_quoting_style = 'single'
 " vim-markdown
 " ------------------------------------------------------------
 
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'sql', 'java', 'c', 'ocaml']
+" 'java' needs to come *before* 'html': https://vi.stackexchange.com/a/18407.
+let g:markdown_fenced_languages = [
+      \ 'java',
+      \ 'html',
+      \ 'python',
+      \ 'bash=sh',
+      \ 'sql',
+      \ 'c',
+      \ 'ocaml',
+      \ ]
 let g:markdown_syntax_conceal = 0
 
 " ------------------------------------------------------------
