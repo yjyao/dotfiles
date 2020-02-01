@@ -20,6 +20,7 @@ alias c=clip
 alias watch="watch --color"
 alias histdel='history -n && history -d `history|tac|fzf -e|awk "{print \$1}"` && history -w'
 alias jsonprint='python -m json.tool'
+command -v fdfind &>/dev/null && ! command -v fd &>/dev/null && alias fd=fdfind
 
 # an online snake game
 alias tron="ssh sshtron.zachlatta.com"
