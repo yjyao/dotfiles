@@ -42,7 +42,6 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'Lokaltog/vim-powerline'
   " Plugin 'Mark--Karkat'
   Plugin 'OmniCppComplete'
-  Plugin 'Shougo/neocomplete' | let b:has_neocomplete = 1  " fuzzy completion
   Plugin 'SirVer/ultisnips'
   " Plugin 'TxtBrowser'
   " Plugin 'Valloric/YouCompleteMe'  " use neocomplete instead
@@ -60,7 +59,6 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
   Plugin 'cohama/lexima.vim'  "  auto pair closer
   Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
-  Plugin 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
   " Plugin 'dyng/ctrlsf.vim'  " global search
   Plugin 'grep.vim'
   Plugin 'honza/vim-snippets'  " provides a bunch of snippets
@@ -90,6 +88,8 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'vim-scripts/VimIM' | let b:has_VimIM = 1
   Plugin 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plugin 'wesleyche/SrcExpl'
+
+  Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 
   call vundle#end()
 
