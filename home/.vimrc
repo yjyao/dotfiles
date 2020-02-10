@@ -1135,6 +1135,7 @@ let g:markdown_fenced_languages = [
       \ 'ocaml',
       \ ]
 let g:markdown_syntax_conceal = 0
+let g:vim_markdown_folding_disabled = 1  " Slows down startup.
 
 " ------------------------------------------------------------
 " reftex
