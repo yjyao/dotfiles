@@ -451,7 +451,7 @@ endif
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
-com! DiffEdit !vim - -c ":vnew % | windo diffthis"
+com! DiffEdit w !vim - -c ":vnew % | windo diffthis"
 
 " ========================================================================= }}}
 " 别名、缩写、自动纠错
