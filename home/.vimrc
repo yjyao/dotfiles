@@ -1283,6 +1283,10 @@ xmap <silent> a<Leader>w <Plug>CamelCaseMotion_iw
 " quotes
 let g:surround_{char2nr('q')} = "'\r'"
 let g:surround_{char2nr('Q')} = "\"\r\""
+let g:surround_{char2nr('y')} = "「\r」"
+let g:surround_{char2nr('Y')} = "『\r』"
+let g:surround_{char2nr('k')} = "【\r】"
+let g:surround_{char2nr('K')} = "（\r）"
 if has('autocmd')
   augroup surround_keymaps
     autocmd!
