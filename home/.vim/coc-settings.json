@@ -1,0 +1,6 @@
+{
+  "typescript.suggestionActions.enabled": false,
+  "typescript.showUnused": false,
+  "javascript.showUnused": false,
+  "javascript.suggest.enabled": false,
+}
