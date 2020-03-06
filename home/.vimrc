@@ -88,6 +88,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'vim-scripts/VimIM' | let b:has_VimIM = 1
   Plugin 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plugin 'wesleyche/SrcExpl'
+  Plugin 'bogado/file-line'
 
   Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -451,7 +452,10 @@ endif
 nnoremap <C-Tab> :tabnext<CR>
 nnoremap <C-S-Tab> :tabprevious<CR>
 
-com! DiffEdit !vim - -c ":vnew % | windo diffthis"
+com! DiffEdit w !vim - -c ":vnew % | windo diffthis"
+
+" Ranged search
+com! -nargs=* -range RSsearch /\%><line1>l\%<<line2>l<args>
 
 " ========================================================================= }}}
 " 别名、缩写、自动纠错
@@ -1120,6 +1124,27 @@ endif
 " set quoting style in python.snippets provided by vim-snippets
 let g:ultisnips_python_quoting_style = 'single'
 
+inoremap <C-l> <Esc>:Snippets<CR>
+com! Snippets :call GetAllSnippets()
+" https://stackoverflow.com/questions/58081390/why-doesnt-ultisnips-listing-of-available-snippets-work#tab-top
+func! GetAllSnippets()
+  call UltiSnips#SnippetsInCurrentScope(1)
+  let list = []
+  for [key, info] in items(g:current_ulti_dict_info)
+    let parts = split(info.location, ':')
+    call add(list, {
+          \ "text": key,
+          \ "filename": parts[0],
+          \ "lnum": parts[1],
+          \ "context": info.description,
+          \ })
+  endfor
+  call setqflist([], ' ', { 'title': 'Snippets', 'items' : list})
+
+  " Open Quickfix list as soon as it is populated.
+  cwindow
+endfunc
+
 " ------------------------------------------------------------
 " vim-markdown
 " ------------------------------------------------------------
@@ -1262,6 +1287,10 @@ xmap <silent> a<Leader>w <Plug>CamelCaseMotion_iw
 " quotes
 let g:surround_{char2nr('q')} = "'\r'"
 let g:surround_{char2nr('Q')} = "\"\r\""
+let g:surround_{char2nr('y')} = "「\r」"
+let g:surround_{char2nr('Y')} = "『\r』"
+let g:surround_{char2nr('k')} = "【\r】"
+let g:surround_{char2nr('K')} = "（\r）"
 if has('autocmd')
   augroup surround_keymaps
     autocmd!
