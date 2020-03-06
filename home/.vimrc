@@ -90,6 +90,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'vim-scripts/VimIM' | let b:has_VimIM = 1
   Plugin 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plugin 'wesleyche/SrcExpl'
+  Plugin 'bogado/file-line'
 
   call vundle#end()
 
