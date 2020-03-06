@@ -454,6 +454,9 @@ nnoremap <C-S-Tab> :tabprevious<CR>
 
 com! DiffEdit w !vim - -c ":vnew % | windo diffthis"
 
+" Ranged search
+com! -nargs=* -range RSsearch /\%><line1>l\%<<line2>l<args>
+
 " ========================================================================= }}}
 " 别名、缩写、自动纠错
 " ========================================================================= {{{
