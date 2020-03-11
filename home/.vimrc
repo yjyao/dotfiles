@@ -1372,7 +1372,14 @@ let g:hardtime_maxcount = 3
 " targets
 " ------------------------------------------------------------
 
-let g:targets_quotes = '"q ''Q `'
+if has('autocmd')
+  augroup Targets
+    autocmd!
+    autocmd User targets#mappings#user call targets#mappings#extend({
+          \ 'b': {'pair': [{'o':'(', 'c':')'}]}
+          \ })
+  augroup end
+endif
 let g:targets_nl = 'nN'
 " Only seek if next/last targets touch current line
 let g:targets_seekRanges = 'cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
