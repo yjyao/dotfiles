@@ -35,7 +35,18 @@ export MANPATH="$MANPATH:$HOME/.man"
 # DEFAULT_MANSECT="1:n:l:8:3:2:3posix:3pm:3perl:3am:5:4:9:6:7"
 # export MANSECT="${MANSECT:-$DEFAULT_MANSECT}:jy"
 alias um='man -S jy'
-umedit() { [ -n "$1" ] && vim ~/.man/manjy/"$1.jy" || >&2 echo "USAGE: $FUNCNAME PAGE"; }
+umedit() {
+  if [ ! -d "$HOME/.man/manjy" ]; then
+    >&2 echo "FATAL: missing required directory $HOME/.man/manjy"
+    return 1
+  fi
+  if [ -n "$1" ]; then
+    vim "$HOME/.man/manjy/$1.jy"
+  else
+    >&2 echo "USAGE: $FUNCNAME PAGE"
+    return 1
+  fi
+}
 
 # todo/task manager. requires https://github.com/todotxt/todo.txt-cli.
 if command -v todo-txt &>/dev/null; then
