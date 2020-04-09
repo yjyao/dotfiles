@@ -1209,13 +1209,18 @@ let g:Tex_FormatDependency_pdf = 'pdf'
 let g:vimtex_view_method = 'general'
 let g:vimtex_enabled = 1
 let g:vimtex_complete_img_use_tail = 1
-if g:iswindows
+if executable('SumatraPDF')
   " use SumatraPDF to view PDF, SumatraPDF required
   let g:vimtex_view_general_viewer = 'SumatraPDF'
   let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
   let g:vimtex_view_general_options_latexmk = '-reuse-instance'
-else
+elseif executable('xdg-open')
   let g:vimtex_view_general_viewer = 'xdg-open'
+elseif executable('open')
+  let g:vimtex_view_general_viewer = 'open'
+else
+  let g:vimtex_view_general_viewer = ''
+  let g:vimtex_view_enabled = 0
 endif
 let g:vimtex_quickfix_warnings = {
             \ 'default' : 0,
