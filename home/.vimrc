@@ -354,7 +354,7 @@ else
 endif
 
 " mark (highlight) me: Search for the current word but stay put
-nmap mm *N
+nmap mm *N:hls<CR>
 
 " 将大写 Y 改成从光标位置复制到行尾以与大写 D 对应
 nnoremap Y y$
