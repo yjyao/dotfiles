@@ -1,10 +1,63 @@
 priority -40
 
+global !p
+texMathZones = ['texMathZone'+x
+                for x in ['A', 'AS', 'B', 'BS', 'C', 'CS', 'D', 'DS', 'E',
+                          'ES', 'F', 'FS', 'G', 'GS', 'H', 'HS', 'I', 'IS',
+                          'J', 'JS', 'K', 'KS', 'L', 'LS', 'DS', 'V', 'W', 'X',
+                          'Y', 'Z']]
+
+texIgnoreMathZones = ['texMathText']
+
+texMathZoneIds = vim.eval("map(%s, 'hlID(v:val)')" % texMathZones)
+texIgnoreMathZoneIds = vim.eval("map(%s, 'hlID(v:val)')" % texIgnoreMathZones)
+
+ignore = texIgnoreMathZoneIds[0]
+
+def math():
+  synstackids = vim.eval("synstack(line('.'), col('.') - (col('.')>=2 ? 1 : 0))")
+  try:
+    first = next(i for i in reversed(synstackids)
+                 if i in texIgnoreMathZoneIds or i in texMathZoneIds)
+    return first != ignore
+  except StopIteration:
+    return False
+endglobal
+
+
 # environments
 # -----------------------------------------------------------------------------
 
-snippet it "Individual item" b
+snippet - "Individual item" b
 \item$0
+endsnippet
+
+snippet plot "Plot" w
+\begin{figure}[${1:htpb}]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin=${2:-10}, xmax=${3:10},
+			xlabel={${4:$x$}},
+			ymin=${5:-10}, ymax=${6:10},
+			ylabel={${7:$y$}},
+			smooth,
+			axis lines=middle,
+		]
+			\addplot[domain=$2:$3,] (x, {$8});
+		\end{axis}
+	\end{tikzpicture}
+	\caption{$9}
+	\label{fig:$10}
+\end{figure}
+endsnippet
+
+snippet si "SI" w
+\SI{$1}{$2}$0
+endsnippet
+
+snippet n "SI number" w
+\SI{$1}$0
 endsnippet
 
 # math
@@ -33,6 +86,7 @@ endsnippet
 snippet alnn "Aligned equations (non-numbered)"
 \begin{align*}
 	$0
+	\text{.}
 \end{align*}
 endsnippet
 
@@ -67,8 +121,14 @@ snippet em "Emphasis" w
 \emph{${1:${VISUAL}}}$0
 endsnippet
 
-snippet txt "Text in math modes" w
+context "math()"
+snippet tt "Text in math modes" wA
 \text{${1:${VISUAL}}}$0
+endsnippet
+
+context "math()"
+snippet itt "Text in math modes" wA
+\intertext{${1:${VISUAL}}}$0
 endsnippet
 
 snippet cal "Mathcal" w
@@ -82,13 +142,32 @@ endsnippet
 # math
 # -----------------------------------------------------------------------------
 
-snippet ma "Inline math mode" w
-$${1:${VISUAL}}`!p snip.rv='\n' if t[1].startswith('\n') else ''`$$0
+# snippet m "Inline math mode" w
+# $${1:${VISUAL}}`!p snip.rv='\n' if t[1].startswith('\n') else ''`$$0
+# endsnippet
+
+snippet m "Inline math mode" w
+$${1}$`!p
+if t[2] and t[2][0] not in ',.?- ':
+	snip.rv = ' '
+else:
+	snip.rv = ''
+`$2
+endsnippet
+
+snippet mx "Inline math mode" iA
+$${1}$`!p
+if t[2] and t[2][0] not in ',.?- ':
+	snip.rv = ' '
+else:
+	snip.rv = ''
+`$2
 endsnippet
 
 snippet \ "display math mode" w
 \[
 	${1:${VISUAL}}
+	\text{.}
 \]$0
 endsnippet
 
@@ -228,78 +307,228 @@ endsnippet
 
 # symbols
 
-snippet g0 "Empty set" w
+# letter-digit triggers need an underscore in between (e.g., `s0` -> `s_0`)
+# to work with auto subscript expansion.
+
+snippet s_0 "Empty set" i
 \emptyset
 endsnippet
 
-snippet g6 "Partial symbol" w
+snippet s_6 "Partial symbol" i
 \partial
 endsnippet
 
-snippet g8 "Infinity symbol" w
+context "math()"
+snippet soo "Infinity symbol" iA
 \infty
 endsnippet
 
-snippet g@ "Circle" w
+snippet s_8 "Infinity symbol" i
+\infty
+endsnippet
+
+snippet s@ "Circle" w
 \circ
 endsnippet
 
-snippet g= "Equivalence" w
-\equiv
-endsnippet
-
-snippet g: "Dots / epsilons" w
+snippet s: "Dots / epsilons" w
 \dots
 endsnippet
 
-snippet g. "Centered dot" w
+snippet s. "Centered dot" w
 \cdot
 endsnippet
 
-snippet g~ "tilde{}" w
+snippet s~ "tilde{}" w
 \tilde{$1}$0
 endsnippet
 
-snippet g^ "hat{}" w
+snippet s^ "hat{}" w
 \hat{$1}$0
 endsnippet
 
-snippet g- "bar{}" w
+snippet s- "bar{}" w
 \bar{$1}$0
 endsnippet
 
-snippet g* "times" w
+context "math()"
+snippet cc "subset" iA
+\subset
+endsnippet
+
+context "math()"
+snippet EE "exists" iA
+\exists
+endsnippet
+
+context "math()"
+snippet AA "for all" iA
+\forall
+endsnippet
+
+context "math()"
+snippet <- "in / belongs to" iA
+\in
+endsnippet
+
+context "math()"
+snippet => "implies" iA
+\implies
+endsnippet
+
+context "math()"
+snippet -> "to" iA
+\to
+endsnippet
+
+snippet ~ "similarity" w
+\sim
+endsnippet
+
+snippet ~~ "approximity" w
+\approx
+endsnippet
+
+snippet s= "equivalence" w
+\equiv
+endsnippet
+
+context "math()"
+snippet == "equals (aligned)" iA
+&= $1 \\\\
+endsnippet
+
+context "math()"
+snippet != "not equal" iA
+\neq
+endsnippet
+
+context "math()"
+snippet <= "less or equal" iA
+\le
+endsnippet
+
+context "math()"
+snippet >= "greater or equal" iA
+\ge
+endsnippet
+
+context "math()"
+snippet << "much less than" iA
+\ll
+endsnippet
+
+context "math()"
+snippet >> "much greater than" iA
+\gg
+endsnippet
+
+snippet s* "times" w
 \times
 endsnippet
 
-snippet g/ "frac" w
+context "math()"
+snippet sxx "times" iA
+\times
+endsnippet
+
+context "math()"
+snippet // "auto frac" iA
 \frac{$1}{$2}$0
 endsnippet
 
-snippet g2 "squre root" w
+context "math()"
+snippet '(\d+|\d*\\?[a-zA-Z]+([_^]\{?[a-zA-Z0-9]\}?)*)/' "auto frac" wrA
+\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+priority 10000
+context "math()"
+snippet '(^.*\))/' "auto fraction with parentheses" wrA
+`!p
+line = match.group(1)
+depth = 0
+for i, c in reversed(tuple(enumerate(line))):
+	if c == ')':
+		depth += 1
+	if c == '(':
+		depth -= 1
+	if not depth:
+		break
+paren_content = line[i:][1:-1]  # Strip the parentheses.
+snip.rv = r"%s\frac{%s}" % (line[:i], paren_content)
+`{$1}$0
+endsnippet
+priority -40
+
+snippet s_2 "square root" i
 \sqrt{${1:${VISUAL}}}$0
 endsnippet
 
-snippet ^ "Superscript" i
-^{$1}$0
+context "math()"
+snippet '([a-zA-Z])(\d)' "auto subscript" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
 endsnippet
 
-snippet _ "Subscript" i
+context "math()"
+snippet '([a-zA-Z])_(\d\d)' "auto subscript (multiple digits)" wrA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
+endsnippet
+
+context "math()"
+snippet ([xyz])([ijkmn]) "auto subscript: x_i, y_j, etc." iA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+snippet _ "subscript" i
 _{$1}$0
 endsnippet
 
-snippet int "Integral" w
+context "math()"
+snippet sr "squared" iA
+^2
+endsnippet
+
+context "math()"
+snippet cb "cubed" iA
+^3
+endsnippet
+
+context "math()"
+snippet invs "complement" iA
+^{-1}
+endsnippet
+
+context "math()"
+snippet cmpl "complement" iA
+^{c}
+endsnippet
+
+context "math()"
+snippet td "superscript" iA
+^`!p snip.rv = "{" if len(t[1]) > 1 else ""`$1`!p snip.rv = "}" if len(t[1]) > 1 else ""`$0
+endsnippet
+
+snippet ^ "superscript" i
+^{$1}$0
+endsnippet
+
+context "math()"
+snippet der "Derivative" wA
+\frac{\dif`!p snip.rv = t[1] and ' '`$1}{\dif $2}$0
+endsnippet
+
+context "math()"
+snippet int "Integral" wA
 \int`!p snip.rv=t[1] and '_{'`${1:from}`!p snip.rv=t[1] and '}'``!p snip.rv=t[2] and '^{'`${2:to}`!p snip.rv=t[2] and '}'` $3 \dd $0
 endsnippet
 
-snippet sum "Summation" w
+context "math()"
+snippet sum "Summation" wA
 \sum`!p snip.rv=t[1] and '_{'`${1:from}`!p snip.rv=t[1] and '}'``!p snip.rv=t[2] and '^{'`${2:to}`!p snip.rv=t[2] and '}'` $0
 endsnippet
 
-snippet lim "Limit" w
+context "math()"
+snippet lim "Limit" wA
 \lim_{${1}`!p snip.rv=t[2] and ' \\to '`${2:\infty}} $0
-endsnippet
-
-snippet lp "Long parenthesis"
-\\${1:big}( ${2:${VISUAL}} \\${3:$1})$0
 endsnippet
