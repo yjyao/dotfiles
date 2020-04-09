@@ -55,6 +55,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'bkad/CamelCaseMotion'
   " Plugin 'cSyntaxAfter'
   " Plugin 'ccvext.vim'
+  Plugin 'rickhowe/diffchar.vim'
   Plugin 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
   Plugin 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
