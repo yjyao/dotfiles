@@ -153,6 +153,25 @@ if [ -d ~/.bash_completion.d ]; then
   done
 fi
 
+# hotkeys
+if [ $BASH_VERSINFO -gt 3 ]; then
+  # wraps a function "f" to plug the result of "f" in to where the cursor is at
+  _select_widget() {
+    local selected="$(eval "$1")"
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+    READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+  }
+
+  # selections
+  if command -v fzf &>/dev/null; then
+    # select from results of the last command
+    _prev_output_selector() {
+      fc -s | fzf -1
+    }
+    bind -x '"\C-x\C-p":"_select_widget _prev_output_selector"'
+  fi
+fi
+
 [ -f ~/.bash_completion ] && . ~/.bash_completion
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
