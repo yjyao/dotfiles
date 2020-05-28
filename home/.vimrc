@@ -63,6 +63,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
   Plugin 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
   " Plugin 'dyng/ctrlsf.vim'  " global search
+  Plugin 'fatih/vim-go'
   Plugin 'grep.vim'
   Plugin 'honza/vim-snippets'  " provides a bunch of snippets
   " Plugin 'javacomplete'
