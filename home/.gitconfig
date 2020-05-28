@@ -57,6 +57,7 @@
   cl = clone
 
   root = rev-parse --show-toplevel
+  ignore = "!${EDITOR:-vi} $(git rev-parse --show-toplevel)/.gitignore"
 
 [merge]
 
