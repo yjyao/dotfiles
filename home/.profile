@@ -20,6 +20,14 @@ if [ -d "$HOME/bin.local" ] ; then
   PATH="$HOME/bin.local:$PATH"
 fi
 
+# set PATH so it includes golang
+if [ -d '/usr/local/go/bin' ] ; then
+  PATH="$PATH:/usr/local/go/bin"
+fi
+if [ -d "$HOME/go/bin" ] ; then
+  PATH="$PATH:$HOME/go/bin"
+fi
+
 # import local profile configs
 [ -r "$HOME/.profile.local" ] && . "$HOME/.profile.local"
 
