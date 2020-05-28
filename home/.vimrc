@@ -56,6 +56,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'bogado/file-line'
   " Plugin 'cSyntaxAfter'
   " Plugin 'ccvext.vim'
+  Plugin 'chrisbra/csv.vim' | let b:has_csvplugin = 1
   Plugin 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
   Plugin 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
@@ -149,6 +150,9 @@ set statusline+=[%{&fileformat}] " encoding
 set statusline+=[POS=%l,%v]      " position
 set statusline+=[%p%%]           " percentage of file
 set statusline+=%=               " right align
+if exists('b:has_csvplugin')
+  set statusline+=%=%{exists('*CSV_WCol')&&\ &ft=~'csv'?'[COL='.CSV_WCol('Name').']\ ':''}
+endif
 set statusline+=%{strftime(\"%m/%d/%y\ -\ %H:%M\")}\  " time
 " 总是显示状态行
 set laststatus=2
@@ -1382,6 +1386,30 @@ let g:netrw_winsize = 20 " percent
 " let g:netrw_browse_split = 4 " open files in previous window
 let g:netrw_banner = 0
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+
+" ------------------------------------------------------------
+" csv.vim
+" ------------------------------------------------------------
+
+let g:no_csv_maps = 1
+
+if exists('b:has_csvplugin')
+  if has('autocmd')
+    augroup csv_maps
+      autocmd!
+      au FileType csv nnoremap <buffer> <silent> <Leader>h :<C-U>call csv#MoveCol(-v:count1, line("."))<CR>
+      au FileType csv nnoremap <buffer> <silent> <Leader>l :<C-U>call csv#MoveCol(v:count1, line("."))<CR>
+      au FileType csv nnoremap <buffer> <silent> <Leader>k :<C-U>call csv#MoveCol(0, line(".")-v:count1)<CR>
+      au FileType csv nnoremap <buffer> <silent> <Leader>j :<C-U>call csv#MoveCol(0, line(".")+v:count1)<CR>
+      au FileType csv xnoremap <buffer> <silent> if :<C-U>call csv#MoveOver(0)<CR>
+      au FileType csv omap <buffer> <silent> if :norm vif<cr>
+      au FileType csv xnoremap <buffer> <silent> af :<C-U>call csv#MoveOver(1)<CR>
+      au FileType csv omap <buffer> <silent> af :norm vaf<cr>
+      au FileType csv xnoremap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
+      au FileType csv omap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
+    augroup end
+  endif
+endif
 
 " ========================================================================= }}}
 " 编码配置
