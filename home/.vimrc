@@ -53,9 +53,9 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'altercation/vim-colors-solarized'  " colorscheme
   " Plugin 'artur-shaik/vim-javacomplete2'
   Plugin 'bkad/CamelCaseMotion'
+  Plugin 'bogado/file-line'
   " Plugin 'cSyntaxAfter'
   " Plugin 'ccvext.vim'
-  Plugin 'rickhowe/diffchar.vim'
   Plugin 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
   Plugin 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
   Plugin 'closetag.vim'  " close HTML tags with <C-BS>
@@ -74,6 +74,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'mattn/emmet-vim' | let b:has_emmet = 1 " https://emmet.io: fast HTML coding
   Plugin 'michaeljsmith/vim-indent-object'
   " Plugin 'osyo-manga/vim-over'  " :s preview
+  Plugin 'rickhowe/diffchar.vim'
   Plugin 'romainl/vim-cool'  "  auto disable search highlights
   " Plugin 'scrooloose/nerdcommenter'  " use vim-commentary instead
   " Plugin 'scrooloose/nerdtree'  " use built-in netrw instead
@@ -91,7 +92,6 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'vim-scripts/VimIM' | let b:has_VimIM = 1
   Plugin 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plugin 'wesleyche/SrcExpl'
-  Plugin 'bogado/file-line'
 
   call vundle#end()
 
