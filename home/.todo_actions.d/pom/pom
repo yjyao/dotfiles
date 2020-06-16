@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+progname=$(basename "$0")
+
+usage() {
+  echo 'no'
+}
+
+die() {
+  >&2 echo "$@"
+  exit 1
+}
+
+main() {
+  [[ $# < 1 ]] && die "$(usage)"
+  local action="$1" ; shift
+  local func_name="__pom_${action}"
+  [[ $(LC_ALL=C type -t "${func_name}") = function ]] \
+    || die "Unknown command ${action}"
+  "${func_name}" "$@"
+}
+
+# -----------------------------------------------------------------------------
+
+progress_bar() {
+  [[ $# < 5 ]] && die "USAGE: $FUNCNAME LEFT_BRACKET FILLER RIGHT_BRACKET LENGTH PROGRESS"
+  local left="$1" filler="$2" right="$3"
+  local len="$4" progress="$5"
+  local filler_len="$(( len * progress / 100 ))"
+  local empty_len="$(( len - filler_len ))"
+  printf '%s' "$left"
+  (( filler_len > 0 )) && printf "${filler}%.0s" $(seq "$filler_len")
+  printf "%${empty_len}s" | tr '[[:digit:]]' ' '
+  printf '%s' "$right"
+  printf " %3d%%" "$progress"
+}
+
+: ${TODO_POMODORO_PROGRESS_BAR_LENGTH:=30}
+: ${TODO_POMODORO_DURATION:=25}
+: ${TODO_POMODORO_BREAK_DURATION:=5}
+: ${TODO_POMODORO_NOTIFY:="echo -en '\a'"}
+: ${TODO_POMODORO_BREAK_NOTIFY:="echo -en '\a'"}
+
+# Start working on a task.
+__pom_start() {
+  [[ $# < 1 ]] && die "USAGE: $progname ${FUNCNAME##__pom_} TASKID"
+
+  taskid="$1"
+  task_desc="$(todo-txt ls "^$taskid " | head -1)"
+  grep -q "$taskid" <<< "$task_desc" || die "FATAL: No task $taskid"
+  echo 'Start working on task:'
+  echo "$task_desc"
+
+  for i in $(seq 0 "${TODO_POMODORO_DURATION}"); do
+    progress="$(( 100 * i / TODO_POMODORO_DURATION ))"
+    printf '\r'
+    progress_bar '[' '=' ']' "${TODO_POMODORO_PROGRESS_BAR_LENGTH}" "$progress"
+    (( progress < 100 )) && sleep 60
+  done
+  printf '\n'
+  eval "${TODO_POMODORO_NOTIFY}"
+  todo-txt do "$taskid"
+  # TODO add logging to track pormodoros
+  echo 'Good job! You finished a pomodoro. Now take a break.'
+  __pom_break
+}
+
+# Add a task (with description `TASK_DESC...`) and start working on it.
+__pom_do() {
+  [[ $# < 1 ]] && die "USAGE: $progname ${FUNCNAME##__pom_} TASK_DESC..."
+  taskid="$(todo-txt add "$@" | tee /dev/tty | head -1 | grep -o '^\S\+')"
+  __pom_start $taskid
+}
+
+# Take a break.
+__pom_break() {
+  for i in $(seq 0 "${TODO_POMODORO_BREAK_DURATION}"); do
+    progress="$(( 100 * i / TODO_POMODORO_BREAK_DURATION ))"
+    printf '\r'
+    progress_bar '[' '=' ']' "${TODO_POMODORO_PROGRESS_BAR_LENGTH}" "$progress"
+    (( $progress < 100 )) && sleep 60
+  done
+  printf '\n'
+  eval "${TODO_POMODORO_BREAK_NOTIFY}"
+  echo 'Coffee time is over!'
+}
+
+# -----------------------------------------------------------------------------
+
+# todo-txt passes the name of the command used to trigger this script. strip it.
+[[ $1 = $progname ]] && shift
+
+main "$@"

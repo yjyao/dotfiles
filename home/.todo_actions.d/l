@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+[[ "$1" = "usage" ]] && exit  # Just an alias, no need for help info.
+shift
+
+main() {
+  "$TODO_SH" command ls "$@"
+}
+
+main "$@"

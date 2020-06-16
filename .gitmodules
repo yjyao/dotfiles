@@ -1,0 +1,9 @@
+[submodule "home/.todo_actions.d/due"]
+	path = home/.todo_actions.d/due
+	url = https://github.com/rebeccamorgan/due.git
+[submodule "home/.todo_actions.d/graph"]
+	path = home/.todo_actions.d/graph
+	url = https://github.com/timpulver/todo.txt-graph.git
+[submodule "home/.todo_actions.d/edit"]
+	path = home/.todo_actions.d/edit
+	url = https://github.com/severoraz/todotxt-cli-tedit.git
