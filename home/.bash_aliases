@@ -49,14 +49,19 @@ umedit() {
 }
 
 # todo/task manager. requires https://github.com/todotxt/todo.txt-cli.
-if command -v todo-txt &>/dev/null; then
+if command -v todo.sh &>/dev/null; then
+  alias t=todo.sh
+  if [ -f /usr/local/share/bash_completion.d/todo ]; then
+    . /usr/local/share/bash_completion.d/todo
+  fi
+elif command -v todo-txt &>/dev/null; then
   alias t=todo-txt
   if [ -f /usr/share/bash-completion/completions/todo-txt ]; then
     . /usr/share/bash-completion/completions/todo-txt
   fi
-  if command -v _todo &>/dev/null; then
-    complete -F _todo t
-  fi
+fi
+if command -v _todo &>/dev/null; then
+  complete -F _todo t
 fi
 
 [ -r ~/.bash_aliases.local ] && . ~/.bash_aliases.local
