@@ -170,6 +170,22 @@ if [ $BASH_VERSINFO -gt 3 ]; then
     }
     bind -x '"\C-x\C-p":"_select_widget _prev_output_selector"'
   fi
+
+  _expand_current_variable() {
+    local token="$(grep -oE '\S+\s*$' <<< "${READLINE_LINE:0:$READLINE_POINT}")"
+    # Strip sapces from token
+    local varname="$(xargs -n1 <<< "$token")"
+    # Strip leading dollar sign
+    [[ ${varname:0:1} = $ ]] && varname="${varname:1}"
+    if [[ -n "${!varname+is_defined}" ]]; then
+      local result="${!varname}"
+      READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT-${#token}}$result${READLINE_LINE:$READLINE_POINT}"
+      READLINE_POINT=$(( READLINE_POINT - ${#token} + ${#result} ))
+    else
+      >&2 echo "$FUNCNAME: Variable \$$varname is not set."
+    fi
+  }
+  bind -x '"\C-x$":"_expand_current_variable"'
 fi
 
 [ -f ~/.bash_completion ] && . ~/.bash_completion
