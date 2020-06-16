@@ -166,7 +166,7 @@ if [ $BASH_VERSINFO -gt 3 ]; then
   if command -v fzf &>/dev/null; then
     # select from results of the last command
     _prev_output_selector() {
-      fc -s | fzf -1
+      fc -s 2>/dev/null | fzf -1
     }
     bind -x '"\C-x\C-p":"_select_widget _prev_output_selector"'
   fi
