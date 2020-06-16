@@ -21,6 +21,7 @@ profile
 tmux
 vim
 bin
+todo
 )
 
 syntaxes=()
