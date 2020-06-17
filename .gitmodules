@@ -5,5 +5,5 @@
 	path = home/.todo_actions.d/graph
 	url = https://github.com/timpulver/todo.txt-graph.git
 [submodule "home/.todo_actions.d/edit"]
-	path = home/.todo_actions.d/edit
+	path = home/.todo_actions.d/tedit
 	url = https://github.com/severoraz/todotxt-cli-tedit.git
