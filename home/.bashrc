@@ -169,6 +169,18 @@ if [ $BASH_VERSINFO -gt 3 ]; then
       fc -s 2>/dev/null | fzf -1
     }
     bind -x '"\C-x\C-p":"_select_widget _prev_output_selector"'
+
+    # select todo items
+    command -v todo-txt &>/dev/null && todo_cmd=todo-txt
+    command -v todo.sh &>/dev/null && todo_cmd=todo.sh
+    if [ -n $todo_cmd ]; then
+      _todo_item_selector() {
+        $todo_cmd |
+          grep -v '^-*$' | grep -v '^TODO:.*shown' |
+          fzf --query '!@maybe !@blocked ' -0 -1 --multi | awk '{print $1}'
+      }
+      bind -x '"\C-x\C-t":"_select_widget _todo_item_selector"'
+    fi
   fi
 
   _expand_current_variable() {
