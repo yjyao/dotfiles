@@ -50,7 +50,7 @@ case "$TERM" in
   xterm-color|*-256color) color_prompt=yes;;
 esac
 
-[[ $PROMPT_COMMAND =~ _GITBRANCH ]] || PROMPT_COMMAND='[ -d .git ] && _GITBRANCH=$(git brcurr 2> /dev/null);'"$PROMPT_COMMAND"
+[[ $PROMPT_COMMAND =~ _GITBRANCH ]] || PROMPT_COMMAND='[ -d .git ] && _GITBRANCH=$(git brcurr 2> /dev/null) || _GITBRANCH="";'"$PROMPT_COMMAND"
 
 _PS1='${debian_chroot:+($debian_chroot)}'
 _PS1+='\n'
@@ -58,7 +58,7 @@ _PS1+='\[\033[96m\]\u@\h\[\033[0m\]'
 _PS1+=':'
 _PS1+='\[\033[96m\]\w\[\033[0m\]'
 _PS1+='\n'
-_PS1+='\[\033[32m\]$([[ $_GITBRANCH ]] && echo "[$_GITBRANCH] ")\[\033[0m\]'
+_PS1+='\[\033[32m\]$([[ -n $_GITBRANCH ]] && echo "[$_GITBRANCH] ")\[\033[0m\]'
 _PS1+='\$ '
 _PS1+='\[\033[0:0m\]'
 PS1=$_PS1
