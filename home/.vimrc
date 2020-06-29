@@ -1398,25 +1398,25 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " csv.vim
 " ------------------------------------------------------------
 
-let g:no_csv_maps = 1
-
-if exists('b:has_csvplugin')
-  if has('autocmd')
-    augroup csv_maps
-      autocmd!
-      au FileType csv nnoremap <buffer> <silent> <Leader>h :<C-U>call csv#MoveCol(-v:count1, line("."))<CR>
-      au FileType csv nnoremap <buffer> <silent> <Leader>l :<C-U>call csv#MoveCol(v:count1, line("."))<CR>
-      au FileType csv nnoremap <buffer> <silent> <Leader>k :<C-U>call csv#MoveCol(0, line(".")-v:count1)<CR>
-      au FileType csv nnoremap <buffer> <silent> <Leader>j :<C-U>call csv#MoveCol(0, line(".")+v:count1)<CR>
-      au FileType csv xnoremap <buffer> <silent> if :<C-U>call csv#MoveOver(0)<CR>
-      au FileType csv omap <buffer> <silent> if :norm vif<cr>
-      au FileType csv xnoremap <buffer> <silent> af :<C-U>call csv#MoveOver(1)<CR>
-      au FileType csv omap <buffer> <silent> af :norm vaf<cr>
-      au FileType csv xnoremap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
-      au FileType csv omap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
-    augroup end
-  endif
-endif
+" " Customize plugin mappings
+" let g:no_csv_maps = 1
+" if exists('b:has_csvplugin')
+"   if has('autocmd')
+"     augroup csv_maps
+"       autocmd!
+"       au FileType csv nnoremap <buffer> <silent> <Leader>h :<C-U>call csv#MoveCol(-v:count1, line("."))<CR>
+"       au FileType csv nnoremap <buffer> <silent> <Leader>l :<C-U>call csv#MoveCol(v:count1, line("."))<CR>
+"       au FileType csv nnoremap <buffer> <silent> <Leader>k :<C-U>call csv#MoveCol(0, line(".")-v:count1)<CR>
+"       au FileType csv nnoremap <buffer> <silent> <Leader>j :<C-U>call csv#MoveCol(0, line(".")+v:count1)<CR>
+"       au FileType csv xnoremap <buffer> <silent> if :<C-U>call csv#MoveOver(0)<CR>
+"       au FileType csv omap <buffer> <silent> if :norm vif<cr>
+"       au FileType csv xnoremap <buffer> <silent> af :<C-U>call csv#MoveOver(1)<CR>
+"       au FileType csv omap <buffer> <silent> af :norm vaf<cr>
+"       au FileType csv xnoremap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
+"       au FileType csv omap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
+"     augroup end
+"   endif
+" endif
 
 " ========================================================================= }}}
 " 编码配置
