@@ -11,6 +11,8 @@ esac
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+export EDITOR=vim
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 # Set them to unlimited
 export HISTSIZE=
