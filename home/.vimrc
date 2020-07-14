@@ -855,6 +855,10 @@ endif
 " -----------------------------------------------------------------------------
 " python 补全
 
+" Disable goto (typing) stubs shortcut (Defaults to <Leader>s, conflicting with
+" our save shortcut).
+let g:jedi#goto_stubs_command = ""
+
 " 优先用 NeoComplete 来进行补全
 if exists('b:has_neocomplete')
   let g:jedi#completions_enabled = 0
