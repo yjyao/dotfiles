@@ -492,6 +492,9 @@ set list
 
 " 关闭铃声警示
 set noerrorbells
+" visualbell replaces bell with t_vb, by setting it and clearing t_vb, bells
+" are disabled completely. See https://vim.fandom.com/wiki/Disable_beeping.
+set visualbell t_vb=
 
 " F3 在工作路径中搜索（grep）
 nnoremap <F3> :silent grep '' \| cw<Left><Left><Left><Left><Left><Left>
