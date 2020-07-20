@@ -191,3 +191,12 @@ fi
 [ -f ~/.bash_completion ] && . ~/.bash_completion
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
+
+# Adding wsl-open as a browser for Bash for Windows
+if [[ $(uname -r) =~ (m|M)icrosoft ]] && command -v wsl-open &>/dev/null; then
+  if [[ -z $BROWSER ]]; then
+    export BROWSER=wsl-open
+  else
+    export BROWSER=$BROWSER:wsl-open
+  fi
+fi
