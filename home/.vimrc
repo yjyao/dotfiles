@@ -286,6 +286,9 @@ noremap gh ^
 " 我们倾向于使用 `d/sit/e`。此映射省去了输入 "/e" 的步骤。
 onoremap <silent> g/ //e<Left><Left>
 
+" 开关比对模式 (diffthis/diffoff)
+nmap dm :if &diff \| diffoff \| else \| diffthis \| endif<CR>
+
 " 更新比对结果 (diff update)
 nmap du :diffupdate<CR>
 
