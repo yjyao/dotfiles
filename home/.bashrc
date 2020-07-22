@@ -149,11 +149,6 @@ export LESS=$LESS
 # todo/task manager. requires https://github.com/todotxt/todo.txt-cli.
 export TODOTXT_DEFAULT_ACTION=ls
 
-if [ -d ~/.bash_completion.d ]; then
-  for file in $(find ~/.bash_completion.d -type f); do
-    . "$file"
-  done
-fi
 
 # hotkeys
 if [ $BASH_VERSINFO -gt 3 ]; then
@@ -189,6 +184,12 @@ if [ $BASH_VERSINFO -gt 3 ]; then
 fi
 
 [ -f ~/.bash_completion ] && . ~/.bash_completion
+
+if [ -d ~/.bash_completion.d ]; then
+  for file in $(find ~/.bash_completion.d -type f); do
+    . "$file"
+  done
+fi
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
 
