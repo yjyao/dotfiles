@@ -22,6 +22,7 @@ alias histdel='history -n && history -d "$(history|tac|fzf -e|awk "{print \$1}")
 alias jsonprint='python -m json.tool'
 command -v fdfind &>/dev/null && ! command -v fd &>/dev/null && alias fd=fdfind
 alias tg='telegram-cli -l1 -NAW'
+alias recap='recap -d "5 hours ago"'
 
 # an online snake game
 alias tron="ssh sshtron.zachlatta.com"
