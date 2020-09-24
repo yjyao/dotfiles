@@ -38,6 +38,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " 以下为要安装的插件
 
   " Plugin 'Align'  " use vim-easy-align instead
+  Plugin 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
   " Plugin 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
   " Plugin 'Lokaltog/vim-powerline'
   " Plugin 'Mark--Karkat'
