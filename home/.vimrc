@@ -1255,6 +1255,13 @@ let g:vimtex_delim_toggle_mod_list = [
       \]
 "       \ ['\left', '\right'],
 
+let g:vimtex_indent_delims = {
+      \ 'open' : ['{', '['],
+      \ 'close' : ['}', ']'],
+      \ 'close_indented' : 0,
+      \ 'include_modified_math' : 1,
+      \ }
+
 " make neocomplete support citation / label ref / ... completions
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
