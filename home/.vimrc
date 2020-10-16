@@ -1209,6 +1209,7 @@ let g:vimtex_compiler_latexmk = {
       \ 'continuous' : 0,
       \ 'options' : [
       \   '-xelatex',
+      \   '-pdflatex=xelatex',
       \   '-shell-escape',
       \   '-src-specials',
       \   '-synctex=1',
