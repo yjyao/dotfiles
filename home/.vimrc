@@ -1241,11 +1241,6 @@ else
   let g:vimtex_view_general_viewer = ''
   let g:vimtex_view_enabled = 0
 endif
-let g:vimtex_quickfix_warnings = {
-            \ 'default' : 0,
-            \ 'package' : 0,
-            \ 'Package' : 0,
-            \ }
 
 " list of modifiers of pairs / delimiters to toggle
 let g:vimtex_delim_toggle_mod_list = [
