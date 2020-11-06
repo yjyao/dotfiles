@@ -19,7 +19,7 @@ set skip-completed-text on
 
 # -----------------------------------------------------------------------------
 # Default keymap group
-set keymap
+set keymap emacs
 
 # up
 "\eOA": history-search-backward
