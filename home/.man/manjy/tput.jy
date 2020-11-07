@@ -1,0 +1,146 @@
+.TH tput 1
+
+.SH NAME
+tput - query info and produce control codes for all kinds of things in terminal
+
+.SH EXAMPLES
+
+.\" section
+
+.IP \fB*\fR 2
+Produce color control sequences.
+.RS
+
+Produce background color code:
+
+.RS
+$
+.B tput setab
+[\fI1-7\fR]
+.RE
+
+or foreground color code:
+
+.RS
+$
+.B tput setaf
+[\fI1-7\fR]
+.RE
+
+The colors are defined as follows:
+
+.RS
+.nf
+\fB0\fR    black
+\fB1\fR    red
+\fB2\fR    green
+\fB3\fR    yellow
+\fB4\fR    blue
+\fB5\fR    magenta
+\fB6\fR    cyan
+\fB7\fR    white
+.fi
+.RE
+
+Also text mode commands
+
+.RS
+.IP [\fBbold\fR|\fBdim\fR]
+Pretty self-explanatory
+.IP [\fBsmul\fR|\fBrmul\fR]
+Enable/disable underline mode
+.IP \fBrev\fR
+Reverse video mode
+.IP [\fBsmso\fR|\fBrmso\fR]
+Enable/disable standout (bold) mode
+.RE
+
+To reset the text format, use
+
+.RS
+$
+.B tput sgr0
+.RE
+
+.RE
+
+.\" section
+
+.IP \fB*\fR 2
+Produce cursor movement control sequences.
+.RS
+
+.RS
+.IP "\fBcup\fR \fIY\fR \fIX\fR"
+Move CURSOR to screen POSITION \fIX\fR, \fIY\fR
+.IP "\fBcuf\fR \fIN\fR"
+Move \fIN\fR characters FORWARD (right)
+.IP "\fBcub\fR \fIN\fR"
+Move \fIN\fR characters BACK (left)
+.IP "\fBcuu\fR \fIN\fR"
+Move \fIN\fR lines UP
+.IP \fBll\fR
+Move to LAST LINE, first column (if no \fBcup\fR)
+.IP \fBsc\fR
+SAVE the CURSOR position
+.IP \fBrc\fR
+RESTORE the CURSOR position
+.RE
+
+.RE
+
+.\" section
+
+.IP \fB*\fR 2
+Clearing and inserting.
+.\" .RE
+.RS
+
+.RS
+.IP "\fBech\fR \fIN\fR"
+Erase \fIN\fR characters
+.IP \fBclear\fR
+Clear screen and move the cursor to 0, 0
+.IP "\fBel 1\fR"
+Clear to beginning of line
+.IP \fBel\fR
+Clear to end of line
+.IP \fBed\fR
+Clear to end of screen
+.IP "\fBich\fR \fIN\fR"
+Insert \fIN\fR characters (moves rest of line forward!)
+.IP "\fBil\fR \fIN\fR"
+Insert \fIN\fR lines
+.RE
+
+.RE
+
+.\" section
+
+.IP \FB*\fR 2
+Check the size of the current terminal window.
+.RS
+
+.RS
+$
+.B tput
+[\fBlines\fR|\fBcols\fR]
+.RE
+
+Alternatively, use
+
+.RS
+$ \fBecho $LINES $COLUMNS\fR
+.RE
+
+but this is less safe.
+
+To manually collect the variables, use
+
+.RS
+.nf
+$ \fBread -d\\n -r L C <<< "$(tput -S <<< $'lines\\ncols')" ; echo "${C}x${L}"\fR
+.fi
+.RE
+
+.\" vim:ft=nroff
