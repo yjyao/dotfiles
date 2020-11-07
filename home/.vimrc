@@ -1347,6 +1347,10 @@ if has('autocmd')
     au Filetype notes let g:surround_{char2nr('e')}
           \ = "\|\r\|"
 
+    " link
+    au Filetype markdown let g:surround_{char2nr('l')}
+          \ = "[\r](\1url: \1)"
+
     au Filetype * let g:surround_{char2nr('y')} = "「\r」"
     au Filetype * let g:surround_{char2nr('Y')} = "『\r』"
     au Filetype * let g:surround_{char2nr('k')} = "【\r】"
