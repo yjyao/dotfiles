@@ -603,6 +603,7 @@ if has('autocmd')
     au FileType crontab setlocal commentstring=#\ %s
     au FileType sql setlocal commentstring=--\ %s
     au FileType xdefaults setlocal commentstring=!\ %s
+    au BufReadPost,BufNewFile sxhkdrc setlocal commentstring=#\ %s
   augroup end
 endif
 
