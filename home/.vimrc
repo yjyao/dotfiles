@@ -1346,6 +1346,8 @@ if has('autocmd')
           \ = "**\r**"
     au Filetype notes let g:surround_{char2nr('e')}
           \ = "\|\r\|"
+    au Filetype nroff let g:surround_{char2nr('e')} = "\\fI\r\\fR"
+    au Filetype nroff let g:surround_{char2nr('E')} = "\\fB\r\\fR"
 
     " link
     au Filetype markdown let g:surround_{char2nr('l')}
