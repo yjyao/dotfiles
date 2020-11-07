@@ -20,6 +20,7 @@ install
 profile
 tmux
 vim
+man
 bin
 todo
 )
