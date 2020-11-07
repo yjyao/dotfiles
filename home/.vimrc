@@ -602,6 +602,7 @@ if has('autocmd')
     au FileType autohotkey setlocal commentstring=;\ %s
     au FileType crontab setlocal commentstring=#\ %s
     au FileType sql setlocal commentstring=--\ %s
+    au FileType xdefaults setlocal commentstring=!\ %s
   augroup end
 endif
 
