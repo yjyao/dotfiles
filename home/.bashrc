@@ -1,3 +1,9 @@
+# # Uncomment the following to enable profiling.
+# PS4='+ $(date "+%s.%N")\011 '
+# exec 5> /tmp/bashstart.$$.log
+# BASH_XTRACEFD=5  # requires bash 4.1+
+# set -x
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -201,3 +207,5 @@ if [[ $(uname -r) =~ (m|M)icrosoft ]] && command -v wsl-open &>/dev/null; then
     export BROWSER=$BROWSER:wsl-open
   fi
 fi
+
+set +x
