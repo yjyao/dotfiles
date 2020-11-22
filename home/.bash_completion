@@ -1,3 +1,0 @@
-for file in $(find ~/.bash_completion.d/ -type f 2>/dev/null); do
-  source "$file"
-done
