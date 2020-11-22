@@ -108,11 +108,6 @@ stty -ixon
 stty werase undef
 bind '\C-w:backward-kill-word'
 
-# initialize https://github.com/nvbn/thefuck
-if command -v thefuck &> /dev/null; then
-  eval $(thefuck --alias)
-fi
-
 # # Automatically enter tmux if
 # # 1) tmux exists on the system
 # # 2) we're in an interactive shell, and
