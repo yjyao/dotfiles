@@ -19,9 +19,12 @@ stow bash vim ... # Add the pacakges your want to install.
 ```
 
 NOTE:
-This requires you have [GNU Stow][1] installed
+This requires you have [GNU Stow][stow] installed
 AND your dotfiles directory is *directly* under home.
 If it's not directly under your home,
 use `stow -t ~ bash vim ...` instead.
+For Windows system,
+use [Dploy][dploy] in place of GNU Stow.
 
+[dploy]: https://github.com/arecarn/dploy/
 [stow]: https://www.gnu.org/software/stow/
