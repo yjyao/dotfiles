@@ -29,6 +29,23 @@ endglobal
 # environments
 # -----------------------------------------------------------------------------
 
+snippet cls "Document class" b
+\documentclass`!p snip.rv='[' if t[2] else ''`${2:options}`!p snip.rv = ']' if t[2] else ''`{${1:a}${1/(a)$|(b)$|(s)$|(.*)/(?1:rticle)(?2:ook)(?3:tandalone)/}}
+$0
+endsnippet
+
+snippet doc "\begin / \end document" b
+\begin{document}
+$0
+\end{document}
+endsnippet
+
+snippet "\\?b(egin)?" "begin{} / end{}" br
+\begin{${1:environment}}$2
+	${0:${VISUAL}}
+\end{$1}
+endsnippet
+
 snippet - "Individual item" b
 \item$0
 endsnippet
