@@ -86,9 +86,11 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   " Plugin 'std_c.zip'
   Plugin 'taglist.vim'
   Plugin 'takac/vim-hardtime'  " prevents bad habbits
+  Plugin 'tenfyzhong/axring.vim'  " extends <c-a>/<c-x>, load BEFORE speeddating
   Plugin 'tpope/vim-commentary'  " motions for commenting code
   Plugin 'tpope/vim-markdown'
   Plugin 'tpope/vim-repeat'  " make `.` repeat some plugin motions. just keep
+  Plugin 'tpope/vim-speeddating'  " extends <c-a>/<c-x> to work with dates
   Plugin 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
   Plugin 'unblevable/quick-scope'  " highlight cues for `f` and `t`
   " Plugin 'vim-javacompleteex'
@@ -1440,6 +1442,15 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 "     augroup end
 "   endif
 " endif
+
+" ------------------------------------------------------------
+" axring.vim
+" ------------------------------------------------------------
+
+let g:axring_rings = [
+      \ ['true', 'false'],
+      \ ['verbose', 'debug', 'info', 'warn', 'error', 'fatal'],
+      \ ]
 
 " ========================================================================= }}}
 " 编码配置
