@@ -1,5 +1,5 @@
 alias l1='ls -1F'  # list-one
-alias ll='ls -alF'
+alias ll='ls -FlAsh'
 alias la='ls -AF'
 alias l='ls -CF'
 
