@@ -1351,6 +1351,9 @@ if has('autocmd')
     au Filetype nroff let g:surround_{char2nr('e')} = "\\fI\r\\fR"
     au Filetype nroff let g:surround_{char2nr('E')} = "\\fB\r\\fR"
 
+    " strikethru
+    au Filetype markdown let g:surround_{char2nr('s')} = "~~\r~~"
+
     " link
     au Filetype markdown let g:surround_{char2nr('l')}
           \ = "[\r](\1url: \1)"
