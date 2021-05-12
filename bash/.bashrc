@@ -51,6 +51,19 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+# enable git completion features.
+if [ -f /etc/bash_completion.d/git ]; then
+  . /etc/bash_completion.d/git
+elif [ -f /usr/share/bash-completion/completions/git ]; then
+  . /usr/share/bash-completion/completions/git
+fi
+
+if ! command -v __git_ps1; then
+  __git_ps1() {
+    [ -d .git ] && git symbolic-ref --short HEAD
+  }
+fi
+
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
   xterm-color|*-256color) color_prompt=yes;;
