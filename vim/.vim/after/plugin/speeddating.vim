@@ -1,3 +1,5 @@
-SpeedDatingFormat %Y-%m
-SpeedDatingFormat %Y/%m
-SpeedDatingFormat %Y/%m/%d
+if exists(":SpeedDatingFormat")
+  SpeedDatingFormat %Y-%m
+  SpeedDatingFormat %Y/%m
+  SpeedDatingFormat %Y/%m/%d
+endif
