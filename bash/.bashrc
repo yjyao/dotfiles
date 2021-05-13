@@ -58,7 +58,7 @@ elif [ -f /usr/share/bash-completion/completions/git ]; then
   . /usr/share/bash-completion/completions/git
 fi
 
-if ! command -v __git_ps1; then
+if ! command -v __git_ps1 &> /dev/null; then
   __git_ps1() {
     [ -d .git ] && git symbolic-ref --short HEAD
   }
