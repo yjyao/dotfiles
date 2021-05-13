@@ -453,7 +453,7 @@ else
 endif
 
 " 使用 ctrl+j,k,h,l 在分割的视窗间跳动
-if !b:has_tmux_navigator
+if exists('b:has_tmux_navigator')
   nnoremap <C-j> <C-w>j
   nnoremap <C-k> <C-w>k
   nnoremap <C-h> <C-w>h
