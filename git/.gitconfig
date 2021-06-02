@@ -17,6 +17,7 @@
 
   co = checkout
   cob = checkout -b
+  track = checkout --track
 
   br = branch
   brclean = !git branch --merged | grep -vF '*' | xargs -n1 git branch -d
