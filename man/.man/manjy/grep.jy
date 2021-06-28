@@ -1,0 +1,7 @@
+.TH man jy "20 March 2019"
+.SH NAME
+grep
+.SH SYNOPSIS
+grep [OPTIONS] PATTERN [FILE...]
+.SH OPTIONS
+.B -l \fI--files-with-matches\fR

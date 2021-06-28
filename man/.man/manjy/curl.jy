@@ -1,0 +1,15 @@
+.TH man jy
+
+.SH NAME
+curl
+
+.SH OPTIONS
+
+.TP
+.B -O, --remote-name
+Write output to a local file (aka download) with a default name.
+Use \fB-o\fR, \fB--output\fR to specify a name.
+
+.TP
+.B -L, --location
+Follow redirects.
