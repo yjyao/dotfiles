@@ -72,6 +72,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'cohama/lexima.vim'  "  auto pair closer
   Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
   Plugin 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
+  Plugin 'derekwyatt/vim-fswitch' | let b:has_fswitch = 1  " switch between source/code files
   " Plugin 'dyng/ctrlsf.vim'  " global search
   Plugin 'fatih/vim-go'
   Plugin 'grep.vim'
@@ -1083,6 +1084,22 @@ elseif executable('ag')
         \ --ignore "*.out"
         \ -g ""'
   let g:ctrlp_use_caching = 0
+endif
+
+" -----------------------------------------------------------------------------
+" fswitch
+" -----------------------------------------------------------------------------
+
+augroup related_file
+  autocmd!
+  autocmd BufEnter *.cc let b:fswitchdst = 'h,hh'
+augroup end
+
+" hotkey: goto related file
+if exists('b:has_fswitch')
+  nnoremap <silent> gr :FSHere<CR>
+else
+  nnoremap gr :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 endif
 
 " -----------------------------------------------------------------------------
