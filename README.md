@@ -12,8 +12,21 @@ use [Dploy][dploy] in place of GNU Stow.
 To install everything,
 
 ```bash
+git clone --recursive -j5 https://github.com/yjyao/dotfiles.git ~/.dotfiles && cd $_ && stow */
+```
+
+If you don't need any of the following:
+
+- todo-txt plugins
+- vim plugins
+
+then you can skip cloning the submodules and run
+
+```bash
 git clone https://github.com/yjyao/dotfiles.git ~/.dotfiles && cd $_ && stow */
 ```
+
+instead.
 
 The
 
