@@ -671,6 +671,7 @@ syntax on
 if !g:isGUI
   set t_Co=16
   let g:solarized_termcolors = 16
+  let g:solarized_termtrans = 1  " Disable solarized background color.
 endif
 set background=dark
 try | colo solarized | catch | endtry
