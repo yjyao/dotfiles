@@ -602,6 +602,7 @@ if has('autocmd')
     au FileType html,css,javascript setlocal tabstop=2 shiftwidth=2 nowrap tw=0
     au FileType tex,markdown setlocal tw=0
     au FileType vim setlocal tw=0
+    au BufReadPost,BufNewFile *.ass,*.srt setlocal tw=0
     au FileType text,tex,markdown setlocal wrap linebreak
   augroup end
 endif
