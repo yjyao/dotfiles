@@ -353,6 +353,9 @@ endif
 " 在命令行下使用 ctrl-v 粘贴
 cmap <C-v> <C-r>+
 
+" <C-a> to go to beginning of line (emacs mode!) in commandline mode.
+cnoremap <C-a> <Home>
+
 " 删除所有行尾多余的空白（空格或 tab ）
 nmap <F12> :call ClearTrailingSpaces()<CR>
 
