@@ -33,6 +33,14 @@ HISTIGNORE="?:??:history:history :history -[naw]:history -d*:[[:space:]]*"
 
 HISTTIMEFORMAT='%F %T '
 
+# keep a separate history for each tmux pane
+# unset `HISTFILE_PER_TMUX_PANE` to use the default ~/.bash_history
+HISTFILE_PER_TMUX_PANE=1
+if [[ -n $HISTFILE_PER_TMUX_PANE && -n $TMUX_PANE ]]; then
+  mkdir -p "$HOME/.bash_histories"
+  HISTFILE="$HOME/.bash_histories/tmux-$(tmux display-message -p '#{session_name}.#{window_index}.#{pane_index}').bash_history"
+fi
+
 export EDITOR=vim
 
 # check the window size after each command and, if necessary,
