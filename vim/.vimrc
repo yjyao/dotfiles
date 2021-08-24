@@ -399,6 +399,14 @@ func! PlainPaste(forward)
   let &paste = l:ispaste
 endfunc
 
+" stamp: 用复制内容替换选中内容
+" 正常操作下。选中文字后若用 `p` 粘贴。粘贴板内容会更新为选中的内容。但常常我们
+" 需要用复制的内容进行多次替换。该 stamp 功能保证粘贴后保留剪切板内原先的内容。
+" 如果已经进入输入模式（如使用 `ciw` 来编辑一个词时）。可以使用 <C-r>0 以插入剪
+" 切板（register 0）的内容。该方法的好处在于支持用 `.` 重现操作。
+" https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text
+xnoremap <silent> s p:let @+=@0<CR>:let @"=@0<CR>
+
 " ------------------------------------------------------------
 " 使用 ]i 移动到下一个相同缩进行
 " 使用 [i 移动到前一个相同缩进行
