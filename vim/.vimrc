@@ -44,6 +44,7 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   Plugin 'VundleVim/Vundle.vim'
 
   " 以下为要安装的插件
+  " #pluginlistbegin
 
   " Plugin 'Align'  " use vim-easy-align instead
   Plugin 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
@@ -112,6 +113,14 @@ if !empty(glob(b:vundlepath . 'Vundle.vim'))
   call vundle#end()
 
 endif  " if has Vundle
+
+" Always keep the plugin list sorted.
+if has('autocmd')
+  augroup sort_plugins
+    autocmd!
+    autocmd BufLeave .vimrc 0/#pluginlistbegin/+2,0/vundle#end/-2 sort /^\s*\("\s*\)\?/ | update
+  augroup end
+endif
 
 " ========================================================================= }}}
 " 界面配置
