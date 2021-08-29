@@ -208,7 +208,7 @@ fi
 [ -f ~/.bash_completion ] && . ~/.bash_completion
 
 if [ -d ~/.bash_completion.d ]; then
-  for file in $(find ~/.bash_completion.d -type f); do
+  for file in $(find -L ~/.bash_completion.d -type f); do
     . "$file"
   done
 fi
