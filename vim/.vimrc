@@ -1106,6 +1106,7 @@ endif
 augroup related_file
   autocmd!
   autocmd BufEnter *.cc let b:fswitchdst = 'h,hh'
+  autocmd BufEnter *.h let b:fswitchdst = 'c,cc,cpp'
 augroup end
 
 " hotkey: goto related file
