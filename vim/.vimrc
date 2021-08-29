@@ -587,6 +587,8 @@ if has('autocmd')
     au BufReadPost,BufNewFile *.glos setlocal filetype=glos
     au BufReadPost,BufNewFile *.gdairy setlocal filetype=gdairy
     au BufReadPost,BufNewFile *.ts setlocal filetype=javascript
+    au BufReadPost,BufNewFile *.ass setlocal filetype=ass
+    au BufReadPost,BufNewFile *.srt setlocal filetype=srt
   augroup end
 endif
 
@@ -603,30 +605,11 @@ set smarttab        " 使 softtabstop = shiftwidth
 set expandtab
 
 set nowrap
-" 不同类型文件的缩进长度和文本宽度
-if has('autocmd')
-  augroup indent_and_textwidth
-    autocmd!
-    au BufReadPost,BufNewFile *.txt setlocal tabstop=8 shiftwidth=8
-    au FileType python setlocal tabstop=2 shiftwidth=2
-    au FileType ada setlocal tabstop=3 shiftwidth=3
-    au FileType html,css,javascript setlocal tabstop=2 shiftwidth=2 nowrap tw=0
-    au FileType tex,markdown setlocal tw=0
-    au FileType vim setlocal tw=0
-    au BufReadPost,BufNewFile *.ass,*.srt setlocal tw=0
-    au FileType text,tex,markdown setlocal wrap linebreak
-  augroup end
-endif
 
 if has('autocmd')
   augroup commentstring
     autocmd!
     au BufReadPost,BufNewFile .hgrc setlocal commentstring=#\ %s
-    au FileType cpp setlocal commentstring=//\ %s
-    au FileType autohotkey setlocal commentstring=;\ %s
-    au FileType crontab setlocal commentstring=#\ %s
-    au FileType sql setlocal commentstring=--\ %s
-    au FileType xdefaults setlocal commentstring=!\ %s
     au BufReadPost,BufNewFile sxhkdrc setlocal commentstring=#\ %s
   augroup end
 endif
@@ -643,18 +626,6 @@ endif
 set complete=.,w,b,u
 set completeopt=menuone,menu,longest
 
-if has('autocmd')
-  augroup omnifunc
-    autocmd!
-    au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    au Filetype java setlocal omnifunc=javacomplete#Complete
-  augroup end
-endif
-
-
 " 文本格式化设置
 set formatoptions=
 set formatoptions+=cqjr     " 支持注释
@@ -666,12 +637,6 @@ set textwidth=79
 
 " 如下符号可以连接两个词（'a_b' 会被当作一个词对待）
 set iskeyword+=_,#
-if has('autocmd')
-  augroup is_keyword
-    autocmd!
-    au FileType javascript setlocal iskeyword+=$
-  augroup end
-endif
 
 " ========================================================================= }}}
 " 配色
@@ -709,21 +674,6 @@ if has('autocmd')
           \ if line("'\"") > 0 && line("'\"") <= line('$') |
           \ exe ' normal g`"' |
           \ endif
-
-    " 按 q 键退出帮助界面
-    au FileType help nnoremap <buffer> q <C-w>q
-
-    " 拼写检查 spell check
-    au FileType text,tex,notes,markdown setlocal spell
-    au FileType text,tex,notes,markdown syntax spell toplevel
-    au FileType gitcommit setlocal spell
-    au FileType text,tex,notes,markdown setlocal complete+=kspell
-    au FileType notes setlocal spellcapcheck= " 不检查句首大小写
-
-    " 识别 LaTeX 导入文件名
-    au FileType tex let &l:include = '^[^%]*\(\\input\>\|\\include\>\|\\includegraphics\(\[.\{-}\]\)\?\)'
-          \ | setlocal suffixesadd=.tex
-
   augroup end
 
   " 带有 shebang 的脚本自动保存成可执行文件
@@ -952,14 +902,9 @@ let g:neocomplete#sources#omni#input_patterns.java = '\%(\h\w*\|)\)\.\w*'
 if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
 endif
-if exists('b:has_jedi')
-  if has('autocmd')
-    augroup jedicompletions
-      autocmd!
-      au FileType python setlocal omnifunc=jedi#completions
-    augroup end
-  endif
-endif
+
+" "omnifunc" enabled in $vimfiles/after/ftplugin/python.vim.
+
 let g:neocomplete#force_omni_input_patterns.python =
             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
@@ -1121,16 +1066,10 @@ endif
 " -----------------------------------------------------------------------------
 " HTML/CSS 代码快速编写神器
 
-" make emmet only work in html and css files
+" don't automatically install emmet.
+" to list all filetypes with emmet enabled, run
+"     $ grep -lr EmmetInstall ~/.vim/ | grep plugin/
 let g:user_emmet_install_global = 0
-if exists('b:has_emmet')
-  if has('autocmd')
-    augroup install_emmet
-      autocmd!
-      au FileType html,haml,css,sass,scss EmmetInstall
-    augroup end
-  endif
-endif
 
 let g:user_emmet_leader_key = '<C-e>'
 
@@ -1223,25 +1162,6 @@ let g:markdown_fenced_languages = [
       \ ]
 let g:markdown_syntax_conceal = 0
 let g:vim_markdown_folding_disabled = 1  " Slows down startup.
-
-" ------------------------------------------------------------
-" reftex
-" ------------------------------------------------------------
-" 在 LaTeX 中引用时给出 label 列表
-
-if has('autocmd')
-  augroup ennable_reftex
-    autocmd!
-    if g:iswindows
-      let b:reftexpath = '$VIM/vimfiles/ftplugin/reftex.vim'
-    else
-      let b:reftexpath = '~/.vim/ftplugin/reftex.vim'
-    endif
-    if filereadable(expand(b:reftexpath))
-      exec 'au FileType tex source '.b:reftexpath
-    endif
-  augroup end
-endif
 
 " ------------------------------------------------------------
 " vimtex
@@ -1351,60 +1271,18 @@ omap <silent> a<Leader>w <Plug>CamelCaseMotion_iw
 xmap <silent> a<Leader>w <Plug>CamelCaseMotion_iw
 
 " ------------------------------------------------------------
-" surround
+" vim-surround
 " ------------------------------------------------------------
 
 " quotes
 let g:surround_{char2nr('q')} = "'\r'"
-let g:surround_{char2nr('Q')} = "\"\r\""
-if has('autocmd')
-  augroup surround_keymaps
-    autocmd!
-    au Filetype tex let g:surround_{char2nr('q')} = "`\r'"
-    au Filetype tex let g:surround_{char2nr('Q')} = "``\r''"
-
-    au Filetype tex,markdown let g:surround_{char2nr('m')} = "$\r$"
-    au Filetype tex,markdown let g:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
-
-    au Filetype {tex}\@<!* let g:surround_{char2nr('f')} = "\1function: \1(\r)"
-    au Filetype sh let g:surround_{char2nr('f')} = "\"$(\1command: \1 \r)\""
-    au Filetype sh let g:surround_{char2nr('F')} = "$(\1command: \1 \r)"
-    au Filetype tex let g:surround_{char2nr('f')} = "\\\1command: \1{\r}"
-    au Filetype lisp let g:surround_{char2nr('f')} = "(\1function: \1 \r)"
-
-    " quoted/unquoted shell variable
-    au Filetype sh let g:surround_{char2nr('v')} = "\"${\r}\""
-    au Filetype sh let g:surround_{char2nr('V')} = "${\r}"
-
-    " code
-    au Filetype markdown let g:surround_{char2nr('c')}
-          \ = "```\1language: \1 \n\r\n```"
-
-    " emph
-    au Filetype tex let g:surround_{char2nr('e')} = "\\emph{\r}"
-    au Filetype markdown let g:surround_{char2nr('e')}
-          \ = "*\r*"
-    au Filetype markdown let g:surround_{char2nr('E')}
-          \ = "**\r**"
-    au Filetype notes let g:surround_{char2nr('e')}
-          \ = "\|\r\|"
-    au Filetype nroff let g:surround_{char2nr('e')} = "\\fI\r\\fR"
-    au Filetype nroff let g:surround_{char2nr('E')} = "\\fB\r\\fR"
-
-    " strikethru
-    au Filetype markdown let g:surround_{char2nr('s')} = "~~\r~~"
-
-    " url/link
-    au Filetype markdown let g:surround_{char2nr('u')}
-          \ = "[\r](\1url: \1)"
-
-    au Filetype * let g:surround_{char2nr('y')} = "「\r」"
-    au Filetype * let g:surround_{char2nr('Y')} = "『\r』"
-    au Filetype * let g:surround_{char2nr('k')} = "【\r】"
-    au Filetype * let g:surround_{char2nr('K')} = "（\r）"
-
-  augroup end
-endif
+let g:surround_{char2nr('Q')} = '"\r"'
+" Chinese quotes. "y" for 引号
+let g:surround_{char2nr('y')} = "「\r」"
+let g:surround_{char2nr('Y')} = "『\r』"
+" Chinese quotes. "k" for 括号
+let g:surround_{char2nr('k')} = "（\r）"
+let g:surround_{char2nr('K')} = "【\r】"
 
 " ------------------------------------------------------------
 " sneak
