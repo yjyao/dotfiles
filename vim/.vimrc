@@ -21,104 +21,90 @@ func! SystemNoNull(cmd)
 endfunc
 
 " ========================================================================= }}}
-" Vundle - 插件管理工具
+" vim-plug - Load plugins
 " ========================================================================= {{{
-" *** 务必置顶（因为需要临时改变一些设置） ***
-" https://github.com/gmarik/vundle.git
+" *** Keep this at the top of file. ***
+" https://github.com/junegunn/vim-plug
 
-if g:islinux
-  let b:vundlepath = '~/.vim/bundle/'
-else
-  let b:vundlepath = '$VIM/vimfiles/bundle/'
-endif
-if !empty(glob(b:vundlepath . 'Vundle.vim'))
+if !empty(glob('~/.vim/autoload/plug.vim'))
+  call plug#begin('~/.vim/bundle')
 
-  " 必需配置，可以之后打开
-  set nocompatible
-  filetype off
+  " Plug 'Align'  " use vim-easy-align instead
+  Plug 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
+  " Plug 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
+  " Plug 'Lokaltog/vim-powerline'
+  " Plug 'Mark--Karkat'
+  Plug 'Shougo/neocomplete' | let b:has_neocomplete = 1  " fuzzy completion
+  Plug 'SirVer/ultisnips'
+  " Plug 'TxtBrowser'
+  " Plug 'Valloric/YouCompleteMe'  " use neocomplete instead
+  Plug 'Vimjas/vim-python-pep8-indent'
+  " Plug 'Yggdroot/indentLine'
+  " Plug 'ZoomWin'
+  " Plug 'a.vim'
+  Plug 'altercation/vim-colors-solarized'  " colorscheme
+  " Plug 'artur-shaik/vim-javacomplete2'
+  Plug 'bkad/CamelCaseMotion'
+  Plug 'bogado/file-line'
+  " Plug 'cSyntaxAfter'
+  " Plug 'ccvext.vim'
+  Plug 'chrisbra/csv.vim' | let b:has_csvplugin = 1
+  Plug 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
+  Plug 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
+  Plug 'cohama/lexima.vim'  "  auto pair closer
+  Plug 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
+  Plug 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
+  Plug 'derekwyatt/vim-fswitch' | let b:has_fswitch = 1  " switch between source/code files
+  " Plug 'dyng/ctrlsf.vim'  " global search
+  Plug 'fatih/vim-go'
+  Plug 'honza/vim-snippets'  " provides a bunch of snippets
+  " Plug 'javacomplete'
+  " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
+  Plug 'junegunn/vim-easy-align'
+  " Plug 'justinmk/vim-sneak'  " 2-letter `f` and `t`
+  Plug 'lervag/vimtex'  " LaTeX build / functions
+  " Plug 'majutsushi/tagbar'
+  Plug 'mattn/emmet-vim' | let b:has_emmet = 1 " https://emmet.io: fast HTML coding
+  Plug 'michaeljsmith/vim-indent-object'
+  " Plug 'osyo-manga/vim-over'  " :s preview
+  Plug 'rickhowe/diffchar.vim'
+  Plug 'romainl/vim-cool'  "  auto disable search highlights
+  " Plug 'scrooloose/nerdcommenter'  " use vim-commentary instead
+  " Plug 'scrooloose/nerdtree'  " use built-in netrw instead
+  " Plug 'scrooloose/syntastic'
+  " Plug 'shawncplus/phpcomplete.vim'
+  " Plug 'std_c.zip'
+  " Plug 'taglist.vim'
+  Plug 'takac/vim-hardtime'  " prevents bad habbits
+  Plug 'tenfyzhong/axring.vim'  " extends <c-a>/<c-x>, load BEFORE speeddating
+  Plug 'tpope/vim-commentary'  " motions for commenting code
+  Plug 'tpope/vim-markdown'
+  Plug 'tpope/vim-repeat'  " make `.` repeat some plugin motions. just keep
+  Plug 'tpope/vim-speeddating'  " extends <c-a>/<c-x> to work with dates
+  Plug 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
+  Plug 'unblevable/quick-scope'  " highlight cues for `f` and `t`
+  " Plug 'vim-javacompleteex'
+  Plug 'vim-scripts/OmniCppComplete'
+  " Plug 'vim-scripts/VimIM' | let b:has_VimIM = 1
+  Plug 'vim-scripts/closetag.vim'  " close HTML tags with <C-BS>
+  Plug 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
+  " Plug 'wesleyche/SrcExpl'
+  Plug 'whiteinge/diffconflicts'
+  Plug 'yjyao/recap.vim'
 
-  exec 'set runtimepath+=' . b:vundlepath . 'Vundle.vim'
-  call vundle#begin(b:vundlepath)
+  call plug#end()
 
-  " 必需配置
-  Plugin 'VundleVim/Vundle.vim'
+  " Don't use `PlugUpgrade`, instead update the git submodule
+  "   $ git submodule update --remote vim/.vim/bundle/vim-plug/
+  delc PlugUpgrade
 
-  " 以下为要安装的插件
-  " #pluginlistbegin
-
-  " Plugin 'Align'  " use vim-easy-align instead
-  Plugin 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
-  " Plugin 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
-  " Plugin 'Lokaltog/vim-powerline'
-  " Plugin 'Mark--Karkat'
-  Plugin 'OmniCppComplete'
-  Plugin 'Shougo/neocomplete' | let b:has_neocomplete = 1  " fuzzy completion
-  Plugin 'SirVer/ultisnips'
-  " Plugin 'TxtBrowser'
-  " Plugin 'Valloric/YouCompleteMe'  " use neocomplete instead
-  Plugin 'Vimjas/vim-python-pep8-indent'
-  " Plugin 'Yggdroot/indentLine'
-  " Plugin 'ZoomWin'
-  " Plugin 'a.vim'
-  Plugin 'altercation/vim-colors-solarized'  " colorscheme
-  " Plugin 'artur-shaik/vim-javacomplete2'
-  Plugin 'bkad/CamelCaseMotion'
-  Plugin 'bogado/file-line'
-  " Plugin 'cSyntaxAfter'
-  " Plugin 'ccvext.vim'
-  Plugin 'chrisbra/csv.vim' | let b:has_csvplugin = 1
-  Plugin 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
-  Plugin 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
-  Plugin 'closetag.vim'  " close HTML tags with <C-BS>
-  Plugin 'cohama/lexima.vim'  "  auto pair closer
-  Plugin 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
-  Plugin 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
-  Plugin 'derekwyatt/vim-fswitch' | let b:has_fswitch = 1  " switch between source/code files
-  " Plugin 'dyng/ctrlsf.vim'  " global search
-  Plugin 'fatih/vim-go'
-  Plugin 'grep.vim'
-  Plugin 'honza/vim-snippets'  " provides a bunch of snippets
-  " Plugin 'javacomplete'
-  " Plugin 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
-  Plugin 'junegunn/vim-easy-align'
-  " Plugin 'justinmk/vim-sneak'  " 2-letter `f` and `t`
-  Plugin 'lervag/vimtex'  " LaTeX build / functions
-  " Plugin 'majutsushi/tagbar'
-  Plugin 'mattn/emmet-vim' | let b:has_emmet = 1 " https://emmet.io: fast HTML coding
-  Plugin 'michaeljsmith/vim-indent-object'
-  " Plugin 'osyo-manga/vim-over'  " :s preview
-  Plugin 'rickhowe/diffchar.vim'
-  Plugin 'romainl/vim-cool'  "  auto disable search highlights
-  " Plugin 'scrooloose/nerdcommenter'  " use vim-commentary instead
-  " Plugin 'scrooloose/nerdtree'  " use built-in netrw instead
-  " Plugin 'scrooloose/syntastic'
-  " Plugin 'shawncplus/phpcomplete.vim'
-  " Plugin 'std_c.zip'
-  Plugin 'taglist.vim'
-  Plugin 'takac/vim-hardtime'  " prevents bad habbits
-  Plugin 'tenfyzhong/axring.vim'  " extends <c-a>/<c-x>, load BEFORE speeddating
-  Plugin 'tpope/vim-commentary'  " motions for commenting code
-  Plugin 'tpope/vim-markdown'
-  Plugin 'tpope/vim-repeat'  " make `.` repeat some plugin motions. just keep
-  Plugin 'tpope/vim-speeddating'  " extends <c-a>/<c-x> to work with dates
-  Plugin 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
-  Plugin 'unblevable/quick-scope'  " highlight cues for `f` and `t`
-  " Plugin 'vim-javacompleteex'
-  " Plugin 'vim-scripts/VimIM' | let b:has_VimIM = 1
-  Plugin 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
-  " Plugin 'wesleyche/SrcExpl'
-  Plugin 'whiteinge/diffconflicts'
-  Plugin 'yjyao/recap.vim'
-
-  call vundle#end()
-
-endif  " if has Vundle
+endif  " if has vim-plug
 
 " Always keep the plugin list sorted.
 if has('autocmd')
   augroup sort_plugins
     autocmd!
-    autocmd BufLeave .vimrc 0/#pluginlistbegin/+2,0/vundle#end/-2 sort /^\s*\("\s*\)\?/ | update
+    autocmd BufLeave .vimrc 0/plug#begin/+2,0/plug#end/-2 sort /^\s*\("\s*\)\?/ | update
   augroup end
 endif
 
@@ -246,6 +232,13 @@ set report=0
 
 " mswin 下 visual 改成了 exclusive 。恢复默认
 set selection=inclusive
+
+" Load help files under doc/
+if g:iswindows
+  helptags $vimfiles/doc
+else
+  helptags ~/.vim/doc/
+endif
 
 " chinese input
 " 需要编译时打开 +xim, +multi_byte_ime 或 global-ime 特性版本的 Vim

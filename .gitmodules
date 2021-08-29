@@ -7,6 +7,6 @@
 [submodule "home/.todo_actions.d/edit"]
 	path = todo-txt/.todo_actions.d/tedit_
 	url = https://github.com/severoraz/todotxt-cli-tedit.git
-[submodule "vim/.vim/bundle/Vundle.vim"]
-	path = vim/.vim/bundle/Vundle.vim
-	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "vim/.vim/bundle/vim-plug"]
+	path = vim/.vim/bundle/vim-plug
+	url = https://github.com/junegunn/vim-plug.git
