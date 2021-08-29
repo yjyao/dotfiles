@@ -157,7 +157,7 @@ set fillchars=vert:\ ,stl:\ ,stlnc:\
 " 状态行
 set statusline=
 "set statusline+=%2*%-3.3n%0*    " buffer number
-set statusline+=%f               " file name
+set statusline+=%f\              " file name
 set statusline+=%m%r%h%w         " flag. [+] for changed/unsaved
 set statusline+=[%{&encoding}]   " encoding
 set statusline+=[%{&fileformat}] " encoding
