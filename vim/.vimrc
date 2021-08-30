@@ -104,7 +104,7 @@ endif  " if has vim-plug
 if has('autocmd')
   augroup sort_plugins
     autocmd!
-    autocmd BufLeave .vimrc 0/plug#begin/+2,0/plug#end/-2 sort /^\s*\("\s*\)\?/ | update
+    autocmd BufLeave .vimrc execute 'normal mz' | setlocal nofoldenable | 0/plug#begin/+2,0/plug#end/-2 sort /^\s*\("\s*\)\?/ | normal `z
   augroup end
 endif
 
