@@ -34,7 +34,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   " Plug 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
   " Plug 'Lokaltog/vim-powerline'
   " Plug 'Mark--Karkat'
-  Plug 'Shougo/neocomplete' | let b:has_neocomplete = 1  " fuzzy completion
+  Plug 'Shougo/neocomplete'  " fuzzy completion
   Plug 'SirVer/ultisnips'
   " Plug 'TxtBrowser'
   " Plug 'Valloric/YouCompleteMe'  " use neocomplete instead
@@ -48,13 +48,13 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'bogado/file-line'
   " Plug 'cSyntaxAfter'
   " Plug 'ccvext.vim'
-  Plug 'chrisbra/csv.vim' | let b:has_csvplugin = 1
+  Plug 'chrisbra/csv.vim'
   Plug 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
-  Plug 'christoomey/vim-tmux-navigator' | let b:has_tmux_navigator = 1
+  Plug 'christoomey/vim-tmux-navigator'
   Plug 'cohama/lexima.vim'  "  auto pair closer
-  Plug 'ctrlpvim/ctrlp.vim' | let b:has_ctrlp = 1 " fuzzy file searcher / buffer manager
-  Plug 'davidhalter/jedi-vim' | let b:has_jedi = 1  "  python autocomplete. 'pip install jedi' required
-  Plug 'derekwyatt/vim-fswitch' | let b:has_fswitch = 1  " switch between source/code files
+  Plug 'ctrlpvim/ctrlp.vim'  " fuzzy file searcher / buffer manager
+  Plug 'davidhalter/jedi-vim'  "  python autocomplete. 'pip install jedi' required
+  Plug 'derekwyatt/vim-fswitch'  " switch between source/code files
   " Plug 'dyng/ctrlsf.vim'  " global search
   Plug 'fatih/vim-go'
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
@@ -64,7 +64,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   " Plug 'justinmk/vim-sneak'  " 2-letter `f` and `t`
   Plug 'lervag/vimtex'  " LaTeX build / functions
   " Plug 'majutsushi/tagbar'
-  Plug 'mattn/emmet-vim' | let b:has_emmet = 1 " https://emmet.io: fast HTML coding
+  Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
   " Plug 'osyo-manga/vim-over'  " :s preview
   Plug 'rickhowe/diffchar.vim'
@@ -85,7 +85,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'unblevable/quick-scope'  " highlight cues for `f` and `t`
   " Plug 'vim-javacompleteex'
   Plug 'vim-scripts/OmniCppComplete'
-  " Plug 'vim-scripts/VimIM' | let b:has_VimIM = 1
+  " Plug 'vim-scripts/VimIM'
   Plug 'vim-scripts/closetag.vim'  " close HTML tags with <C-BS>
   Plug 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plug 'wesleyche/SrcExpl'
@@ -107,6 +107,11 @@ if has('autocmd')
     autocmd BufLeave .vimrc execute 'normal mz' | setlocal nofoldenable | 0/plug#begin/+2,0/plug#end/-2 sort /^\s*\("\s*\)\?/ | normal `z
   augroup end
 endif
+
+func! s:HasPlug(name)
+  " The vim-plug manager defines `g:plugs`.
+  return has_key(g:plugs, a:name)
+endfunc
 
 " ========================================================================= }}}
 " 界面配置
@@ -159,7 +164,7 @@ set statusline+=[%{&fileformat}] " encoding
 set statusline+=[POS=%l,%v]      " position
 set statusline+=[%p%%]           " percentage of file
 set statusline+=%=               " right align
-if exists('b:has_csvplugin')
+if s:HasPlug('csv.vim')
   set statusline+=%=%{exists('*CSV_WCol')&&\ &ft=~'csv'?'[COL='.CSV_WCol('Name').']\ ':''}
 endif
 set statusline+=%{strftime(\"%m/%d/%y\ -\ %H:%M\")}\  " time
@@ -469,14 +474,14 @@ set backspace=indent,eol,start
 " set whichwrap+=<,>,h,l
 
 " 文件切换控制
-if exists('b:has_ctrlp')
+if s:HasPlug('ctrlp.vim')
   nmap gb :CtrlPBuffer<CR>
 else
   nmap gb :ls<CR>:buffer<space>
 endif
 
 " 使用 ctrl+j,k,h,l 在分割的视窗间跳动
-if exists('b:has_tmux_navigator')
+if s:HasPlug('vim-tmux-navigator')
   nnoremap <C-j> <C-w>j
   nnoremap <C-k> <C-w>k
   nnoremap <C-h> <C-w>h
@@ -823,7 +828,7 @@ let OmniCpp_LocalSearchDecl = 1
 let OmniCpp_NamespaceSearch = 1
 
 " C++ 成员引用自动补全
-if !exists('b:has_neocomplete')
+if !s:HasPlug('neocomplete')
   let OmniCpp_MayCompleteDot = 1                  " 输入 . 后自动补全
   let OmniCpp_MayCompleteArrow = 1                " 输入 -> 后自动补全
   let OmniCpp_MayCompleteScope = 1                " 输入 :: 后自动补全
@@ -847,7 +852,7 @@ endif
 let g:jedi#goto_stubs_command = ""
 
 " 优先用 NeoComplete 来进行补全
-if exists('b:has_neocomplete')
+if s:HasPlug('neocomplete')
   let g:jedi#completions_enabled = 0
   let g:jedi#auto_vim_configuration = 0
   let g:jedi#smart_auto_mappings = 0
@@ -865,7 +870,7 @@ let g:neocomplete#enable_smart_case = 1             " 只在输入大写字母�
 let g:neocomplete#auto_completion_start_length = 3  " 只在输入超过三个字符时自动打开补全菜单
 let g:neocomplete#sources#syntax#min_keyword_length = 4
 " 默认情况下，在 NeoComplete 补全时按下退格键会撤销补全。这里改为应用补全并删去一个字符
-if exists('b:has_neocomplete')
+if s:HasPlug('neocomplete')
   inoremap <expr><C-h> neocomplete#close_popup()."\<C-h>"
   inoremap <expr><BS>  neocomplete#close_popup()."\<C-h>"
 endif
@@ -938,7 +943,7 @@ func! VIMIM_before()
   endif
 endfunc
 
-if exists('b:has_VimIM')
+if s:HasPlug('VimIM')
   " 使用 ctrl-space 打开 / 关闭 VimIM
   inoremap <C-Space> <Space><Esc>:call VIMIM_before()<CR>s<C-r>=g:Vimim_chinese()<CR>
   nnoremap <C-Space> :call VIMIM_before()<CR>a<C-r>=g:Vimim_chinese()<CR><Esc>
@@ -1057,7 +1062,7 @@ augroup related_file
 augroup end
 
 " hotkey: goto related file
-if exists('b:has_fswitch')
+if s:HasPlug('vim-fswitch')
   nnoremap <silent> gr :FSHere<CR>
 else
   nnoremap gr :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
@@ -1348,7 +1353,7 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 " " Customize plugin mappings
 " let g:no_csv_maps = 1
-" if exists('b:has_csvplugin')
+" if s:HasPlug('csv.vim')
 "   if has('autocmd')
 "     augroup csv_maps
 "       autocmd!
