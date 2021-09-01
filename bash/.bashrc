@@ -38,7 +38,10 @@ HISTTIMEFORMAT='%F %T '
 HISTFILE_PER_TMUX_PANE=1
 if [[ -n $HISTFILE_PER_TMUX_PANE && -n $TMUX_PANE ]]; then
   mkdir -p "$HOME/.bash_histories"
-  HISTFILE="$HOME/.bash_histories/tmux-$(tmux display-message -p '#{session_name}.#{window_index}.#{pane_index}').bash_history"
+  tmux_pane_name_file="$(mktemp)"
+  tmux display-message -p '#{session_name}.#{window_index}.#{pane_index}' > $tmux_pane_name_file
+  HISTFILE="$HOME/.bash_histories/tmux-$(< $tmux_pane_name_file).bash_history"
+  rm $tmux_pane_name_file
 fi
 
 export EDITOR=vim
