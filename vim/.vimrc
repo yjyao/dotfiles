@@ -3,8 +3,14 @@ let g:iswindows = 0
 let g:islinux = 0
 if has('win32') || has('win64') || has('win95') || has('win16')
   let g:iswindows = 1
+  let g:vimrc_dir='$vim'
+  let g:vimfiles_dir='$vimfiles'
+  let g:vimrc_path='$vim/_vimrc'
 else
   let g:islinux = 1
+  let g:vimrc_dir='~'
+  let g:vimfiles_dir='~/.vim'
+  let g:vimrc_path='~/.vimrc'
 endif
 
 let g:isGUI = 0
@@ -26,8 +32,8 @@ endfunc
 " *** Keep this at the top of file. ***
 " https://github.com/junegunn/vim-plug
 
-if !empty(glob('~/.vim/autoload/plug.vim'))
-  call plug#begin('~/.vim/bundle')
+if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
+  call plug#begin(g:vimfiles_dir . '/bundle')
 
   " Plug 'Align'  " use vim-easy-align instead
   Plug 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
@@ -206,7 +212,7 @@ set noswapfile
 
 " 临时文件的位置。在 windows 下默认位置需要管理员权限。绕开
 if g:iswindows
-  let $TMP = $VIM . '\tmp'
+  let $TMP = g:vimfiles_dir . '\tmp'
 else
   let $TMP = '/tmp/'
 endif
@@ -239,10 +245,8 @@ set report=0
 set selection=inclusive
 
 " Load help files under doc/
-if g:iswindows
-  helptags $vimfiles/doc
-else
-  helptags ~/.vim/doc/
+if !empty(glob(g:vimfiles_dir . '/doc'))
+  exec 'helptags ' . g:vimfiles_dir . '/doc'
 endif
 
 " chinese input
@@ -265,7 +269,7 @@ elseif executable('ag')
 endif
 
 " 必要时重新生成 spl 拼写检查库
-for d in glob('~/.vim/spell/*.add', 1, 1)
+for d in glob(g:vimfiles_dir . '/spell/*.add', 1, 1)
   if filereadable(d) && (!filereadable(d . '.spl') ||
         \ getftime(d) > getftime(d . '.spl'))
     exec 'silent mkspell! ' . fnameescape(d)
@@ -344,18 +348,10 @@ func! ToggleDiffopt(opt)
 endfunc
 
 " change vimrc
-if g:iswindows
-  nmap crc :tabnew $vim/_vimrc<CR>
-else
-  nmap crc :tabnew ~/.vimrc<CR>
-endif
+exec 'nmap crc :tabnew ' . g:vimrc_path . '<CR>'
 
 " config update
-if g:iswindows
-  nmap cu :source $vim/_vimrc<CR>
-else
-  nmap cu :source ~/.vimrc<CR>
-endif
+exec 'nmap cu :source ' . g:vimrc_path . '<CR>'
 
 " 在命令行下使用 ctrl-v 粘贴
 cmap <C-v> <C-r>+
@@ -1124,10 +1120,7 @@ inoremap <C-k> <C-o>:echo 'Not in a snippet'<CR>
 let g:UltiSnipsEditSplit = 'vertical'
 
 " 添加自己的 snippets
-" Windows 下当前路径是 $vimfiles
-if g:islinux
-  let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-endif
+let g:UltiSnipsSnippetsDir = g:vimfiles_dir . '/UltiSnips'
 
 " set quoting style in python.snippets provided by vim-snippets
 let g:ultisnips_python_quoting_style = 'single'
@@ -1284,12 +1277,20 @@ xmap <silent> a<Leader>w <Plug>CamelCaseMotion_iw
 " quotes
 let g:surround_{char2nr('q')} = "'\r'"
 let g:surround_{char2nr('Q')} = '"\r"'
-" Chinese quotes. "y" for 引号
-let g:surround_{char2nr('y')} = "「\r」"
-let g:surround_{char2nr('Y')} = "『\r』"
-" Chinese quotes. "k" for 括号
-let g:surround_{char2nr('k')} = "（\r）"
-let g:surround_{char2nr('K')} = "【\r】"
+" Chinese quotes.
+" Windows doesn't like the unicode characters. Wrap this in autocommand to
+" workaround it.
+if has('autocmd')
+  augroup windows_complains_unicode
+    autocmd!
+    "y" for 引号. "k" for 括号
+    au VimEnter *
+          \ let g:surround_{char2nr('y')} = "「\r」" |
+          \ let g:surround_{char2nr('Y')} = "『\r』" |
+          \ let g:surround_{char2nr('k')} = "（\r）" |
+          \ let g:surround_{char2nr('K')} = "【\r】"
+  augroup end
+endif
 
 " ------------------------------------------------------------
 " sneak
@@ -1418,13 +1419,9 @@ set spelllang=en_us
 set spelllang+=cjk
 
 " ========================================================================= }}}
-" 加载本地配置
+" 加载本地配置 ~/.vimrc.local
 " ========================================================================= {{{
-if g:iswindows
-  let b:localrc = '$VIM/_vimrc.local'
-else
-  let b:localrc = '~/.vimrc.local'
-endif
+let b:localrc = g:vimrc_path . '.local'
 if filereadable(expand(b:localrc))
   exec 'source '.b:localrc
 endif
