@@ -4,6 +4,6 @@ setlocal tw=0 nowrap
 setlocal omnifunc=htmlcomplete#CompleteTags
 
 " emmet-vim
-if exists('b:has_emmet')
+if g:HasPlug('emmet-vim')
   EmmetInstall
 endif

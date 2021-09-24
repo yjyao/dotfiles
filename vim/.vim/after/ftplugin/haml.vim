@@ -1,4 +1,4 @@
 " emmet-vim
-if exists('b:has_emmet')
+if g:HasPlug('emmet-vim')
   EmmetInstall
 endif
