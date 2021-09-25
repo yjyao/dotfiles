@@ -70,6 +70,7 @@
   pager = less
   hooksPath = .githooks
   quotepath = off
+  abbrev = 4
 
 [push]
 
