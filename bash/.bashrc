@@ -14,6 +14,14 @@ case $- in
   *) return;;
 esac
 
+# Toggles for custom behavior.
+# Non-empty values enable a flag.
+# Below is the default settings. DO NOT MODIFY.
+# You can change the default behavior in ~/.profile.local. E.g.,
+#     START_BASH_IN_TMUX=1
+: ${START_BASH_IN_TMUX:=}
+: ${HISTFILE_PER_TMUX_PANE:=1}
+
 # append to the history file, don't overwrite it
 shopt -s histappend
 
@@ -35,7 +43,6 @@ HISTTIMEFORMAT='%F %T '
 
 # keep a separate history for each tmux pane
 # unset `HISTFILE_PER_TMUX_PANE` to use the default ~/.bash_history
-HISTFILE_PER_TMUX_PANE=1
 if [[ -n $HISTFILE_PER_TMUX_PANE && -n $TMUX_PANE ]]; then
   mkdir -p "$HOME/.bash_histories"
   tmux_pane_name_file="$(mktemp)"
@@ -132,13 +139,16 @@ stty -ixon
 stty werase undef
 bind '\C-w:backward-kill-word'
 
-# # Automatically enter tmux if
-# # 1) tmux exists on the system
-# # 2) we're in an interactive shell, and
-# # 3) tmux doesn't try to run within itself:
-# if command -v tmux &> /dev/null && [[ "$-" =~ i ]] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#   exec tmux
-# fi
+# Automatically enter tmux.
+if [[ -n $START_BASH_IN_TMUX ]]; then
+  # Prerequisites:
+  # - tmux exists on the system
+  # - we're in an interactive shell, and
+  # - we're not already in tmux.
+  if command -v tmux &> /dev/null && [[ "$-" =~ i ]] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    exec tmux
+  fi
+fi
 
 export _Z_DATA=~/.z.data
 [ -f ~/.z/z.sh ] && source ~/.z/z.sh  # https://github.com/rupa/z
