@@ -35,6 +35,7 @@
   d = diff
   dc = !git d --cached
   ds = !git d --stat
+  dl = "!f() { git diff ${1:-@}^..${1:-@} ;};f"
 
   ; Like listed by `git status` i.e., = 'fm' + 'fc' + 'fn'
   files = "!bash -c 'sort -u <(git diff --name-only --cached) <(git ls-files --others --exclude-standard --modified)'"
