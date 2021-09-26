@@ -28,6 +28,11 @@ if [ -d "$HOME/go/bin" ] ; then
   PATH="$PATH:$HOME/go/bin"
 fi
 
+# set PATH for fzf
+if [[ ! "$PATH" == */home/jyyuan/.fzf/bin* ]]; then
+  export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
+fi
+
 # import local profile configs
 [ -r "$HOME/.profile.local" ] && . "$HOME/.profile.local"
 
