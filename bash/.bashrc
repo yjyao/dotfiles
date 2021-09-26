@@ -146,7 +146,7 @@ if [[ -n $START_BASH_IN_TMUX ]]; then
   # - we're in an interactive shell, and
   # - we're not already in tmux.
   if command -v tmux &> /dev/null && [[ "$-" =~ i ]] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-    exec tmux
+    exec tmux new -A -s default
   fi
 fi
 
