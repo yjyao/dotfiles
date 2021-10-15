@@ -196,8 +196,20 @@ if [ $BASH_VERSINFO -gt 3 ]; then
   # wraps a function "f" to plug the result of "f" in to where the cursor is at
   _select_widget() {
     local selected="$(eval "$1")"
-    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
-    READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+    _replace_readline '' "$selected"
+  }
+
+  _replace_readline() {
+    local before="${1?}" after="${2?}"
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT-${#before}}${after}${READLINE_LINE:$READLINE_POINT}"
+    READLINE_POINT=$(( READLINE_POINT - ${#before} + ${#after} ))
+  }
+
+  # NOTE: this gets the word up until the cursor
+  _get_readline_word_before_cursor() {
+    local word="${READLINE_LINE:0:$READLINE_POINT}"
+    word="${word##* }"
+    echo "$word"
   }
 
   # selections
