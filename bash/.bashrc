@@ -214,6 +214,15 @@ if [ $BASH_VERSINFO -gt 3 ]; then
     echo "$word"
   }
 
+  # windows -> linux paths
+  if command -v wslpath &>/dev/null; then
+    _wslpath_cursor_word() {
+      local path_orig="$(_get_readline_word_before_cursor)"
+      _replace_readline "$path_orig" "$(wslpath "$path_orig")"
+    }
+    bind -x '"\C-x\C-w": _wslpath_cursor_word'
+  fi
+
   # selections
   if command -v fzf &>/dev/null; then
     # select from results of the last command
