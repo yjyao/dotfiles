@@ -191,6 +191,8 @@ export TODOTXT_DEFAULT_ACTION=ls
 # https://github.com/yjyao/recap.
 export RECAP_HIDDEN=1
 
+[ -f ~/.cargo/env ] && source ~/.cargo/env
+
 # hotkeys
 if [ $BASH_VERSINFO -gt 3 ]; then
   # wraps a function "f" to plug the result of "f" in to where the cursor is at
