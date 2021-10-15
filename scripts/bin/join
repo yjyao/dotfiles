@@ -4,4 +4,9 @@ join() {
   sep="$1"; shift; echo -n "$1" ; shift; printf "%s" "${@/#/$sep}"
 }
 
-join
+# Stop here if this script is being sourced.
+[[ "${BASH_SOURCE[0]}" != "${0}"  ]] && exit
+# Script execution starts below.
+
+join "$@"
+printf '\n'
