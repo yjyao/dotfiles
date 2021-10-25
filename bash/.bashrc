@@ -18,9 +18,10 @@ esac
 # Non-empty values enable a flag.
 # Below is the default settings. DO NOT MODIFY.
 # You can change the default behavior in ~/.profile.local. E.g.,
-#     START_BASH_IN_TMUX=1
-: ${START_BASH_IN_TMUX:=}
-: ${HISTFILE_PER_TMUX_PANE:=1}
+#     START_BASH_IN_TMUX=true
+#     START_BASH_IN_TMUX=false  # anything non-empty string other than 'true'
+: ${START_BASH_IN_TMUX:=false}
+: ${HISTFILE_PER_TMUX_PANE:=true}
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -43,7 +44,7 @@ HISTTIMEFORMAT='%F %T '
 
 # keep a separate history for each tmux pane
 # unset `HISTFILE_PER_TMUX_PANE` to use the default ~/.bash_history
-if [[ -n $HISTFILE_PER_TMUX_PANE && -n $TMUX_PANE ]]; then
+if [[ $HISTFILE_PER_TMUX_PANE = true && -n $TMUX_PANE ]]; then
   mkdir -p "$HOME/.bash_histories"
   tmux_pane_name_file="$(mktemp)"
   tmux display-message -p '#{session_name}.#{window_index}.#{pane_index}' > $tmux_pane_name_file
@@ -143,7 +144,7 @@ stty werase undef
 bind '\C-w:backward-kill-word'
 
 # Automatically enter tmux.
-if [[ -n $START_BASH_IN_TMUX ]]; then
+if [[ $START_BASH_IN_TMUX = true ]]; then
   # Prerequisites:
   # - tmux exists on the system
   # - we're in an interactive shell, and
