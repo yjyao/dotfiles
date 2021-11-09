@@ -29,7 +29,7 @@ if [ -d "$HOME/go/bin" ] ; then
 fi
 
 # set PATH for fzf
-if [[ ! "$PATH" == */home/jyyuan/.fzf/bin* ]]; then
+if [[ -d $HOME/.fzf/bin && "$PATH" != *$HOME/.fzf/bin* ]]; then
   export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
