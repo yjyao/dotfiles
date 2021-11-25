@@ -252,12 +252,10 @@ fi
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
 
 # Adding wsl-open as a browser for Bash for Windows
-if [[ $(uname -r) =~ (m|M)icrosoft ]] && command -v wsl-open &>/dev/null; then
-  if [[ -z $BROWSER ]]; then
-    export BROWSER=wsl-open
-  else
-    export BROWSER=$BROWSER:wsl-open
-  fi
+if [[ $(uname -r) =~ (m|M)icrosoft ]] &&
+  command -v wsl-open &>/dev/null &&
+  [[ $BROWSER != *wsl-open* ]]; then
+  export BROWSER=${BROWSER:+${BROWSER}:}wsl-open
 fi
 
 set +x
