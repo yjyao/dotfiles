@@ -133,9 +133,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# import aliases
-[ -r ~/.bash_aliases ] && . ~/.bash_aliases
-
 # disable Ctrl+S that freezes screen
 stty -ixon
 
@@ -250,11 +247,7 @@ fi
 
 [ -f ~/.bash_completion ] && . ~/.bash_completion
 
-if [ -d ~/.bash_completion.d ]; then
-  for file in $(find -L ~/.bash_completion.d -type f); do
-    . "$file"
-  done
-fi
+[ -r ~/.bash_aliases ] && . ~/.bash_aliases
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
 

@@ -1,0 +1,15 @@
+oldglobstar=$(shopt -p globstar)
+shopt -s globstar
+
+if [ -f ~/.bash_completion.local ]; then
+  source ~/.bash_completion.local
+fi
+
+if [ -d ~/.bash_completion.d ]; then
+  for file in ~/.bash_completion.d/**/*; do
+    source "$file"
+  done
+fi
+
+# Restore `globstar` option.
+eval "$oldglobstar"
