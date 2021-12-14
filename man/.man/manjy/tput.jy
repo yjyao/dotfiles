@@ -3,6 +3,24 @@
 .SH NAME
 tput - query info and produce control codes for all kinds of things in terminal
 
+.SH OVERVIEW
+
+This man page lists some examples.
+For a full list of control sequences,
+see
+
+.RS
+$
+.B man terminfo
+.RE
+
+and
+
+.RS
+$
+.B man termcap
+.RE
+
 .SH EXAMPLES
 
 .\" section
