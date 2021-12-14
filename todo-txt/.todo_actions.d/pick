@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+action=$1
+shift
+
+if [[ $action = usage ]]; then
+  cat <<eof
+  Pick a todo item by going thru the list:
+    pick [TERM...]
+      Set TODOTXT_PICK_QUERY for default pick query
+
+eof
+  exit
+fi
+
+main() {
+  favfile="$(mktemp)"
+  tput sc  # Save cursor.
+  TODOTXT_VERBOSE=0 "$TODO_SH" command ls "$@" |
+    while read line; do
+      fav="$(cat "$favfile")"
+      if [[ ! $fav ]]; then
+        echo "$line" > "$favfile"
+        continue
+      fi
+      echo "a) $fav"
+      echo "b) $line"
+      while true; do
+        # Clearing out the IFS so that if user enters a space read does not
+        # strip it. This differentiates if user taps on the spacebar vs the
+        # enter key.
+        IFS= read -p "You pick [a/b]: " -n1 ans </dev/tty
+        # If input is an invalid character,
+        # clear the line and re-prompt the question
+        # as if user never entered anything.
+        case $ans in
+          [Aa] ) break;;
+          [Bb] ) echo "$line" > "$favfile"
+                 break;;
+            '' ) # Empty input means user tapped on enter.
+                 # That moves us down to a new line.
+                 # Go up one line to get back to the previous line.
+                 tput cuu1
+                 ;;
+             * ) tput el1  # Clear line.
+                 tput hpa 0  # Return to beginning of line.
+                 ;;
+        esac
+      done
+      printf '\n'
+      tput rc  # Restore cursor position to beginning of output.
+      tput ed  # Clear output.
+    done
+  [[ $TODOTXT_VERBOSE != 0 ]] && echo "You picked:"
+  echo "$(cat "$favfile")"
+}
+
+query=("$@")
+(( ${#query[@]} == 0 )) && query=($TODOTXT_PICK_QUERY)
+main "${query[@]}"
