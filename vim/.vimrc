@@ -58,7 +58,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'cohama/lexima.vim'  "  auto pair closer
-  Plug 'ctrlpvim/ctrlp.vim'  " fuzzy file searcher / buffer manager
+  " Plug 'ctrlpvim/ctrlp.vim'  " fuzzy file searcher / buffer manager
   Plug 'davidhalter/jedi-vim'  "  python autocomplete. 'pip install jedi' required
   Plug 'derekwyatt/vim-fswitch'  " switch between source/code files
   " Plug 'dyng/ctrlsf.vim'  " global search
@@ -66,6 +66,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
   " Plug 'javacomplete'
   " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
+  Plug 'junegunn/fzf'  " fuzzy finder
   Plug 'junegunn/vim-easy-align'
   " Plug 'justinmk/vim-sneak'  " 2-letter `f` and `t`
   Plug 'lervag/vimtex'  " LaTeX build / functions
@@ -983,6 +984,26 @@ try
         \ })
 catch
 endtry
+
+" -----------------------------------------------------------------------------
+" fzf
+" -----------------------------------------------------------------------------
+
+" Use the <C-p> convention from ctrlp.vim to trigger file search.
+if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
+  nnoremap <C-p> :FZF --layout=default --info=inline<CR>
+
+  augroup fzf_window
+    autocmd!
+    " Fix <C-w> for backward-kill-word.
+    autocmd FileType fzf tnoremap <buffer> <c-w> <c-w>.
+  augroup END
+
+  " NOTE: This currently does not support directory changes within the fzf
+  " invocation. https://github.com/junegunn/fzf.vim/issues/338 provides
+  " workarounds. Check it out if interested.
+
+endif
 
 " -----------------------------------------------------------------------------
 " ctrlp
