@@ -247,6 +247,8 @@ fi
 
 [ -f ~/.bash_completion ] && . ~/.bash_completion
 
+[ -r ~/.bash_functions ] && . ~/.bash_functions
+
 [ -r ~/.bash_aliases ] && . ~/.bash_aliases
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
