@@ -67,6 +67,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'javacomplete'
   " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
   Plug 'junegunn/fzf'  " fuzzy finder
+  Plug 'junegunn/fzf.vim'  " fuzzy finder extended
   Plug 'junegunn/vim-easy-align'
   " Plug 'justinmk/vim-sneak'  " 2-letter `f` and `t`
   Plug 'lervag/vimtex'  " LaTeX build / functions
@@ -471,7 +472,9 @@ set backspace=indent,eol,start
 " set whichwrap+=<,>,h,l
 
 " 文件切换控制
-if g:HasPlug('ctrlp.vim')
+if g:HasPlug('fzf.vim')
+  nmap gb :Buffers<CR>
+elseif g:HasPlug('ctrlp.vim')
   nmap gb :CtrlPBuffer<CR>
 else
   nmap gb :ls<CR>:buffer<space>
@@ -989,9 +992,11 @@ endtry
 " fzf
 " -----------------------------------------------------------------------------
 
+let $FZF_DEFAULT_OPTS = '--layout=default --info=inline --bind "ctrl-j:ignore,ctrl-k:ignore"'
+
 " Use the <C-p> convention from ctrlp.vim to trigger file search.
 if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
-  nnoremap <C-p> :FZF --layout=default --info=inline<CR>
+  nnoremap <C-p> :FZF<CR>
 
   augroup fzf_window
     autocmd!
@@ -1004,6 +1009,10 @@ if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
   " workarounds. Check it out if interested.
 
 endif
+
+" Put fzf.vim options below this line.
+
+let g:fzf_preview_window = []  " Disable preview windows.
 
 " -----------------------------------------------------------------------------
 " ctrlp
