@@ -191,6 +191,10 @@ export RECAP_HIDDEN=1
 
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # hotkeys
 if [ $BASH_VERSINFO -gt 3 ]; then
   # wraps a function "f" to plug the result of "f" in to where the cursor is at
