@@ -996,7 +996,7 @@ let $FZF_DEFAULT_OPTS = '--layout=default --info=inline --bind "ctrl-j:ignore,ct
 
 " Use the <C-p> convention from ctrlp.vim to trigger file search.
 if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
-  nnoremap <C-p> :FZF<CR>
+  nnoremap <C-p> :FZF %:h<CR>
 
   augroup fzf_window
     autocmd!
