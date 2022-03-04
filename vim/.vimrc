@@ -102,6 +102,13 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'whiteinge/diffconflicts'
   Plug 'yjyao/recap.vim'
 
+  " end-of-local-plugins
+
+  let b:extra_plugins = g:vimfiles_dir . '/plugins.vim'
+  if filereadable(expand(b:extra_plugins))
+    exec 'source '.b:extra_plugins
+  endif
+
   call plug#end()
 
   " Don't use `PlugUpgrade`, instead update the git submodule
@@ -114,7 +121,7 @@ endif  " if has vim-plug
 if has('autocmd')
   augroup sort_plugins
     autocmd!
-    autocmd BufLeave .vimrc execute 'normal mz' | setlocal nofoldenable | 0/plug#begin/+2,0/plug#end/-2 sort /^\s*\("\s*\)\?/ | normal `z
+    autocmd BufLeave .vimrc execute 'normal mz' | setlocal nofoldenable | 0/plug#begin/+2,0/end-of-local-plugins/-2 sort /^\s*\("\s*\)\?/ | normal `z
   augroup end
 endif
 
