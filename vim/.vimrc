@@ -74,8 +74,8 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'majutsushi/tagbar'
   Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}  " async completion with lsp support
   Plug 'neoclide/coc-snippets'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}  " async completion with lsp support
   " Plug 'osyo-manga/vim-over'  " :s preview
   Plug 'rickhowe/diffchar.vim'
   Plug 'romainl/vim-cool'  "  auto disable search highlights
@@ -1465,6 +1465,9 @@ nmap <silent> gR <Plug>(coc-references)
 
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
+
+call coc#config('coc.source.around.firstMatch', 0)
+call coc#config('coc.source.buffer.firstMatch', 0)
 
 " ========================================================================= }}}
 " 编码配置
