@@ -21,7 +21,9 @@ esac
 #     START_BASH_IN_TMUX=true
 #     START_BASH_IN_TMUX=false  # anything non-empty string other than 'true'
 : ${START_BASH_IN_TMUX:=false}
+: ${HISTFILE_PER_SESSION:=true}  # Overrides `HISTFILE_PER_TMUX_PANE`.
 : ${HISTFILE_PER_TMUX_PANE:=true}
+: ${LOAD_EXTRA_HISTFILES:=true}
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -42,14 +44,30 @@ HISTIGNORE="?:??:history:history :history -[naw]:history -d*:[[:space:]]*"
 
 HISTTIMEFORMAT='%F %T '
 
-# keep a separate history for each tmux pane
-# unset `HISTFILE_PER_TMUX_PANE` to use the default ~/.bash_history
 if [[ $HISTFILE_PER_TMUX_PANE = true && -n $TMUX_PANE ]]; then
+  # keep a separate history for each tmux pane
+  # unset `HISTFILE_PER_TMUX_PANE` to use the default ~/.bash_history
   mkdir -p "$HOME/.bash_histories"
   tmux_pane_name_file="$(mktemp)"
-  tmux display-message -p '#{session_name}.#{window_index}.#{pane_index}' > $tmux_pane_name_file
-  HISTFILE="$HOME/.bash_histories/tmux-$(< $tmux_pane_name_file).bash_history"
-  rm $tmux_pane_name_file
+  tmux display-message -p '#{session_name}.#{window_index}.#{pane_index}' > "$tmux_pane_name_file"
+  HISTFILE="$HOME/.bash_histories/tmux-$(<"$tmux_pane_name_file").bash_history"
+  rm "$tmux_pane_name_file"
+elif [[ $HISTFILE_PER_SESSION = true ]]; then
+  # keep a separate history for each shell session
+  # unset `HISTFILE_PER_SESSION` to use the default ~/.bash_history
+  mkdir -p "$HOME/.bash_histories"
+  timestamp="$(date +'%Y%m%dT%H%M%S.%3N')"
+  HISTFILE="$HOME/.bash_histories/$timestamp.bash_history"
+fi
+
+# load all histories to current session.
+# unset `LOAD_EXTRA_HISTFILES` to keep the histories to each session.
+# use this together with `HISTFILE_PER_SESSION` or `HISTFILE_PER_TMUX_PANE` to
+# prevent history loss when exiting multiple sessions at once.
+if [[ $LOAD_EXTRA_HISTFILES = true ]]; then
+  for f in ~/.bash_history ~/.bash_histories/*.bash_history; do
+    history -r "$f"
+  done
 fi
 
 export EDITOR=vim
