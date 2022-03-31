@@ -295,7 +295,8 @@ endfor
 set nocompatible
 
 " 设置 leader 健
-let g:mapleader = "\<Space>"
+let mapleader = "\<Space>"
+let maplocalleader = mapleader
 
 " 保存
 " nnoremap <C-s> :update<CR>
