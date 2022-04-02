@@ -15,6 +15,9 @@ if command -v __git_complete &> /dev/null; then
 fi
 
 md5() { md5sum "$@" | awk '{ print $1 }'; }
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
 alias e=less
 alias :e=vim
 alias c=clip
