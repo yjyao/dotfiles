@@ -541,7 +541,7 @@ set noerrorbells
 set visualbell t_vb=
 
 " F3 在工作路径中搜索（grep）
-nnoremap <F3> :silent grep '' %:h \| cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+nnoremap <F3> :silent grep '' %:h \| cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " 在已打开的文件中搜索（grep）
 nmap <C-F3> :BufGrep<Space>
