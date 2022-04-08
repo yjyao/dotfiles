@@ -196,6 +196,7 @@ LESS+='R'  # control chars (color, etc.)
 # for older `less`, 'X' needs to be added to prevent screen clearing after exits
 [[ $LESSVERSION -gt 530 ]] && LESS+='F' || LESS+='XF'
 LESS+='i'  # ignore case search
+LESS+='q'  # disable bells with excessive scrolling.
 export LESS
 # seach result highlight style
 export LESS_TERMCAP_so=$'\e[30;43m'
