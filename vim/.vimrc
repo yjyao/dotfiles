@@ -51,7 +51,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'altercation/vim-colors-solarized'  " colorscheme
   " Plug 'artur-shaik/vim-javacomplete2'
   Plug 'bkad/CamelCaseMotion'
-  Plug 'bogado/file-line'
   " Plug 'cSyntaxAfter'
   " Plug 'ccvext.vim'
   Plug 'chrisbra/csv.vim'
@@ -100,6 +99,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plug 'wesleyche/SrcExpl'
   Plug 'whiteinge/diffconflicts'
+  Plug 'wsdjeg/vim-fetch'  " Support filepath:line:col syntax.
   Plug 'yjyao/recap.vim'
 
   " end-of-local-plugins
