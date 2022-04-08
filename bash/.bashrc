@@ -268,6 +268,8 @@ if [ $BASH_VERSINFO -gt 3 ]; then
   # ctrl+alt+e expands all variables on the current line.
 fi
 
+# Source extra configs.
+
 [ -f ~/.bash_completion ] && . ~/.bash_completion
 
 [ -r ~/.bash_functions ] && . ~/.bash_functions
@@ -275,6 +277,18 @@ fi
 [ -r ~/.bash_aliases ] && . ~/.bash_aliases
 
 [ -r ~/.bashrc.local ] && . ~/.bashrc.local
+
+if [ -d ~/.bash/configs/ ]; then
+  for f in ~/.bash/configs/*.sh; do
+    [ -r "$f" ] && . "$f"
+  done
+fi
+
+if [ -d ~/.bashrc.d/ ]; then
+  for f in ~/.bashrc.d/*.sh; do
+    [ -r "$f" ] && . "$f"
+  done
+fi
 
 # Adding wsl-open as a browser for Bash for Windows
 if [[ $(uname -r) =~ (m|M)icrosoft ]] &&
