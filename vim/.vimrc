@@ -62,6 +62,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'derekwyatt/vim-fswitch'  " switch between source/code files
   " Plug 'dyng/ctrlsf.vim'  " global search
   Plug 'fatih/vim-go'
+  Plug 'fcpg/vim-waikiki'  " Wiki system: Link and tag handling.
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
   " Plug 'javacomplete'
   " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
@@ -1479,6 +1480,55 @@ if HasPlug('coc.nvim')
   inoremap <silent> <C-x><C-]> <C-R>=coc#start({'source': 'tag'})<CR>
 endif
 
+" ------------------------------------------------------------
+" Waikiki --- Minimal set of wiki feature.
+" ------------------------------------------------------------
+
+com! WikiIndex edit ~/notes/index.md
+
+let g:waikiki_roots = ['~/notes']
+let g:waikiki_default_maps = 0
+
+" Use dashes in place of spaces in filenames.
+let g:waikiki_space_replacement = '-'
+
+" Expand the word under cursor with `g:waikiki_word_regex` instead of simple
+" <cword> when creating new pages.
+let g:waikiki_use_word_regex = 1
+let g:waikiki_word_regex = '\(\.\?[-+0-9A-Za-z_]\+\)\+'
+
+" Custom waikiki mappings.
+func! SetupWaikiki() abort
+  nmap <buffer> zl <Plug>(waikikiFollowLink)
+  nmap <buffer> <C-w>zl <Plug>(waikikiFollowLinkSplit)
+  nmap <buffer> zh <Plug>(waikikiGoUp)
+
+  nmap <buffer> <LocalLeader>l <Plug>(waikikiNextLink)
+  nmap <buffer> <LocalLeader>L <Plug>(waikikiPrevLink)
+
+  nmap <buffer> <LocalLeader>x <Plug>(waikikiToggleListItem)
+
+  " Generate/refresh tags.
+  nmap <buffer> <LocalLeader>t <Plug>(waikikiTags)
+  " Tips:
+  " - `g]` lists references of the tag under cursor.
+  " - With 'junegunn/fzf.vim' installed, search for tags with `:Tags`.
+  "   Otherwise use the builtin `:tags`.
+  " - `<C-x><C-]>` completes tags.
+  " - With 'coc-tag' installed, fuzzy completion will also match tags.
+
+  " Conceal/prettify markup characters.
+  setlocal conceallevel=2
+
+  set suffixesadd+=.md
+endfunc
+
+if has('autocmd')
+  augroup Waikiki  " Do NOT change! Group name defined by vim-waikiki.
+    autocmd!
+    autocmd User setup call SetupWaikiki()
+  augroup end
+endif
 
 " ========================================================================= }}}
 " 编码配置
