@@ -1,0 +1,9 @@
+[merge]
+
+  tool = two-way-diff
+
+[mergetool "two-way-diff"]
+
+  cmd = vim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+  trustExitCode = true
+  keepBackup = false
