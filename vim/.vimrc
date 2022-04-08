@@ -1036,9 +1036,9 @@ let g:fzf_preview_window = []  " Disable preview windows.
 " 常规模式下输入：ctrl-p 调用插件
 
 if g:iswindows
-    set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
+    set wildignore+=*.swp,*.zip,*.exe
 else
-    set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+    set wildignore+=*.so,*.swp,*.zip
 endif
 
 let g:ctrlp_custom_ignore = {
