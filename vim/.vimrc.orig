@@ -74,6 +74,12 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'majutsushi/tagbar'
   Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
+<<<<<<< HEAD
+  Plug 'neoclide/coc-snippets'
+  Plug 'neoclide/coc-sources'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}  " async completion with lsp support
+=======
+>>>>>>> 983a (vim: Replace coc.nvim with asyncomplete.vim.)
   " Plug 'osyo-manga/vim-over'  " :s preview
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'
@@ -1484,6 +1490,7 @@ if g:HasPlug('coc.nvim')
 endif
 
 " ------------------------------------------------------------
+<<<<<<< HEAD
 " Waikiki --- Minimal set of wiki feature.
 " ------------------------------------------------------------
 
@@ -1531,91 +1538,93 @@ if has('autocmd')
     autocmd!
     autocmd User setup call SetupWaikiki()
   augroup end
-endif
-
-" ------------------------------------------------------------
+=======
 " asyncomplete.vim
 " ------------------------------------------------------------
 
-let g:lsp_async_completion = 1
+if g:HasPlug('vim-lsp.vim')
 
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    " if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    " nmap <buffer> gd <plug>(lsp-definition)
-    " nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    " nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    " nmap <buffer> gr <plug>(lsp-references)
-    " nmap <buffer> gi <plug>(lsp-implementation)
-    " nmap <buffer> gt <plug>(lsp-type-definition)
-    " nmap <buffer> <leader>rn <plug>(lsp-rename)
-    " nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    " nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    " nmap <buffer> K <plug>(lsp-hover)
-    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+  let g:lsp_async_completion = 1
 
-    " let g:lsp_format_sync_timeout = 1000
-    " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+  function! s:on_lsp_buffer_enabled() abort
+      setlocal omnifunc=lsp#complete
+      setlocal signcolumn=yes
+      " if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+      " nmap <buffer> gd <plug>(lsp-definition)
+      " nmap <buffer> gs <plug>(lsp-document-symbol-search)
+      " nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+      " nmap <buffer> gr <plug>(lsp-references)
+      " nmap <buffer> gi <plug>(lsp-implementation)
+      " nmap <buffer> gt <plug>(lsp-type-definition)
+      " nmap <buffer> <leader>rn <plug>(lsp-rename)
+      " nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+      " nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+      " nmap <buffer> K <plug>(lsp-hover)
+      " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+      " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-    " refer to doc to add more commands
-endfunction
+      " let g:lsp_format_sync_timeout = 1000
+      " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 
-if has('autocmd')
+      " refer to doc to add more commands
+  endfunction
+
   augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+      au!
+      " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+      autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
   augroup END
+
 endif
 
 if g:HasPlug('asyncomplete.vim')
   set shortmess+=c
-endif
 
-let g:asyncomplete_auto_popup = 1
+  let g:asyncomplete_auto_popup = 1
 
-" Start suggesting completions after you type three characters.
-" This reduces annoyance.
-let g:asyncomplete_min_chars = 3
+  " Start suggesting completions after you type three characters.
+  " This reduces annoyance.
+  let g:asyncomplete_min_chars = 3
 
-" Register completion sources.
+  " Register completion sources.
 
-if g:HasPlug('asyncomplete-buffer.vim')
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-        \ 'name': 'buffer',
-        \ 'allowlist': ['*'],
-        \ 'completor': function('asyncomplete#sources#buffer#completor'),
-        \ }))
-endif
-
-if g:HasPlug('asyncomplete-omni.vim')
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-        \ 'name': 'omni',
-        \ 'allowlist': ['*'],
-        \ 'completor': function('asyncomplete#sources#omni#completor'),
-        \ 'config': {
-          \   'show_source_kind': 1,
-          \ },
+  if g:HasPlug('asyncomplete-buffer.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+          \ 'name': 'buffer',
+          \ 'allowlist': ['*'],
+          \ 'completor': function('asyncomplete#sources#buffer#completor'),
           \ }))
-endif
+  endif
 
-if g:HasPlug('asyncomplete-file.vim')
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-        \ 'name': 'file',
-        \ 'allowlist': ['*'],
-        \ 'priority': 10,
-        \ 'completor': function('asyncomplete#sources#file#completor')
-        \ }))
-endif
+  if g:HasPlug('asyncomplete-omni.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+          \ 'name': 'omni',
+          \ 'allowlist': ['*'],
+          \ 'completor': function('asyncomplete#sources#omni#completor'),
+          \ 'config': {
+            \   'show_source_kind': 1,
+            \ },
+            \ }))
+  endif
 
-if g:HasPlug('asyncomplete-ultisnips.vim')
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        \ 'name': 'ultisnips',
-        \ 'allowlist': ['*'],
-        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-        \ }))
+  if g:HasPlug('asyncomplete-file.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+          \ 'name': 'file',
+          \ 'allowlist': ['*'],
+          \ 'priority': 10,
+          \ 'completor': function('asyncomplete#sources#file#completor')
+          \ }))
+  endif
+
+  if g:HasPlug('asyncomplete-ultisnips.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+          \ 'name': 'ultisnips',
+          \ 'allowlist': ['*'],
+          \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+          \ }))
+  endif
+
+>>>>>>> 983a (vim: Replace coc.nvim with asyncomplete.vim.)
 endif
 
 " ========================================================================= }}}
@@ -1656,7 +1665,7 @@ let b:localrc = g:vimrc_path . '.local'
 if filereadable(expand(b:localrc))
   exec 'source '.b:localrc
 endif
-for rc_path in glob('~/.vim/configs/*.vim', 1, 1)
+for rc_path in glob('~/.vim/configs/*', 1, 1)
   if filereadable(rc_path)
     exec 'source '.rc_path
   endif
