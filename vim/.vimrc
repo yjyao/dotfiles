@@ -127,7 +127,7 @@ endif
 
 func! g:HasPlug(name)
   " The vim-plug manager defines `g:plugs`.
-  return has_key(g:plugs, a:name)
+  return exists('g:plugs') && has_key(g:plugs, a:name)
 endfunc
 
 " ========================================================================= }}}
