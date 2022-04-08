@@ -35,6 +35,11 @@ fi
 
 # import local profile configs
 [ -r "$HOME/.profile.local" ] && . "$HOME/.profile.local"
+if [ -d "$HOME/.profile.d" ]; then
+  for f in "$HOME"/.profile.d/*.sh; do
+    [ -r "$f" ] && . "$f"
+  done
+fi
 
 # import bashrc if available and running bash
 [ -n "$BASH_VERSION" ] && [ -r "$HOME/.bashrc" ] && . "$HOME/.bashrc"
