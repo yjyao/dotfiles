@@ -1430,44 +1430,47 @@ let g:axring_rings = [
 " coc.nvim
 " ------------------------------------------------------------
 
-set encoding=utf-8
+if HasPlug('coc.nvim')
+  set encoding=utf-8
 
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
+  " Some servers have issues with backup files, see #649.
+  set nobackup
+  set nowritebackup
 
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
+  " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+  " delays and poor user experience.
+  set updatetime=300
 
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
+  " Don't pass messages to |ins-completion-menu|.
+  set shortmess+=c
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
+  " Always show the signcolumn, otherwise it would shift the text each time
+  " diagnostics appear/become resolved.
+  if has("nvim-0.5.0") || has("patch-8.1.1564")
+    " Recently vim can merge signcolumn and number column into one
+    set signcolumn=number
+  else
+    set signcolumn=yes
+  endif
+
+  " Use `[g` and `]g` to navigate diagnostics
+  " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+  " GoTo code navigation.
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gR <Plug>(coc-references)
+
+  " Apply AutoFix to problem on the current line.
+  nmap <leader>qf  <Plug>(coc-fix-current)
+
+  call coc#config('coc.source.around.firstMatch', 0)
+  call coc#config('coc.source.buffer.firstMatch', 0)
 endif
 
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gR <Plug>(coc-references)
-
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-call coc#config('coc.source.around.firstMatch', 0)
-call coc#config('coc.source.buffer.firstMatch', 0)
 
 " ========================================================================= }}}
 " 编码配置
