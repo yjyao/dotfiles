@@ -1433,7 +1433,7 @@ let g:axring_rings = [
 " coc.nvim
 " ------------------------------------------------------------
 
-if HasPlug('coc.nvim')
+if g:HasPlug('coc.nvim')
   set encoding=utf-8
 
   " Some servers have issues with backup files, see #649.
