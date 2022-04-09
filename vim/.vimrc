@@ -76,6 +76,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'michaeljsmith/vim-indent-object'
   " Plug 'osyo-manga/vim-over'  " :s preview
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'hiterm/asyncomplete-look'
   Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
   Plug 'prabirshrestha/asyncomplete-omni.vim'
@@ -1616,6 +1617,19 @@ if g:HasPlug('asyncomplete-ultisnips.vim')
         \ 'allowlist': ['*'],
         \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
         \ }))
+endif
+
+if g:HasPlug('asyncomplete-look')
+  au User asyncomplete_setup call asyncomplete#register_source({
+        \ 'name': 'look',
+        \ 'allowlist': ['text', 'markdown'],
+        \ 'completor': function('asyncomplete#sources#look#completor'),
+        \ })
+  au User asyncomplete_setup call asyncomplete#register_source({
+        \ 'name': 'look_good_words',
+        \ 'allowlist': ['text', 'markdown'],
+        \ 'completor': function('asyncomplete#sources#look#good_words'),
+        \ })
 endif
 
 " ========================================================================= }}}
