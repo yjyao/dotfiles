@@ -1,13 +1,11 @@
 oldglobstar=$(shopt -p globstar)
 shopt -s globstar
 
-if [ -f ~/.bash_completion.local ]; then
-  source ~/.bash_completion.local
-fi
+[ -f ~/.bash_completion.local ] && . ~/.bash_completion.local
 
-if [ -d ~/.bash_completion.d ]; then
-  for file in ~/.bash_completion.d/**/*; do
-    source "$file"
+if [ -d ~/.bash_completion.d/ ]; then
+  for file in ~/.bash_completion.d/**/*.sh; do
+    [ -r "$file" ] && . "$file"
   done
 fi
 
