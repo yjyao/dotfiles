@@ -24,23 +24,21 @@ try_append_path() {
   _can_add_to_path "$1" && PATH="${PATH:+${PATH}:}$1"
 }
 
-# set PATH so it includes user's private bin if it exists
-try_prepend_path "$HOME/bin"
-
-# set PATH so it includes user's private bin if it exists
+# Set `$PATH` so it includes programs installed only for `$USER`.
 try_prepend_path "$HOME/.local/bin"
 
-# set PATH so it includes user's private bin if it exists
+# Set `$PATH` so it includes user's private bin.
+try_prepend_path "$HOME/bin"
 try_prepend_path "$HOME/bin.local"
 
-# set PATH so it includes golang
+# Set `$PATH` so it includes golang.
 try_append_path '/usr/local/go/bin'
 try_append_path "$HOME/go/bin"
 
-# set PATH for fzf
+# Set `$PATH` so it includes fzf.
 try_append_path "$HOME/.fzf/bin"
 
-# import local profile configs
+# Import local profile configs.
 [ -r "$HOME/.profile.local" ] && . "$HOME/.profile.local"
 if [ -d "$HOME/.profile.d" ]; then
   for f in "$HOME"/.profile.d/*.sh; do
@@ -48,5 +46,5 @@ if [ -d "$HOME/.profile.d" ]; then
   done
 fi
 
-# import bashrc if available and running bash
+# Import bashrc if available and running bash.
 [ -n "$BASH_VERSION" ] && [ -r "$HOME/.bashrc" ] && . "$HOME/.bashrc"
