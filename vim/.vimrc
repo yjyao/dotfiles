@@ -608,6 +608,7 @@ if has('autocmd')
     au BufReadPost,BufNewFile *.ts setlocal filetype=javascript
     au BufReadPost,BufNewFile *.ass setlocal filetype=ass
     au BufReadPost,BufNewFile *.srt setlocal filetype=srt
+    au BufReadPost,BufNewFile {.,}todo*.cfg,*/{.,}todo/*.cfg setlocal filetype=sh
   augroup end
 endif
 
