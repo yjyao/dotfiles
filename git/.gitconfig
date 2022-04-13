@@ -78,5 +78,4 @@
 
 [include]
 
-  path = ~/.gitconfig.local
   path = ~/.gitconfig.d/.load-extra-configs.gitconfig

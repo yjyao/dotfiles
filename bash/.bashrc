@@ -17,7 +17,7 @@ esac
 # Toggles for custom behavior.
 # Non-empty values enable a flag.
 # Below is the default settings. DO NOT MODIFY.
-# You can change the default behavior in ~/.profile.local. E.g.,
+# You can change the default behavior in ~/.profile.d/bash-defaults.sh. E.g.,
 #     START_BASH_IN_TMUX=true
 #     START_BASH_IN_TMUX=false  # anything non-empty string other than 'true'
 : ${START_BASH_IN_TMUX:=false}

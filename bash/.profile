@@ -29,7 +29,6 @@ try_prepend_path "$HOME/.local/bin"
 
 # Set `$PATH` so it includes user's private bin.
 try_prepend_path "$HOME/bin"
-try_prepend_path "$HOME/bin.local"
 
 # Set `$PATH` so it includes golang.
 try_append_path '/usr/local/go/bin'
@@ -39,7 +38,6 @@ try_append_path "$HOME/go/bin"
 try_append_path "$HOME/.fzf/bin"
 
 # Import local profile configs.
-[ -r "$HOME/.profile.local" ] && . "$HOME/.profile.local"
 if [ -d "$HOME/.profile.d" ]; then
   for f in "$HOME"/.profile.d/*.sh; do
     [ -r "$f" ] && . "$f"
