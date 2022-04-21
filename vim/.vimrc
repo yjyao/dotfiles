@@ -612,6 +612,7 @@ if has('autocmd')
     au BufReadPost,BufNewFile *.ts setlocal filetype=javascript
     au BufReadPost,BufNewFile *.ass setlocal filetype=ass
     au BufReadPost,BufNewFile *.srt setlocal filetype=srt
+    au BufReadPost,BufNewFile {.,}todo*.cfg,*/{.,}todo/*.cfg setlocal filetype=sh
   augroup end
 endif
 
@@ -1664,12 +1665,8 @@ set spelllang=en_us
 set spelllang+=cjk
 
 " ========================================================================= }}}
-" 加载本地配置 ~/.vimrc.local
+" 加载本地配置 ~/.vim/configs/*.vim
 " ========================================================================= {{{
-let b:localrc = g:vimrc_path . '.local'
-if filereadable(expand(b:localrc))
-  exec 'source '.b:localrc
-endif
 for rc_path in glob('~/.vim/configs/*.vim', 1, 1)
   if filereadable(rc_path)
     exec 'source '.rc_path

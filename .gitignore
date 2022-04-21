@@ -2,3 +2,5 @@
 **/.vim/.netrwhist
 **/.vim/spell/*.spl
 **/.vim/**/tags
+
+**/.gitconfig.d/.load-extra-configs.gitconfig

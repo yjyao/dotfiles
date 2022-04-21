@@ -17,7 +17,7 @@ esac
 # Toggles for custom behavior.
 # Non-empty values enable a flag.
 # Below is the default settings. DO NOT MODIFY.
-# You can change the default behavior in ~/.profile.local. E.g.,
+# You can change the default behavior in ~/.profile.d/bash-defaults.sh. E.g.,
 #     START_BASH_IN_TMUX=true
 #     START_BASH_IN_TMUX=false  # anything non-empty string other than 'true'
 : ${START_BASH_IN_TMUX:=false}
@@ -96,6 +96,8 @@ if [ -f /etc/bash_completion.d/git ]; then
   . /etc/bash_completion.d/git
 elif [ -f /usr/share/bash-completion/completions/git ]; then
   . /usr/share/bash-completion/completions/git
+elif [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
 fi
 
 if ! command -v __git_ps1 &> /dev/null; then
@@ -269,26 +271,9 @@ if [ $BASH_VERSINFO -gt 3 ]; then
 fi
 
 # Source extra configs.
-
-[ -f ~/.bash_completion ] && . ~/.bash_completion
-
-[ -r ~/.bash_functions ] && . ~/.bash_functions
-
-[ -r ~/.bash_aliases ] && . ~/.bash_aliases
-
-[ -r ~/.bashrc.local ] && . ~/.bashrc.local
-
-if [ -d ~/.bash/configs/ ]; then
-  for f in ~/.bash/configs/*.sh; do
-    [ -r "$f" ] && . "$f"
-  done
-fi
-
-if [ -d ~/.bashrc.d/ ]; then
-  for f in ~/.bashrc.d/*.sh; do
-    [ -r "$f" ] && . "$f"
-  done
-fi
+for f in ~/.bash/{configs,functions,aliases,completion}/*.sh; do
+  [ -r "$f" ] && . "$f"
+done
 
 # Adding wsl-open as a browser for Bash for Windows
 if [[ $(uname -r) =~ (m|M)icrosoft ]] &&
