@@ -63,6 +63,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'dyng/ctrlsf.vim'  " global search
   Plug 'fatih/vim-go'
   Plug 'fcpg/vim-waikiki'  " Wiki system: Link and tag handling.
+  Plug 'hiterm/asyncomplete-look'
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
   " Plug 'javacomplete'
   " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
@@ -76,7 +77,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'michaeljsmith/vim-indent-object'
   " Plug 'osyo-manga/vim-over'  " :s preview
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
-  Plug 'hiterm/asyncomplete-look'
   Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
   Plug 'prabirshrestha/asyncomplete-omni.vim'
