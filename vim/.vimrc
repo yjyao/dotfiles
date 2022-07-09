@@ -1352,6 +1352,19 @@ map <Nop> <Plug>Sneak_,
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
+" Underline candidates.
+" The candidate highlights can blend with syntax highlights.
+" Adding underlines to them can help with identifying them.
+func! SetQuickScopeHighlights()
+  highlight QuickScopePrimary guifg='#40ffff' gui=underline ctermfg=4 cterm=underline
+  highlight QuickScopeSecondary guifg='#ff80ff' gui=underline ctermfg=9 cterm=underline
+endfunc
+call SetQuickScopeHighlights()
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * call SetQuickScopeHighlights()
+augroup end
+
 " ------------------------------------------------------------
 " hardtime
 " ------------------------------------------------------------
