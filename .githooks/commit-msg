@@ -31,6 +31,8 @@ any_keyword_regex="$(joinby '|' "${keywords[@]}")"
 syntaxes+=("^$any_keyword_regex: [^[:lower:][:space:]].*[[:punct:]]$")
 # Format: "Add ..."
 syntaxes+=('^Add .*\.$')
+# Format: "Merge branch ..."
+syntaxes+=('^Merge branch .*\.$')
 
 syntax_verify_regex="$(joinby '|' "${syntaxes[@]}")"
 
