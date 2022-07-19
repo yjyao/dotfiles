@@ -14,5 +14,9 @@ command -v telegram-cli &>/dev/null && alias tg='telegram-cli -l1 -NAW'
 # Alias that to `fd`.
 command -v fdfind &>/dev/null && ! command -v fd &>/dev/null && alias fd=fdfind
 
+# In some distributions https://github.com/sharkdp/bat is installed as
+# `batcat`. Alias that to `bat`.
+command -v batcat &>/dev/null && ! command -v bat &>/dev/null && alias bat=batcat
+
 # an online snake game
 alias tron="ssh sshtron.zachlatta.com"
