@@ -493,7 +493,7 @@ else
 endif
 
 " 使用 ctrl+j,k,h,l 在分割的视窗间跳动
-if g:HasPlug('vim-tmux-navigator')
+if !g:HasPlug('vim-tmux-navigator')
   nnoremap <C-j> <C-w>j
   nnoremap <C-k> <C-w>k
   nnoremap <C-h> <C-w>h
