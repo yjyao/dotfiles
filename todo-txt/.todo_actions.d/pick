@@ -23,19 +23,19 @@ main() {
         echo "$line" > "$favfile"
         continue
       fi
-      echo "a) $fav"
-      echo "b) $line"
+      echo "1) $fav"
+      echo "2) $line"
       while true; do
         # Clearing out the IFS so that if user enters a space read does not
         # strip it. This differentiates if user taps on the spacebar vs the
         # enter key.
-        IFS= read -p "You pick [a/b]: " -n1 ans </dev/tty
+        IFS= read -p "You pick [1/2 or k/j]: " -n1 ans </dev/tty
         # If input is an invalid character,
         # clear the line and re-prompt the question
         # as if user never entered anything.
         case $ans in
-          [Aa] ) break;;
-          [Bb] ) echo "$line" > "$favfile"
+          [1Kk] ) break;;
+          [2Jj] ) echo "$line" > "$favfile"
                  break;;
             '' ) # Empty input means user tapped on enter.
                  # That moves us down to a new line.
