@@ -9,6 +9,10 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+# Pushing/popping directories.
+alias pu=pushd
+alias po=popd
+
 alias :e=vim
 alias c=clip
 alias e=less
