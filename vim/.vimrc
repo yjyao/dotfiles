@@ -63,7 +63,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'dyng/ctrlsf.vim'  " global search
   Plug 'fatih/vim-go'
   Plug 'fcpg/vim-waikiki'  " Wiki system: Link and tag handling.
-  Plug 'hiterm/asyncomplete-look'
+  Plug 'hiterm/asyncomplete-look'  " Dictionary completion.
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
   " Plug 'javacomplete'
   " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
@@ -1635,6 +1635,7 @@ if g:HasPlug('asyncomplete-ultisnips.vim')
         \ }))
 endif
 
+" Dictionary.
 if g:HasPlug('asyncomplete-look')
   au User asyncomplete_setup call asyncomplete#register_source({
         \ 'name': 'look',
