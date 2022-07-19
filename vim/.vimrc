@@ -1514,7 +1514,9 @@ let g:waikiki_word_regex = '\(\.\?[-+0-9A-Za-z_]\+\)\+'
 " Custom waikiki mappings.
 func! SetupWaikiki() abort
   nmap <buffer> zl <Plug>(waikikiFollowLink)
+  vmap <buffer> zl <Plug>(waikikiFollowLink)
   nmap <buffer> <C-w>zl <Plug>(waikikiFollowLinkSplit)
+  vmap <buffer> <C-w>zl <Plug>(waikikiFollowLinkSplit)
   nmap <buffer> zh <Plug>(waikikiGoUp)
 
   nmap <buffer> <LocalLeader>l <Plug>(waikikiNextLink)
