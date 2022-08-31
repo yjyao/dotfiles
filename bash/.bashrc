@@ -190,6 +190,9 @@ fi
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
+# Sets the date-time format of `ls`.
+export TIME_STYLE=long-iso
+
 LESSVERSION="$(less -V | head -1 | cut -d' ' -f2)"
 
 LESS=
