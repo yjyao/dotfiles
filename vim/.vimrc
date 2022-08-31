@@ -634,7 +634,7 @@ if has('autocmd')
   augroup commentstring
     autocmd!
     au BufReadPost,BufNewFile .hgrc setlocal commentstring=#\ %s
-    au BufReadPost,BufNewFile sxhkdrc setlocal commentstring=#\ %s
+    au BufReadPost,BufNewFile sxhkdrc,*.sxhkdrc setlocal commentstring=#\ %s
   augroup end
 endif
 
