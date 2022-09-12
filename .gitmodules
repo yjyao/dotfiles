@@ -10,3 +10,6 @@
 [submodule "vim/.vim/bundle/vim-plug"]
 	path = vim/.vim/bundle/vim-plug
 	url = https://github.com/junegunn/vim-plug.git
+[submodule "tmux/.tmux/plugins/tpm"]
+	path = tmux/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm.git
