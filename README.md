@@ -19,6 +19,7 @@ If you don't need any of the following:
 
 - todo-txt plugins
 - vim plugins
+- tpm (tmux plugin manager)
 
 then you can skip cloning the submodules and run
 
