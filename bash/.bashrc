@@ -64,7 +64,7 @@ fi
 # unset `LOAD_EXTRA_HISTFILES` to keep the histories to each session.
 # use this together with `HISTFILE_PER_SESSION` or `HISTFILE_PER_TMUX_PANE` to
 # prevent history loss when exiting multiple sessions at once.
-if [[ $LOAD_EXTRA_HISTFILES = true ]]; then
+if [[ $BASHRC_ALREADY_LOADED != true && $LOAD_EXTRA_HISTFILES = true ]]; then
   for f in ~/.bash_history ~/.bash_histories/*.bash_history; do
     history -r "$f"
   done
@@ -286,3 +286,5 @@ if [[ $(uname -r) =~ (m|M)icrosoft ]] &&
 fi
 
 set +x
+
+export BASHRC_ALREADY_LOADED=true
