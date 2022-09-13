@@ -159,6 +159,7 @@ stty -ixon
 # make Ctrl+w deletion recognize path levels
 stty werase undef
 bind '\C-w:backward-kill-word'
+bind '"\e[3;5~":unix-word-rubout'  # Ctrl+Del to backward kill WORD
 
 # Automatically enter tmux.
 if [[ $START_BASH_IN_TMUX = true ]]; then
