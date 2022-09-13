@@ -1,9 +1,3 @@
-# # Uncomment the following to enable profiling.
-# PS4='+ $(date "+%s.%N")\011 '
-# exec 5> /tmp/bashstart.$$.log
-# BASH_XTRACEFD=5  # requires bash 4.1+
-# set -x
-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -13,6 +7,12 @@ case $- in
   *i*) ;;
   *) return;;
 esac
+
+# # Uncomment the following to enable profiling.
+# PS4='+ $(date "+%s.%N")\011 '
+# exec 5> /tmp/bashstart.$$.log
+# BASH_XTRACEFD=5  # requires bash 4.1+
+# set -x
 
 # Toggles for custom behavior.
 # Non-empty values enable a flag.
@@ -193,13 +193,13 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # Sets the date-time format of `ls`.
 export TIME_STYLE=long-iso
 
-LESSVERSION="$(less -V | head -1 | cut -d' ' -f2)"
-
 LESS=
 LESS+='R'  # control chars (color, etc.)
 # auto exit if short
-# for older `less`, 'X' needs to be added to prevent screen clearing after exits
-[[ $LESSVERSION -gt 530 ]] && LESS+='F' || LESS+='XF'
+# for older `less` (< 530), 'X' needs to be added to prevent screen clearing
+# after exits. for performance reasons, add the `X` flag regardless of the
+# version.
+LESS+='XF'
 LESS+='i'  # ignore case search
 LESS+='q'  # disable bells with excessive scrolling.
 export LESS
