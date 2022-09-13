@@ -1,10 +1,26 @@
 # Usage:
 #     $ jsonprint <<< '{ "obj": { "key": "value" } }'
-if python3 -c 'import json.tool' &>/dev/null; then
-  alias jsonprint='python3 -m json.tool'
-elif python -c 'import json.tool' &>/dev/null; then
-  alias jsonprint='python -m json.tool'
+#
+# This definition delays the (slow) evaluation of available `json.tool`
+# libraries, and then sets itself correctly. This keeps the bashrc load time
+# small.
+# Before the first time `jsonprint` runs, it is an *alias* with the following
+# value. After `jsonprint` runs for the first time, either of the following
+# situations will occur:
+#
+# - The reqruied `json.tool` library is not available. The `jsonprint` alias
+#   will unset itself and result in a "command not found" error. Afterwards, the
+#   `type jsonprint` command will complain that it cannot find the keyword.
+# - The `json.tool` library is availabe. The alias replaces itself with a
+#   `jsonprint` *function*. Afterwards, the `type jsonprint` command will simply
+#   state that it is a simple function.
+alias jsonprint='\
+if python3 -c "import json.tool" &>/dev/null; then
+  jsonprint() { python3 -m json.tool "$@"; }
+elif python -c "import json.tool" &>/dev/null; then
+  jsonprint() { python -m json.tool "$@"; }
 fi
+unalias jsonprint; jsonprint '
 
 command -v recap &>/dev/null && alias recap='recap -d "5 hours ago"'
 
