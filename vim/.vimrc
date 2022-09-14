@@ -98,6 +98,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'vim-scripts/OmniCppComplete'
   " Plug 'vim-scripts/VimIM'
   Plug 'vim-scripts/closetag.vim'  " close HTML tags with <C-BS>
+  Plug 'wellle/context.vim'  " Freeze first line of each indentation level
   Plug 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   " Plug 'wesleyche/SrcExpl'
   Plug 'whiteinge/diffconflicts'
