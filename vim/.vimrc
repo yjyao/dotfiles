@@ -63,6 +63,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'dyng/ctrlsf.vim'  " global search
   Plug 'fatih/vim-go'
   Plug 'fcpg/vim-waikiki'  " Wiki system: Link and tag handling.
+  Plug 'hiterm/asyncomplete-look'  " Dictionary completion.
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
   " Plug 'javacomplete'
   " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
@@ -76,6 +77,9 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'michaeljsmith/vim-indent-object'
   " Plug 'osyo-manga/vim-over'  " :s preview
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'prabirshrestha/asyncomplete-file.vim'
+  Plug 'prabirshrestha/asyncomplete-omni.vim'
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   Plug 'prabirshrestha/asyncomplete.vim'  " async completion.
   Plug 'rickhowe/diffchar.vim'
   Plug 'romainl/vim-cool'  "  auto disable search highlights
@@ -1037,9 +1041,9 @@ let g:fzf_preview_window = []  " Disable preview windows.
 " 常规模式下输入：ctrl-p 调用插件
 
 if g:iswindows
-    set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
+    set wildignore+=*.swp,*.zip,*.exe
 else
-    set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+    set wildignore+=*.so,*.swp,*.zip
 endif
 
 let g:ctrlp_custom_ignore = {
@@ -1584,6 +1588,49 @@ if g:HasPlug('asyncomplete.vim')
               \ 'completor': function('asyncomplete#sources#buffer#completor'),
               \ }))
         au User asyncomplete_setup call s:fix_buffer_complete()
+      endif
+
+      if g:HasPlug('asyncomplete-omni.vim')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+              \ 'name': 'omni',
+              \ 'allowlist': ['*'],
+              \ 'blocklist': ['c', 'cpp', 'html'],
+              \ 'completor': function('asyncomplete#sources#omni#completor'),
+              \ 'config': {
+              \   'show_source_kind': 1,
+              \ },
+              \ }))
+      endif
+
+      if g:HasPlug('asyncomplete-file.vim')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+              \ 'name': 'file',
+              \ 'allowlist': ['*'],
+              \ 'priority': 10,
+              \ 'completor': function('asyncomplete#sources#file#completor')
+              \ }))
+      endif
+
+      if g:HasPlug('asyncomplete-ultisnips.vim')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+              \ 'name': 'ultisnips',
+              \ 'allowlist': ['*'],
+              \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+              \ }))
+      endif
+
+      " Dictionary.
+      if g:HasPlug('asyncomplete-look')
+        au User asyncomplete_setup call asyncomplete#register_source({
+              \ 'name': 'look',
+              \ 'allowlist': ['text', 'markdown'],
+              \ 'completor': function('asyncomplete#sources#look#completor'),
+              \ })
+        au User asyncomplete_setup call asyncomplete#register_source({
+              \ 'name': 'look_good_words',
+              \ 'allowlist': ['text', 'markdown'],
+              \ 'completor': function('asyncomplete#sources#look#good_words'),
+              \ })
       endif
 
     augroup end  " End of register_asyncomplete_sources
