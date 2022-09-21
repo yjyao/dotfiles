@@ -35,44 +35,27 @@ endfunc
 if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   call plug#begin(g:vimfiles_dir . '/bundle')
 
-  " Plug 'Align'  " use vim-easy-align instead
   Plug 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
-  " Plug 'LaTeX-Box-Team/LaTeX-Box'  " use vimtex instead
   " Plug 'Lokaltog/vim-powerline'
   " Plug 'Mark--Karkat'
-  " Plug 'Shougo/neocomplete'  " fuzzy completion (does NOT support vim 8.2+)
   Plug 'SirVer/ultisnips'
-  " Plug 'TxtBrowser'
-  " Plug 'Valloric/YouCompleteMe'  " use neocomplete instead
   Plug 'Vimjas/vim-python-pep8-indent'
-  " Plug 'Yggdroot/indentLine'
-  " Plug 'ZoomWin'
-  " Plug 'a.vim'
   Plug 'altercation/vim-colors-solarized'  " colorscheme
-  " Plug 'artur-shaik/vim-javacomplete2'
   Plug 'bkad/CamelCaseMotion'
-  " Plug 'cSyntaxAfter'
-  " Plug 'ccvext.vim'
   Plug 'chrisbra/csv.vim'
   Plug 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'cohama/lexima.vim'  "  auto pair closer
-  " Plug 'ctrlpvim/ctrlp.vim'  " fuzzy file searcher / buffer manager
   " Plug 'davidhalter/jedi-vim'  "  python autocomplete. 'pip install jedi' required
   Plug 'derekwyatt/vim-fswitch'  " switch between source/code files
-  " Plug 'dyng/ctrlsf.vim'  " global search
-  Plug 'fatih/vim-go'
+  " Plug 'fatih/vim-go'
   Plug 'fcpg/vim-waikiki'  " Wiki system: Link and tag handling.
   Plug 'hiterm/asyncomplete-look'  " Dictionary completion.
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
-  " Plug 'javacomplete'
-  " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
   Plug 'junegunn/fzf'  " fuzzy finder
   Plug 'junegunn/fzf.vim'  " fuzzy finder extended
   Plug 'junegunn/vim-easy-align'
-  " Plug 'justinmk/vim-sneak'  " 2-letter `f` and `t`
   Plug 'lervag/vimtex'  " LaTeX build / functions
-  " Plug 'majutsushi/tagbar'
   Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
   " Plug 'osyo-manga/vim-over'  " :s preview
@@ -85,12 +68,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'prabirshrestha/vim-lsp'
   Plug 'rickhowe/diffchar.vim'
   Plug 'romainl/vim-cool'  "  auto disable search highlights
-  " Plug 'scrooloose/nerdcommenter'  " use vim-commentary instead
-  " Plug 'scrooloose/nerdtree'  " use built-in netrw instead
-  " Plug 'scrooloose/syntastic'
-  " Plug 'shawncplus/phpcomplete.vim'
-  " Plug 'std_c.zip'
-  " Plug 'taglist.vim'
   Plug 'takac/vim-hardtime'  " prevents bad habbits
   Plug 'tenfyzhong/axring.vim'  " extends <c-a>/<c-x>, load BEFORE speeddating
   Plug 'tpope/vim-commentary'  " motions for commenting code
@@ -99,12 +76,9 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'tpope/vim-speeddating'  " extends <c-a>/<c-x> to work with dates
   Plug 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
   Plug 'unblevable/quick-scope'  " highlight cues for `f` and `t`
-  " Plug 'vim-javacompleteex'
-  " Plug 'vim-scripts/VimIM'
   Plug 'vim-scripts/closetag.vim'  " close HTML tags with <C-BS>
   Plug 'wellle/context.vim'  " Freeze first line of each indentation level
   Plug 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
-  " Plug 'wesleyche/SrcExpl'
   Plug 'whiteinge/diffconflicts'
   Plug 'wsdjeg/vim-fetch'  " Support filepath:line:col syntax.
   Plug 'yjyao/recap.vim'
@@ -784,14 +758,6 @@ endfunc
 " ========================================================================= {{{
 
 " -----------------------------------------------------------------------------
-" a.vim
-" -----------------------------------------------------------------------------
-" 用于切换 C/C++ 头文件
-" :A     --- 切换头文件并独占整个窗口
-" :AV    --- 切换头文件并垂直分割窗口
-" :AS    --- 切换头文件并水平分割窗口
-
-" -----------------------------------------------------------------------------
 " QuickFix
 " -----------------------------------------------------------------------------
 
@@ -818,98 +784,6 @@ if g:iswindows
 endif
 
 " -----------------------------------------------------------------------------
-" TagList & Ctags
-" -----------------------------------------------------------------------------
-" 对于C++代码，ctags需要额外使用以下选项：
-" 为标签添加函数原型(prototype)信息
-" --c++-kinds=+p
-" 为标签添加继承信息(inheritance)，访问控制(access)信息，
-" 函数特征(function Signature,如参数表或原型等)
-" --fields=+iaS
-" 为类成员标签添加类标识
-" --extra=+q
-set tags=tags
-
-" 配置 TagList 的 ctags 路径
-let Tlist_Ctags_Cmd = '%VIMRUNTIME%/ctags.exe'
-
-" 按照名称排序
-let Tlist_Sort_Type = 'name'
-
-" 压缩方式
-" let Tlist_Compart_Format = 1
-
-" 如果 taglist 窗口是最后一个窗口，则退出 vim
-let Tlist_Exist_OnlyWindow = 1
-
-" 不要显示折叠树
-let Tlist_Enable_Fold_Column = 1
-
-" 让当前不被编辑的文件的方法列表自动折叠起来
-let Tlist_File_Fold_Auto_Close = 0
-
-let Tlist_Show_One_File = 0
-
-nmap <Leader>tl :TlistToggle<CR>
-
-" -----------------------------------------------------------------------------
-" OmniCppComplete
-" -----------------------------------------------------------------------------
-
-" 打开全局查找控制
-let OmniCpp_GlobalScopeSearch = 1
-
-" 类成员显示控制，不显示所有成员
-let OmniCpp_DisplayMode = 0
-
-" 控制匹配项所在域的显示位置。
-" 缺省情况下，omni显示的补全提示菜单中总是将匹配项所在域信息显示在缩略信息最后一列。
-" 0 : 信息缩略中不显示匹配项所在域(缺省)
-" 1 : 显示匹配项所在域，并移除缩略信息中最后一列
-let OmniCpp_ShowScopeInAbbr = 0
-
-" 显示参数列表
-let OmniCpp_ShowPrototypeInAbbr = 1
-
-" 显示访问控制信息('+', '-', '#')
-let OmniCpp_ShowAccess = 1
-
-" 默认命名空间列表
-let OmniCpp_DefaultNamespaces = ['std', '_GLIBCXX_STD']
-
-" 是否自动选择第一个匹配项。仅当"completeopt"不为"longest"时有效。
-" 0 : 不选择第一项(缺省)
-" 1 : 选择第一项并插入到光标位置
-" 2 : 选择第一项但不插入光标位置
-let OmniCpp_SelectFirstItem = 0
-
-" 使用Vim标准查找函数/本地(local)查找函数
-" Vim内部用来在函数中查找变量定义的函数需要函数括号位于文本的第一列
-" 而本地查找函数并不需要。
-let OmniCpp_LocalSearchDecl = 1
-
-" 命名空间查找控制。
-" 0 : 禁止查找命名空间
-" 1 : 查找当前文件缓冲区内的命名空间(缺省)
-" 2 : 查找当前文件缓冲区和包含文件中的命名空间
-let OmniCpp_NamespaceSearch = 1
-
-" C++ 成员引用自动补全
-if !g:HasPlug('neocomplete')
-  let OmniCpp_MayCompleteDot = 1                  " 输入 . 后自动补全
-  let OmniCpp_MayCompleteArrow = 1                " 输入 -> 后自动补全
-  let OmniCpp_MayCompleteScope = 1                " 输入 :: 后自动补全
-endif
-
-" 自动关闭补全窗口
-if has('autocmd')
-  augroup auto_close_completion
-    autocmd!
-    au CursorMovedI,InsertLeave * if pumvisible() == 0 | silent! pclose | endif
-  augroup end
-endif
-
-" -----------------------------------------------------------------------------
 " Jedi-vim
 " -----------------------------------------------------------------------------
 " python 补全
@@ -918,117 +792,6 @@ endif
 " our save shortcut).
 let g:jedi#goto_stubs_command = ""
 
-" 优先用 NeoComplete 来进行补全
-if g:HasPlug('neocomplete')
-  let g:jedi#completions_enabled = 0
-  let g:jedi#auto_vim_configuration = 0
-  let g:jedi#smart_auto_mappings = 0
-endif
-
-" -----------------------------------------------------------------------------
-" NeoComplete
-" -----------------------------------------------------------------------------
-" 关键字补全、文件路径补全、tag 补全等等
-" 需要 +lua
-
-" let g:acp_enableAtStartup = 0                       " 禁止内置自动补全
-let g:neocomplete#enable_at_startup = 1             " 随 Vim 启动
-let g:neocomplete#enable_smart_case = 1             " 只在输入大写字母时对大小写敏感
-let g:neocomplete#auto_completion_start_length = 3  " 只在输入超过三个字符时自动打开补全菜单
-let g:neocomplete#sources#syntax#min_keyword_length = 4
-" 默认情况下，在 NeoComplete 补全时按下退格键会撤销补全。这里改为应用补全并删去一个字符
-if g:HasPlug('neocomplete')
-  inoremap <expr><C-h> neocomplete#close_popup()."\<C-h>"
-  inoremap <expr><BS>  neocomplete#close_popup()."\<C-h>"
-endif
-
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"     \ 'default' : '',
-"     \ 'vimshell' : $HOME.'/.vimshell_hist',
-"     \ 'scheme' : $HOME.'/.gosh_completions'
-"         \ }
-
-" 词段分割符
-if !exists('g:neocomplete#delimiter_patterns')
-    let g:neocomplete#delimiter_patterns = {}
-endif
-let g:neocomplete#delimiter_patterns.tex = ['{']
-
-" 关键词正规表达
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns.tex =
-            \'\\\a{\a\{1,2}}'           .'\|'.
-            \'\\[[:alpha:]@][[:alnum:]@]*\%({\%([[:alnum:]:_]\+\*\?}\?\)\?\)\?' .'\|'.
-            \'\a[[:alnum:]:_-]*\*\?'
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.java = '\%(\h\w*\|)\)\.\w*'
-
-" Enable force omni completion.
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-
-" "omnifunc" enabled in $vimfiles/after/ftplugin/python.vim.
-
-let g:neocomplete#force_omni_input_patterns.python =
-            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-" -----------------------------------------------------------------------------
-" VimIM
-" -----------------------------------------------------------------------------
-" Vim 内的中文输入法
-
-let g:Vimim_cloud = ''
-" let g:Vimim_map = ''
-" let g:Vimim_mode = 'dynamic'
-" let g:Vimim_mycloud = 0
-" let g:Vimim_shuangpin = 0
-" let g:Vimim_toggle = ''
-
-" 防止与 NeoComplete 的冲突
-let g:Vimim_chinse_mode_on = 0
-func! VIMIM_before()
-  if exists(':NeoCompleteDisable') == 2
-        \ && g:Vimim_chinse_mode_on == 0
-    exe 'NeoCompleteLock'
-    exe 'NeoCompleteDisable'
-    let g:Vimim_chinse_mode_on = 1
-  elseif exists(':NeoCompleteEnable') == 2
-        \ && g:Vimim_chinse_mode_on == 1
-    exe 'NeoCompleteUnlock'
-    exe 'NeoCompleteEnable'
-    let g:Vimim_chinse_mode_on = 0
-  endif
-endfunc
-
-if g:HasPlug('VimIM')
-  " 使用 ctrl-space 打开 / 关闭 VimIM
-  inoremap <C-Space> <Space><Esc>:call VIMIM_before()<CR>s<C-r>=g:Vimim_chinese()<CR>
-  nnoremap <C-Space> :call VIMIM_before()<CR>a<C-r>=g:Vimim_chinese()<CR><Esc>
-endif
-
-" 使用文中标点
-let g:Vimim_punctuation = 3
-
-" -----------------------------------------------------------------------------
-" auto-pairs
-" -----------------------------------------------------------------------------
-
-" 关闭 fly mode （输入右括号跳到括号结束处）
-let g:AutoPairsFlyMode = 0
-
-" 将输入闭括号自动跳过下一个紧接的闭括号的功能限制在当前行内
-let g:AutoPairsMultilineClose = 0
-
 " -----------------------------------------------------------------------------
 " lexima
 " -----------------------------------------------------------------------------
@@ -1036,7 +799,7 @@ let g:AutoPairsMultilineClose = 0
 imap <C-h> <BS>
 cmap <C-h> <BS>
 
-try
+if g:HasPlug('lexima.vim')
   call lexima#add_rule({
         \  'char': '<CR>', 'at': '{\%#}',
         \  'input' : '%<CR>', 'input_after': '<CR>',
@@ -1052,8 +815,7 @@ try
         \  'input_after': "''",
         \  'filetype' : 'tex',
         \ })
-catch
-endtry
+endif
 
 " -----------------------------------------------------------------------------
 " fzf
@@ -1082,81 +844,19 @@ endif
 let g:fzf_preview_window = []  " Disable preview windows.
 
 " -----------------------------------------------------------------------------
-" ctrlp
-" -----------------------------------------------------------------------------
-" 一个全路径模糊文件，缓冲区的检索插件
-" 常规模式下输入：ctrl-p 调用插件
-
-if g:iswindows
-    set wildignore+=*.swp,*.zip,*.exe
-else
-    set wildignore+=*.so,*.swp,*.zip
-endif
-
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn|out|cache)$',
-  \ 'file': '\v\.(exe|so|dll|aux|pdf|class)$',
-  \ }
-
-let g:ctrlp_working_path_mode = 'rc'
-
-let g:ctrlp_max_depth = 4
-
-let g:ctrlp_follow_symlinks = 1
-
-if executable('fd')
-  let g:ctrlp_user_command = 'fd ^ %s --type f --color=never --follow
-        \ --hidden
-        \ --exclude .git
-        \ --exclude .cache
-        \ --exclude .svn
-        \ --exclude .hg
-        \ --exclude .DS_Store
-        \ --exclude "**/*.pyc"
-        \ --exclude .git5_specs
-        \ --exclude .review
-        \ --exclude "*.aux"
-        \ --exclude "*.pdf"
-        \ --exclude "*.exe"
-        \ --exclude "*.class"
-        \ --exclude "*.dll"
-        \ --exclude "*.out"
-        \ '
-  let g:ctrlp_use_caching = 0
-elseif executable('ag')
-  let g:ctrlp_user_command = '/usr/bin/ag %s -i --nocolor --nogroup --follow
-        \ --hidden
-        \ --ignore .git
-        \ --ignore .cache
-        \ --ignore .svn
-        \ --ignore .hg
-        \ --ignore .DS_Store
-        \ --ignore "**/*.pyc"
-        \ --ignore .git5_specs
-        \ --ignore .review
-        \ --ignore "*.aux"
-        \ --ignore "*.pdf"
-        \ --ignore "*.exe"
-        \ --ignore "*.class"
-        \ --ignore "*.dll"
-        \ --ignore "*.out"
-        \ -g ""'
-  let g:ctrlp_use_caching = 0
-endif
-
-" -----------------------------------------------------------------------------
 " fswitch
 " -----------------------------------------------------------------------------
-
-augroup related_file
-  autocmd!
-  au BufEnter *.cc let b:fswitchdst = 'h,hh'
-  au BufEnter *.h let b:fswitchdst = 'c,cc,cpp'
-augroup end
 
 " hotkey: goto related file
 if g:HasPlug('vim-fswitch')
   nnoremap <silent> gr :FSHere<CR>
+
+  augroup related_file
+    autocmd!
+    au BufEnter *.cc let b:fswitchdst = 'h,hh'
+    au BufEnter *.h let b:fswitchdst = 'c,cc,cpp'
+  augroup end
+
 else
   nnoremap gr :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 endif
@@ -1172,30 +872,6 @@ endif
 let g:user_emmet_install_global = 0
 
 let g:user_emmet_leader_key = '<C-e>'
-
-" -----------------------------------------------------------------------------
-" NerdCommenter
-" -----------------------------------------------------------------------------
-" 以下为插件默认快捷键，其中的说明是以C/C++为例的，其它语言类似
-" <Leader>ci 以每行一个 /* */ 注释选中行(选中区域所在行)，再输入则取消注释
-" <Leader>cm 以一个 /* */ 注释选中行(选中区域所在行)，再输入则称重复注释
-" <Leader>cc 以每行一个 /* */ 注释选中行或区域，再输入则称重复注释
-" <Leader>cu 取消选中区域(行)的注释，选中区域(行)内至少有一个 /* */
-" <Leader>ca 在/*...*/与//这两种注释方式中切换（其它语言可能不一样了）
-" <Leader>cA 行尾注释
-" let NERDSpaceDelims = 1                     "在左注释符之后，右注释符之前留有空格
-" nmap c] <Leader>cc
-" vmap c] <Leader>cc
-" nmap c[ <Leader>cu
-" vmap c[ <Leader>cu
-
-" -----------------------------------------------------------------------------
-"  < nerdtree 插件配置 >
-" -----------------------------------------------------------------------------
-" 有目录村结构的文件浏览插件
-
-" 常规模式下输入 F2 调用插件
-" nmap <F2> :NERDTreeToggle<CR>
 
 " -----------------------------------------------------------------------------
 " ultisnips
@@ -1319,29 +995,6 @@ let g:vimtex_indent_delims = {
       \ 'include_modified_math' : 1,
       \ }
 
-" make neocomplete support citation / label ref / ... completions
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.tex =
-      \ '\v\\%('
-      \ . '\a*%(ref|cite)\a*%(\s*\[[^]]*\])?\s*\{[^{}]*'
-      \ . '|includegraphics%(\s*\[[^]]*\])?\s*\{[^{}]*'
-      \ . '|%(include|input)\s*\{[^{}]*'
-      \ . ')'
-
-" ------------------------------------------------------------
-" LaTeX-Box
-" ------------------------------------------------------------
-
-" use latexmk to compile LaTeX docs, require perl installed on machine
-
-" let g:LatexBox_latexmk_options = '-pdflatex='xelatex -synctex=1''
-" let g:LatexBox_latexmk_async   = 0
-" let g:LatexBox_latexmk_options = '-pdflatex=xelatex'
-" let g:LatexBox_latexmk_async   = 0
-" let g:LatexBox_latexmk_async   = 1
-
 " ------------------------------------------------------------
 " vim-easy-align
 " ------------------------------------------------------------
@@ -1388,17 +1041,6 @@ if has('autocmd')
           \ let g:surround_{char2nr('K')} = "【\r】"
   augroup end
 endif
-
-" ------------------------------------------------------------
-" sneak
-" ------------------------------------------------------------
-
-" DISABLE sneak `;` and `,`
-" preserve `;` and `,` for `f` and `t` motions (so that we can
-" work with other f-enhancement plugins)
-" `s<CR>` and `S<CR>` does the sneak `;` and `,` already
-map <Nop> <Plug>Sneak_;
-map <Nop> <Plug>Sneak_,
 
 " ------------------------------------------------------------
 " quick scope
@@ -1483,12 +1125,6 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " endif
 
 " ------------------------------------------------------------
-" speeddating
-" ------------------------------------------------------------
-
-" see ~/.vim/after/plugin/speeddating.vim
-
-" ------------------------------------------------------------
 " axring.vim
 " ------------------------------------------------------------
 
@@ -1496,6 +1132,12 @@ let g:axring_rings = [
       \ ['true', 'false'],
       \ ['verbose', 'debug', 'info', 'warn', 'error', 'fatal'],
       \ ]
+
+" ------------------------------------------------------------
+" speeddating
+" ------------------------------------------------------------
+
+" see ~/.vim/after/plugin/speeddating.vim
 
 " ------------------------------------------------------------
 " Waikiki --- Minimal set of wiki feature.
