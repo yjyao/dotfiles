@@ -78,9 +78,11 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'osyo-manga/vim-over'  " :s preview
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
   Plug 'prabirshrestha/asyncomplete-omni.vim'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   Plug 'prabirshrestha/asyncomplete.vim'  " async completion.
+  Plug 'prabirshrestha/vim-lsp'
   Plug 'rickhowe/diffchar.vim'
   Plug 'romainl/vim-cool'  "  auto disable search highlights
   " Plug 'scrooloose/nerdcommenter'  " use vim-commentary instead
@@ -1556,6 +1558,44 @@ endif
 " ------------------------------------------------------------
 " asyncomplete.vim
 " ------------------------------------------------------------
+
+if g:HasPlug('vim-lsp')
+
+  let g:lsp_async_completion = 1
+
+  function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    " if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gX <plug>(lsp-code-action)
+    " nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    " nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    " nmap <buffer> gr <plug>(lsp-references)
+    " nmap <buffer> gi <plug>(lsp-implementation)
+    " nmap <buffer> gt <plug>(lsp-type-definition)
+    " nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-document-diagnostics)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    " let g:lsp_format_sync_timeout = 1000
+    " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
+  endfunction
+
+  if has('autocmd')
+    augroup lsp_install
+      autocmd!
+      " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+      au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    augroup end
+  endif
+
+endif
 
 if g:HasPlug('asyncomplete.vim')
 
