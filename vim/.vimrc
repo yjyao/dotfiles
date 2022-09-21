@@ -351,6 +351,10 @@ nmap coh :call ToggleSetting('hls')<CR>
 nmap cop :call ToggleSetting('paste')<CR>
 " 折行 (change option wrap)
 nmap cow :call ToggleSetting('wrap')<CR>
+" change option cursorline
+nmap coc :call ToggleSetting('cursorline')<CR>
+" change option cursorCROSS (turns both `cursorline` and `cursorcolumn` on/off)
+nmap cox :call ToggleCursorCross()<CR>
 " 比对时空格敏感 (change option diff whitespace)
 nmap codw :call ToggleDiffopt('iwhite')<CR>
 " 比对时大小写敏感 (change option diff case)
@@ -368,6 +372,14 @@ func! ToggleDiffopt(opt)
     exec 'set dip+='.a:opt
   endif
   echo &diffopt
+endfunc
+
+func! ToggleCursorCross()
+  if &cursorline && &cursorcolumn
+    set nocursorline nocursorcolumn
+  else
+    set cursorline cursorcolumn
+  endif
 endfunc
 
 " change vimrc
@@ -411,20 +423,45 @@ nmap mm *N:hls<CR>
 " 将大写 Y 改成从光标位置复制到行尾以与大写 D 对应
 nnoremap Y y$
 
-nmap yp :call PlainPaste(1)<CR>
-nmap yP :call PlainPaste(0)<CR>
+" ------------------------------------------------------------
+" Stolen from https://github.com/tpope/vim-unimpaired.
+" `cp` (create paste) to set up `:help paste` mode.
+" After pressing `cp`, the next time you enter insert mode, `paste` will
+" already be set. Leaving insert mode restores `nopaste` automatically.
+" useful for when pasting from clipboard when vim cannot access it
+" (e.g., vim without clipboard support, or when vim running remotely over ssh).
 
-func! PlainPaste(forward)
-  let l:ispaste = &paste
-  set nopaste
-  if a:forward
-    norm p
-  else
-    norm P
+nnoremap cp <Plug>unimpairedPaste
+
+nnoremap <silent> <Plug>unimpairedPaste :call <SID>SetupPaste()<CR>
+
+function! s:RestorePaste() abort
+  if exists('s:paste')
+    let &paste = s:paste
+    let &mouse = s:mouse
+    unlet s:paste
+    unlet s:mouse
   endif
-  let &paste = l:ispaste
-endfunc
+  autocmd! unimpaired_paste
+endfunction
 
+function! s:SetupPaste() abort
+  let s:paste = &paste
+  let s:mouse = &mouse
+  set paste
+  set mouse=
+  augroup unimpaired_paste
+    autocmd!
+    au InsertLeave * call s:RestorePaste()
+    if exists('##ModeChanged')
+      autocmd ModeChanged *:n call s:RestorePaste()
+    else
+      autocmd CursorHold,CursorMoved * call s:RestorePaste()
+    endif
+  augroup end
+endfunction
+
+" ------------------------------------------------------------
 " stamp: 用复制内容替换选中内容
 " 正常操作下。选中文字后若用 `p` 粘贴。粘贴板内容会更新为选中的内容。但常常我们
 " 需要用复制的内容进行多次替换。该 stamp 功能保证粘贴后保留剪切板内原先的内容。
@@ -475,6 +512,20 @@ func! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
     endif
   endwhile
 endfunc
+
+" ------------------------------------------------------------
+" Stolen from https://github.com/tpope/vim-unimpaired.
+" `[d`/`]d` to jumpt to the previous/next diff conflict marker.
+
+nnoremap [d <Plug>(unimpaired-context-previous)
+nnoremap ]d <Plug>(unimpaired-context-next)
+
+nnoremap <silent> <Plug>(unimpaired-context-previous) :<C-U>call <SID>Context(1)<CR>
+nnoremap <silent> <Plug>(unimpaired-context-next)     :<C-U>call <SID>Context(0)<CR>
+
+function! s:Context(reverse) abort
+  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+endfunction
 
 " ------------------------------------------------------------
 
