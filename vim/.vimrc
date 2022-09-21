@@ -138,7 +138,7 @@ func! g:HasPlug(name)
   " its runtimepath is non-empty (it is downloaded/installed).
   return exists('g:plugs')
         \ && has_key(g:plugs, a:name)
-        \ && !empty(glob(expand(g:plugs[a:name]['dir'])))
+        \ && !empty(glob(expand(g:plugs[a:name]['dir']) . '/*'))
 endfunc
 
 " ========================================================================= }}}
