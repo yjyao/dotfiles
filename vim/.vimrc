@@ -314,8 +314,9 @@ let maplocalleader = mapleader
 " inoremap <C-s> <Esc>:update<CR>
 nnoremap <Leader>s :update<CR>
 
-" 使用 kj 退出到命令模式（同 Esc）
+" 使用 kj / Ctrl-c 退出到命令模式（同 Esc）
 inoremap kj <Esc>
+inoremap <C-c> <Esc>
 
 " Shell 习惯的 <Home> / <End>
 inoremap <C-a> <Esc>I
@@ -409,13 +410,6 @@ endfunc
 
 " 取消搜索结果高亮
 nmap <F11> :nohls<CR>
-
-" ctrl-c 计算器
-if has('python')
-  imap <silent> <C-c> <C-r>=pyeval(input('Calculate: '))<CR>
-else
-  imap <silent> <C-c> <C-r>=string(eval(input('Calculate: ')))<CR>
-endif
 
 " mark (highlight) me: Search for the current word but stay put
 nmap mm *N:hls<CR>
