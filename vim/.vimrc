@@ -119,7 +119,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   call plug#end()
 
   " Don't use `PlugUpgrade`, instead update the git submodule
-  "   $ git submodule update --remote vim/.vim/bundle/vim-plug/
+  "   $ git submodule update --remote vim/.vim/vim-plug/
   delc PlugUpgrade
 
 endif  " if has vim-plug
