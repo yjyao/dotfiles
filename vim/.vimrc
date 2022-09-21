@@ -124,7 +124,7 @@ endif  " if has vim-plug
 if has('autocmd')
   augroup sort_plugins
     autocmd!
-    autocmd BufLeave .vimrc execute 'normal mz' | setlocal nofoldenable | 0/plug#begin/+2,0/end-of-local-plugins/-2 sort /^\s*\("\s*\)\?/ | normal `z
+    au BufLeave .vimrc execute 'normal mz' | setlocal nofoldenable | 0/plug#begin/+2,0/end-of-local-plugins/-2 sort /^\s*\("\s*\)\?/ | normal `z
   augroup end
 endif
 
@@ -677,9 +677,9 @@ try | colo solarized | catch | endtry
 if has('autocmd')
   augroup spellhilight
     autocmd!
-    autocmd BufReadPost,BufNewFile * hi SpellBad cterm=underline
-    autocmd BufReadPost,BufNewFile * hi SpellRare cterm=underline
-    autocmd BufReadPost,BufNewFile * hi SpellLocal cterm=underline
+    au BufReadPost,BufNewFile * hi SpellBad cterm=underline
+    au BufReadPost,BufNewFile * hi SpellRare cterm=underline
+    au BufReadPost,BufNewFile * hi SpellLocal cterm=underline
   augroup end
 endif
 
@@ -1015,8 +1015,8 @@ if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
   augroup fzf_window
     autocmd!
     " Fix <C-w> for backward-kill-word.
-    autocmd FileType fzf tnoremap <buffer> <c-w> <c-w>.
-  augroup END
+    au FileType fzf tnoremap <buffer> <c-w> <c-w>.
+  augroup end
 
   " NOTE: This currently does not support directory changes within the fzf
   " invocation. https://github.com/junegunn/fzf.vim/issues/338 provides
@@ -1097,8 +1097,8 @@ endif
 
 augroup related_file
   autocmd!
-  autocmd BufEnter *.cc let b:fswitchdst = 'h,hh'
-  autocmd BufEnter *.h let b:fswitchdst = 'c,cc,cpp'
+  au BufEnter *.cc let b:fswitchdst = 'h,hh'
+  au BufEnter *.h let b:fswitchdst = 'c,cc,cpp'
 augroup end
 
 " hotkey: goto related file
@@ -1363,7 +1363,7 @@ endfunc
 call SetQuickScopeHighlights()
 augroup qs_colors
   autocmd!
-  autocmd ColorScheme * call SetQuickScopeHighlights()
+  au ColorScheme * call SetQuickScopeHighlights()
 augroup end
 
 " ------------------------------------------------------------
@@ -1386,7 +1386,7 @@ let g:hardtime_maxcount = 3
 if has('autocmd')
   augroup Targets
     autocmd!
-    autocmd User targets#mappings#user call targets#mappings#extend({
+    au User targets#mappings#user call targets#mappings#extend({
           \ 'b': {'pair': [{'o':'(', 'c':')'}]}
           \ })
   augroup end
@@ -1543,7 +1543,7 @@ endfunc
 if has('autocmd')
   augroup Waikiki  " Do NOT change! Group name defined by vim-waikiki.
     autocmd!
-    autocmd User setup call SetupWaikiki()
+    au User setup call SetupWaikiki()
   augroup end
 endif
 
