@@ -130,7 +130,11 @@ endif
 
 func! g:HasPlug(name)
   " The vim-plug manager defines `g:plugs`.
-  return exists('g:plugs') && has_key(g:plugs, a:name)
+  " A plugin is present if it is registered under vim-plug *and*
+  " its runtimepath is non-empty (it is downloaded/installed).
+  return exists('g:plugs')
+        \ && has_key(g:plugs, a:name)
+        \ && !empty(glob(expand(g:plugs[a:name]['dir'])))
 endfunc
 
 " ========================================================================= }}}
