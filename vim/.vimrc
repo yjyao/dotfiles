@@ -63,6 +63,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'dyng/ctrlsf.vim'  " global search
   Plug 'fatih/vim-go'
   Plug 'fcpg/vim-waikiki'  " Wiki system: Link and tag handling.
+  Plug 'hiterm/asyncomplete-look'  " Dictionary completion.
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
   " Plug 'javacomplete'
   " Plug 'jiangmiao/auto-pairs'  " use lexima + vim-surround instead
@@ -74,10 +75,14 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'majutsushi/tagbar'
   Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
-  Plug 'neoclide/coc-snippets'
-  Plug 'neoclide/coc-sources'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}  " async completion with lsp support
   " Plug 'osyo-manga/vim-over'  " :s preview
+  Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'prabirshrestha/asyncomplete-file.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'prabirshrestha/asyncomplete-omni.vim'
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+  Plug 'prabirshrestha/asyncomplete.vim'  " async completion.
+  Plug 'prabirshrestha/vim-lsp'
   Plug 'rickhowe/diffchar.vim'
   Plug 'romainl/vim-cool'  "  auto disable search highlights
   " Plug 'scrooloose/nerdcommenter'  " use vim-commentary instead
@@ -95,7 +100,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
   Plug 'unblevable/quick-scope'  " highlight cues for `f` and `t`
   " Plug 'vim-javacompleteex'
-  Plug 'vim-scripts/OmniCppComplete'
   " Plug 'vim-scripts/VimIM'
   Plug 'vim-scripts/closetag.vim'  " close HTML tags with <C-BS>
   Plug 'wellle/context.vim'  " Freeze first line of each indentation level
@@ -1039,9 +1043,9 @@ let g:fzf_preview_window = []  " Disable preview windows.
 " 常规模式下输入：ctrl-p 调用插件
 
 if g:iswindows
-    set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
+    set wildignore+=*.swp,*.zip,*.exe
 else
-    set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+    set wildignore+=*.so,*.swp,*.zip
 endif
 
 let g:ctrlp_custom_ignore = {
@@ -1449,57 +1453,6 @@ let g:axring_rings = [
       \ ]
 
 " ------------------------------------------------------------
-" coc.nvim
-" ------------------------------------------------------------
-
-if g:HasPlug('coc.nvim')
-  set encoding=utf-8
-
-  " Some servers have issues with backup files, see #649.
-  set nobackup
-  set nowritebackup
-
-  " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-  " delays and poor user experience.
-  set updatetime=300
-
-  " Don't pass messages to |ins-completion-menu|.
-  set shortmess+=c
-
-  " Disable startup warning if vim version < 8.1.1719.
-  let g:coc_disable_startup_warning = 1
-
-  " Always show the signcolumn, otherwise it would shift the text each time
-  " diagnostics appear/become resolved.
-  if has("nvim-0.5.0") || has("patch-8.1.1564")
-    " Recently vim can merge signcolumn and number column into one
-    set signcolumn=number
-  else
-    set signcolumn=yes
-  endif
-
-  " Use `[g` and `]g` to navigate diagnostics
-  " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-  nmap <silent> [g <Plug>(coc-diagnostic-prev)
-  nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-  " GoTo code navigation.
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gR <Plug>(coc-references)
-
-  " Apply AutoFix to problem on the current line.
-  nmap <leader>qf  <Plug>(coc-fix-current)
-
-  call coc#config('coc.source.around.firstMatch', 0)
-  call coc#config('coc.source.buffer.firstMatch', 0)
-
-  inoremap <silent> <C-x><C-f> <C-R>=coc#start({'source': 'file'})<CR>
-  inoremap <silent> <C-x><C-]> <C-R>=coc#start({'source': 'tag'})<CR>
-endif
-
-" ------------------------------------------------------------
 " Waikiki --- Minimal set of wiki feature.
 " ------------------------------------------------------------
 
@@ -1550,6 +1503,129 @@ if has('autocmd')
     au User setup call SetupWaikiki()
   augroup end
 endif
+
+" ------------------------------------------------------------
+" asyncomplete.vim
+" ------------------------------------------------------------
+
+if g:HasPlug('vim-lsp')
+
+  let g:lsp_async_completion = 1
+
+  function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    " if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gX <plug>(lsp-code-action)
+    " nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    " nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    " nmap <buffer> gr <plug>(lsp-references)
+    " nmap <buffer> gi <plug>(lsp-implementation)
+    " nmap <buffer> gt <plug>(lsp-type-definition)
+    " nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-document-diagnostics)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    " let g:lsp_format_sync_timeout = 1000
+    " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
+  endfunction
+
+  if has('autocmd')
+    augroup lsp_install
+      autocmd!
+      " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+      au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    augroup end
+  endif
+
+endif
+
+if g:HasPlug('asyncomplete.vim')
+
+  set shortmess+=c
+
+  " Required to prevent conflicts between the auto-insertion and the plugin.
+  set completeopt-=longest
+  set completeopt+=noinsert
+
+  let g:asyncomplete_auto_popup = 1
+
+  " Start suggesting completions after you type three characters.
+  " This reduces annoyance.
+  let g:asyncomplete_min_chars = 3
+
+  if has('autocmd')
+    augroup register_asyncomplete_sources
+      autocmd!
+
+      if g:HasPlug('asyncomplete-buffer.vim')
+        " Fix for https://github.com/prabirshrestha/asyncomplete-buffer.vim/issues/17.
+        function! s:fix_buffer_complete() abort
+          let l:info = asyncomplete#get_source_info('buffer')
+          call l:info.on_event(l:info, {}, 'BufWinEnter')
+          call l:info.on_event(l:info, {}, 'BufEnter')
+        endfunction
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+              \ 'name': 'buffer',
+              \ 'allowlist': ['*'],
+              \ 'completor': function('asyncomplete#sources#buffer#completor'),
+              \ }))
+        au User asyncomplete_setup call s:fix_buffer_complete()
+      endif
+
+      if g:HasPlug('asyncomplete-omni.vim')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+              \ 'name': 'omni',
+              \ 'allowlist': ['*'],
+              \ 'blocklist': ['c', 'cpp', 'html'],
+              \ 'completor': function('asyncomplete#sources#omni#completor'),
+              \ 'config': {
+              \   'show_source_kind': 1,
+              \ },
+              \ }))
+      endif
+
+      if g:HasPlug('asyncomplete-file.vim')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+              \ 'name': 'file',
+              \ 'allowlist': ['*'],
+              \ 'priority': 10,
+              \ 'completor': function('asyncomplete#sources#file#completor')
+              \ }))
+      endif
+
+      if g:HasPlug('asyncomplete-ultisnips.vim')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+              \ 'name': 'ultisnips',
+              \ 'allowlist': ['*'],
+              \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+              \ }))
+      endif
+
+      " Dictionary.
+      if g:HasPlug('asyncomplete-look')
+        au User asyncomplete_setup call asyncomplete#register_source({
+              \ 'name': 'look',
+              \ 'allowlist': ['text', 'markdown'],
+              \ 'completor': function('asyncomplete#sources#look#completor'),
+              \ })
+        au User asyncomplete_setup call asyncomplete#register_source({
+              \ 'name': 'look_good_words',
+              \ 'allowlist': ['text', 'markdown'],
+              \ 'completor': function('asyncomplete#sources#look#good_words'),
+              \ })
+      endif
+
+    augroup end  " End of register_asyncomplete_sources
+  endif
+
+endif  " asyncomplete
 
 " ========================================================================= }}}
 " 编码配置
