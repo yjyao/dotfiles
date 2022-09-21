@@ -74,10 +74,9 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'majutsushi/tagbar'
   Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
-  Plug 'neoclide/coc-snippets'
-  Plug 'neoclide/coc-sources'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}  " async completion with lsp support
   " Plug 'osyo-manga/vim-over'  " :s preview
+  Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'prabirshrestha/asyncomplete.vim'  " async completion.
   Plug 'rickhowe/diffchar.vim'
   Plug 'romainl/vim-cool'  "  auto disable search highlights
   " Plug 'scrooloose/nerdcommenter'  " use vim-commentary instead
@@ -95,7 +94,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
   Plug 'unblevable/quick-scope'  " highlight cues for `f` and `t`
   " Plug 'vim-javacompleteex'
-  Plug 'vim-scripts/OmniCppComplete'
   " Plug 'vim-scripts/VimIM'
   Plug 'vim-scripts/closetag.vim'  " close HTML tags with <C-BS>
   Plug 'wellle/context.vim'  " Freeze first line of each indentation level
@@ -1550,6 +1548,48 @@ if has('autocmd')
     au User setup call SetupWaikiki()
   augroup end
 endif
+
+" ------------------------------------------------------------
+" asyncomplete.vim
+" ------------------------------------------------------------
+
+if g:HasPlug('asyncomplete.vim')
+
+  set shortmess+=c
+
+  " Required to prevent conflicts between the auto-insertion and the plugin.
+  set completeopt-=longest
+  set completeopt+=noinsert
+
+  let g:asyncomplete_auto_popup = 1
+
+  " Start suggesting completions after you type three characters.
+  " This reduces annoyance.
+  let g:asyncomplete_min_chars = 3
+
+  if has('autocmd')
+    augroup register_asyncomplete_sources
+      autocmd!
+
+      if g:HasPlug('asyncomplete-buffer.vim')
+        " Fix for https://github.com/prabirshrestha/asyncomplete-buffer.vim/issues/17.
+        function! s:fix_buffer_complete() abort
+          let l:info = asyncomplete#get_source_info('buffer')
+          call l:info.on_event(l:info, {}, 'BufWinEnter')
+          call l:info.on_event(l:info, {}, 'BufEnter')
+        endfunction
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+              \ 'name': 'buffer',
+              \ 'allowlist': ['*'],
+              \ 'completor': function('asyncomplete#sources#buffer#completor'),
+              \ }))
+        au User asyncomplete_setup call s:fix_buffer_complete()
+      endif
+
+    augroup end  " End of register_asyncomplete_sources
+  endif
+
+endif  " asyncomplete
 
 " ========================================================================= }}}
 " 编码配置
