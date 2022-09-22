@@ -9,10 +9,16 @@ case $- in
 esac
 
 # # Uncomment the following to enable profiling.
+# # Note that the results only helps with locating the bottlenecks,
+# # but don't reflect the real time.
+# # This is because the I/O overhead is bigger than the executions themselves.
 # PS4='+ $(date "+%s.%N")\011 '
 # exec 5> /tmp/bashstart.$$.log
 # BASH_XTRACEFD=5  # requires bash 4.1+
 # set -x
+
+# # Uncomment the following to print just a startup time.
+# _bashrcloadstartts="$(date "+%s.%N")"
 
 # Toggles for custom behavior.
 # Non-empty values enable a flag.
@@ -289,3 +295,7 @@ fi
 set +x
 
 export BASHRC_ALREADY_LOADED=true
+
+[[ ${_bashrcloadstartts} ]] && echo bash startup time: $(bc <<< "$(date "+%s.%N") - ${_bashrcloadstartts}")
+
+:  # Normal exit.
