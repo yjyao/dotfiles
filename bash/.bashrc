@@ -200,13 +200,14 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # Sets the date-time format of `ls`.
 export TIME_STYLE=long-iso
 
+LESS_VERSION="$(less --version | head -n1 | cut -d ' ' -f2)"
+
 LESS=
 LESS+='R'  # control chars (color, etc.)
 # auto exit if short
-# for older `less` (< 530), 'X' needs to be added to prevent screen clearing
-# after exits. for performance reasons, add the `X` flag regardless of the
-# version.
-LESS+='XF'
+# older `less` needs the 'X' option to prevent screen clearing after exits.
+(( LESS_VERSION < 530 )) && LESS+='X'
+LESS+='F'
 LESS+='i'  # ignore case search
 LESS+='q'  # disable bells with excessive scrolling.
 export LESS
