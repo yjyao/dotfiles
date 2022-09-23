@@ -1180,6 +1180,7 @@ func! SetupWaikiki() abort
 
   " Conceal/prettify markup characters.
   setlocal conceallevel=2
+  setlocal concealcursor=
 
   set suffixesadd+=.md
 endfunc
