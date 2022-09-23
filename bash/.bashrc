@@ -294,7 +294,7 @@ fi
 
 set +x
 
-export BASHRC_ALREADY_LOADED=true
+BASHRC_ALREADY_LOADED=true
 
 [[ ${_bashrcloadstartts} ]] && echo bash startup time: $(bc <<< "$(date "+%s.%N") - ${_bashrcloadstartts}")
 
