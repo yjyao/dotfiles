@@ -816,6 +816,11 @@ if g:HasPlug('lexima.vim')
         \  'input_after': "''",
         \  'filetype' : 'tex',
         \ })
+  call lexima#add_rule({
+        \  'char': '<CR>',
+        \  'at': '「\%#」',
+        \ 'input': '<CR>', 'input_after': '<CR>',
+        \ })
 endif
 
 " -----------------------------------------------------------------------------
