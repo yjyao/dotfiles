@@ -9,7 +9,7 @@ _can_add_to_path() {
   dir="${dir%/}"
   [ -d "${dir}" ] &&
     case "${PATH}" in
-      *:${dir}:*|*:${dir}/:*) false ;;
+      ${dir}:*|${dir}/:*|*:${dir}:*|*:${dir}/:*|*:${dir}|*:${dir}/) false ;;
       *) true ;;
     esac
 }
