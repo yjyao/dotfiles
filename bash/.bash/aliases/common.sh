@@ -16,3 +16,5 @@ alias po=popd
 alias :e=vim
 alias c=clip
 alias e=less
+
+alias gitdiff='git diff --no-index'
