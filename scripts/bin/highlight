@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+
+declare -A sgr_colors=(
+[black]=30
+[red]=31
+[green]=32
+[yellow]=33
+[blue]=34
+[magenta]=35
+[cyan]=36
+[white]=37
+)
+default_color='red'
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [ [ OPTION ]... PATTERN ]...
+
+Highlight PATTERNs with colors.
+
+The options and argments are parsed sequentially. That is, the order of the
+options and arguments matter.
+
+EXAMPLES:
+
+    $ highlight --help | highlight color -c yellow -i high
+    $ cat job.log | highlight -c red FAIL -c green PASS
+
+OPTIONS:
+
+    -c, --color <COLOR>       Switch to <COLOR>. Available options are:
+                              red, green, yellow, blue, magenta, cyan, black,
+                              and white.
+    -i, --ignore-case         Case insensitive search.
+    -I, --no-ignore-case      Case sensitive search (default).
+    -w, --word-regexp         Only match whole words.
+    -W, --no-word-regexp      Match patterns regardless word
+                              boundaries (default).
+    -f, --fixed-strings       Treat the pattern as a literal string.
+    -F, --no-fixed-strings    Treat the pattern as a regex (default).
+EOF
+}
+
+# Removes `target` from `arrayname` in place.
+rm_elem() {
+  local arrayname="${1?}" target="${2?}"
+  local new=()
+  typeset -n array="${arrayname}"
+  for value in "${array[@]}"; do
+    [[ ${value} != ${target} ]] && new+=("$value")
+  done
+  eval "${arrayname}=(${new[@]})"
+}
+
+# Errors out the program if ripgrep is required but not available.
+check_rg_requirement() {
+  command -v rg ripgrep &>/dev/null && return
+  >&2 echo "The flag ${1} requires ripgrep (rg), which is not found. Abort"
+  exit 1
+}
+
+highlight() {
+  if command -v rg ripgrep &>/dev/null; then
+    highlight_rg "$@"
+  else
+    highlight_grep "$@"
+  fi
+}
+
+highlight_rg() {
+  local pattern="${1?}" buffer="${2?}" color="${3?}"
+  shift 3
+  local flags=("$@")
+  rg --case-sensitive --passthru --no-filename --no-line-number --color=always --colors "match:fg:${color}" "${flags[@]}" -- "${pattern}" "${buffer}"
+}
+
+highlight_grep() {
+  local pattern="${1?}" buffer="${2?}" color="${3?}"
+  shift 3
+  local flags=("$@")
+  sgr_color="${sgr_colors[${color}]:-${default_color}}"
+  GREP_COLORS="mt=1;${sgr_color}" grep --color=always -E -e '$' "${flags[@]}" -e "${pattern}" -- "${buffer}"
+}
+
+main() {
+  # Handle `-h` and `--help` before reading input.
+  [[ $* =~ (^| )(-h|--help)( |$) ]] && usage && exit
+
+  buffer="$(mktemp)"
+  # Capture stdin into buffer file.
+  cat > "${buffer}"
+
+  color="${default_color}"
+  flags=()
+
+  while (( $# > 0 )); do
+    case "$1" in
+      -c|--color ) shift
+        # TODO: Handle invalid color?
+        color="$1"
+        ;;
+      -i|--ignore-case )
+        flags+=(--ignore-case)
+        ;;
+      -I|--no-ignore-case )
+        rm_elem flags '--ignore-case'
+        ;;
+      # Not supported by `grep`
+      # because without regexp
+      # we don't have a good way to select all lines
+      # regardless of the search patterns.
+      -w|--word-regexp )
+        check_rg_requirement '--word-regexp' &&
+          flags+=(--word-regexp)
+        ;;
+      -W|--no-word-regexp )
+        check_rg_requirement '--no-word-regexp' &&
+          rm_elem flags '--word-regexp'
+        ;;
+      -f|--fixed-strings )
+        check_rg_requirement '--fixed-strings' &&
+          flags+=(--fixed-strings)
+        ;;
+      -F|--no-fixed-strings )
+        check_rg_requirement '--no-fixed-strings' &&
+          flags=("${flags[@]/--fixed-strings}")
+        ;;
+      * )
+        pattern="${1}"
+        highlight "${pattern}" "${buffer}" "${color}" "${flags[@]}" | sponge "${buffer}"
+        ;;
+    esac
+    shift
+  done
+
+  cat "${buffer}"
+}
+
+main "$@"
