@@ -1144,6 +1144,8 @@ let g:axring_rings = [
 " ------------------------------------------------------------
 
 com! WikiIndex edit ~/notes/index.md
+" Creates a new note. Named with the current timestamp.
+com! WikiNew exec "edit ~/notes/note-" . strftime("%s") . ".md"
 
 let g:waikiki_roots = ['~/notes']
 let g:waikiki_default_maps = 0
@@ -1180,7 +1182,7 @@ func! SetupWaikiki() abort
 
   " Conceal/prettify markup characters.
   setlocal conceallevel=2
-  setlocal concealcursor=
+  setlocal concealcursor=n
 
   set suffixesadd+=.md
 endfunc

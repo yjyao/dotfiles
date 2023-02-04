@@ -1,4 +1,4 @@
-setlocal tw=0 wrap
+setlocal tw=0
 setlocal linebreak
 
 setlocal spell
