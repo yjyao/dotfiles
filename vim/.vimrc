@@ -72,6 +72,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'tenfyzhong/axring.vim'  " extends <c-a>/<c-x>, load BEFORE speeddating
   Plug 'tpope/vim-commentary'  " motions for commenting code
   Plug 'tpope/vim-markdown'
+  Plug 'ConradIrwin/vim-bracketed-paste'  " No need to `:set paste` before pasting from terminal.
   Plug 'tpope/vim-repeat'  " make `.` repeat some plugin motions. just keep
   Plug 'tpope/vim-speeddating'  " extends <c-a>/<c-x> to work with dates
   Plug 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
