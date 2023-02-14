@@ -1114,7 +1114,9 @@ let g:targets_seekRanges = 'cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB r
 " netrw
 " ------------------------------------------------------------
 
-let g:netrw_liststyle = 3 " tree style
+" TODO: i prefer `3` (tree style) but that causes errors when opening symlinks.
+" change to `3` after https://github.com/vim/vim/pull/3609 is merged.
+let g:netrw_liststyle = 0 " list style
 let g:netrw_winsize = 20 " percent
 " let g:netrw_browse_split = 4 " open files in previous window
 let g:netrw_banner = 0
