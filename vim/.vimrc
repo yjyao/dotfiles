@@ -826,7 +826,26 @@ let $FZF_DEFAULT_OPTS = '--layout=default --info=inline --bind "ctrl-j:ignore,ct
 
 " Use the <C-p> convention from ctrlp.vim to trigger file search.
 if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
-  nnoremap <C-p> :FZF %:h<CR>
+
+  " Press dash `-` to go up one directory.
+  if executable('fd')
+    let s:fd_cmd = 'fd'
+  elseif executable('fdfind')
+    let s:fd_cmd = 'fdfind'
+  endif
+  if exists('s:fd_cmd')
+    func! FzfWithUpdirHotkey(dir)
+      let tf = tempname()
+      call writefile(['.'], tf)
+      call fzf#run(fzf#wrap({
+            \ 'dir': a:dir, 'options': [
+            \   '--bind', printf('-:reload:base="$(realpath "$(cat %s)/..")"; echo "$base" > %s; %s -t f -- . "$base"', shellescape(tf), shellescape(tf), s:fd_cmd),
+            \ ]}))
+    endfunc
+    nnoremap <C-p> :call FzfWithUpdirHotkey(expand('%:h'))<CR>
+  else
+    nnoremap <C-p> :FZF %:h<CR>
+  endif
 
   augroup fzf_window
     autocmd!
