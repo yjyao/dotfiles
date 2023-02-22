@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Cache command output for 600 seconds.
+
+prog="$(basename "$0")"
+
+cache_dir="${HOME}/.cache/${prog}"
+mkdir -p "${cache_dir}"
+
+cmd="$@"
+
+# TODO: Make this configurable.
+ttl_seconds=600
+
+cache="${cache_dir}/$(echo "$cmd" | md5sum | awk '{print $1}')"
+[[ -f "$cache" ]] && cache_mtime="$(date -r "$cache" +%s)" || cache_mtime=0
+(( $(date +%s) - cache_mtime > ttl_seconds )) && eval "$cmd" > "$cache"
+cat "$cache"
