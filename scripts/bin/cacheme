@@ -2,15 +2,50 @@
 
 # Cache command output for 600 seconds.
 
+die() {
+  >&2 echo "$@"
+  exit 1
+}
+
 prog="$(basename "$0")"
 
 cache_dir="${HOME}/.cache/${prog}"
 mkdir -p "${cache_dir}"
 
+ttl='10m'
+
+params="$(getopt -o t:,f -l ttl:,force -- "$@")" || exit 1
+eval set -- "$params"
+while [[ $# > 0 ]]; do
+  case $1 in
+    -t|--ttl )
+      ttl="$2"
+      shift
+      ;;
+    -f|--force )
+      forced=1
+      ;;
+    -- )
+      shift
+      break
+      ;;
+    * )
+      die "Unrecognized option $1"
+      ;;
+  esac
+  shift
+done
 cmd="$@"
 
-# TODO: Make this configurable.
-ttl_seconds=600
+if [[ $forced ]]; then
+  ttl_seconds=0
+else
+  [[ $ttl =~ ([0-9]+d)?([0-9]+h)?([0-9]+m)?[0-9]+s? ]] ||
+    die "Invalid ttl '$ttl'."
+  ttl_seconds="$(echo "${ttl}" |
+                 sed 's/d/*24*60*60+/;s/h/*60*60+/;s/m/*60+/;s/s//;s/+$//' |
+                 bc)"
+fi
 
 cache="${cache_dir}/$(echo "$cmd" | md5sum | awk '{print $1}')"
 [[ -f "$cache" ]] && cache_mtime="$(date -r "$cache" +%s)" || cache_mtime=0
