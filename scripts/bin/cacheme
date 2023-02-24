@@ -2,6 +2,27 @@
 
 # Cache command output for 600 seconds.
 
+usage() {
+  cat <<EOF
+Usage: ${progname} [OPTION]... -- [COMMAND]...
+Run COMMAND with a cache. With an entirely identical COMMAND invoked within a
+TTL, read output from cache. The default TTL is "10m".
+
+Options:
+
+    -t, --ttl=SPEC    Cache TTL specification. Examples: "1d2h3m4s", "3m",
+                      "10" or "10s", "2h3s".
+    -f, --force       Run COMMAND without checking cache.
+
+Examples:
+
+    $ ${progname} echo hello world
+    $ ${progname} 'sleep 2; echo hey'
+EOF
+
+  [[ $1 ]] && exit "$1"
+}
+
 die() {
   >&2 echo "$@"
   exit 1
@@ -14,7 +35,7 @@ mkdir -p "${cache_dir}"
 
 ttl='10m'
 
-params="$(getopt -o t:,f -l ttl:,force -- "$@")" || exit 1
+params="$(getopt -o t:,f -l ttl:,force -- "$@")" || usage 1
 eval set -- "$params"
 while [[ $# > 0 ]]; do
   case $1 in
@@ -29,13 +50,12 @@ while [[ $# > 0 ]]; do
       shift
       break
       ;;
-    * )
-      die "Unrecognized option $1"
-      ;;
   esac
   shift
 done
 cmd="$@"
+
+[[ $cmd ]] || { >&2 printf "No command to run. Abort.\n\n"; usage 1; }
 
 if [[ $forced ]]; then
   ttl_seconds=0
