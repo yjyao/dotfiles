@@ -52,7 +52,7 @@
   sll = stash list --stat
   sp = stash pop
   sd = "!f() { git stash drop \"stash@{$1}\" ;};f"
-  sa = "!f() { git stash apply \"stash@{${1:-$(command -v fzf >/dev/null 2>&1 && git sl | fzf | sed 's/.*stash@{\\([[:digit:]]\\+\\)}.*/\\1/')}}\" ;};f"
+  sa = "!f() { stashid=\"stash@{${1:-$(command -v fzf >/dev/null 2>&1 && git sl | fzf | sed 's/.*stash@{\\([[:digit:]]\\+\\)}.*/\\1/')}}\"; shift; git stash apply \"${stashid}\" \"$@\" ;};f"
 
   cp = cherry-pick
 
