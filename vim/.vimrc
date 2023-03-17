@@ -1297,6 +1297,7 @@ if g:HasPlug('asyncomplete.vim')
               \ 'name': 'buffer',
               \ 'allowlist': ['*'],
               \ 'completor': function('asyncomplete#sources#buffer#completor'),
+              \ 'priority': 1,
               \ }))
         au User asyncomplete_setup call s:fix_buffer_complete()
       endif
