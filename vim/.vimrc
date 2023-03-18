@@ -440,6 +440,10 @@ endfunction
 " https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text
 xnoremap <silent> s p:let @+=@0<CR>:let @"=@0<CR>
 
+" Jump to previous/next quickfix finding.
+nnoremap [q :cprev<CR>
+nnoremap ]q :cnext<CR>
+
 " ------------------------------------------------------------
 " 使用 ]i 移动到下一个相同缩进行
 " 使用 [i 移动到前一个相同缩进行
