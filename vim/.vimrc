@@ -293,9 +293,9 @@ nnoremap <Leader>s :update<CR>
 inoremap kj <Esc>
 inoremap <C-c> <Esc>
 
-" Shell 习惯的 <Home> / <End>
-inoremap <C-a> <Esc>I
-inoremap <C-e> <Esc>A
+" Emacs mode <Home>/<End> keys in insert mode.
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
 
 noremap gl $
 noremap gh ^
@@ -367,8 +367,9 @@ exec 'nmap cu :source ' . g:vimrc_path . '<CR>'
 " 在命令行下使用 ctrl-v 粘贴
 cmap <C-v> <C-r>+
 
-" <C-a> to go to beginning of line (emacs mode!) in commandline mode.
+" Emacs mode <Home>/<End> keys in command line mode.
 cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
 
 " 删除所有行尾多余的空白（空格或 tab ）
 nmap <F12> :call ClearTrailingSpaces()<CR>
