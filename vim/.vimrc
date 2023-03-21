@@ -41,7 +41,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   " Plug 'Mark--Karkat'
   Plug 'SirVer/ultisnips'
   Plug 'Vimjas/vim-python-pep8-indent'
-  Plug 'altercation/vim-colors-solarized'  " colorscheme
   Plug 'bkad/CamelCaseMotion'
   Plug 'chrisbra/csv.vim'
   Plug 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
@@ -57,6 +56,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'junegunn/fzf.vim'  " fuzzy finder extended
   Plug 'junegunn/vim-easy-align'
   Plug 'lervag/vimtex'  " LaTeX build / functions
+  Plug 'lifepillar/vim-solarized8'  " colorscheme
   Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
   " Plug 'osyo-manga/vim-over'  " :s preview
@@ -696,15 +696,19 @@ set iskeyword+=_
 " 配色
 " ========================================================================= {{{
 
-" 打开语法高亮。同时也为 solarized 所要求
+" 打开语法高亮
 syntax on
 if !g:isGUI
-  set t_Co=16
-  let g:solarized_termcolors = 16
-  let g:solarized_termtrans = 1  " Disable solarized background color.
+  " Turn on true-color in terminal.
+  " (This might cause problems in terminal emulaters that don't support true-color.)
+  " sets foreground color (ANSI, true-color mode)
+  let &t_8f = "\e[38;2;%lu;%lu;%lum"
+  " sets background color (ANSI, true-color mode)
+  let &t_8b = "\e[48;2;%lu;%lu;%lum"
+  set termguicolors
 endif
 set background=dark
-try | colo solarized | catch | endtry
+try | colo solarized8_flat | catch | endtry
 
 " 在终端下给拼写错误标上下划线
 if has('autocmd')
