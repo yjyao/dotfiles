@@ -1237,6 +1237,7 @@ endif
 if g:HasPlug('vim-lsp')
 
   let g:lsp_async_completion = 1
+  let g:lsp_diagnostics_enabled = 0  " no diagnostic highlights
 
   function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
