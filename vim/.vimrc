@@ -260,7 +260,7 @@ endif
 
 " faster grep programs
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading\ --color=never\ -g='!%'
+  set grepprg=rg\ -L\ --vimgrep\ --no-heading\ --color=never\ -g='!%'
 elseif executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
