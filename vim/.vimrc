@@ -1287,6 +1287,8 @@ if g:HasPlug('asyncomplete.vim')
   " This reduces annoyance.
   let g:asyncomplete_min_chars = 3
 
+  let g:asyncomplete_preprocessor = [function('asyncomplete#preprocessor#default_preprocessor')]
+
   if has('autocmd')
     augroup register_asyncomplete_sources
       autocmd!
@@ -1341,11 +1343,13 @@ if g:HasPlug('asyncomplete.vim')
         au User asyncomplete_setup call asyncomplete#register_source({
               \ 'name': 'look',
               \ 'allowlist': ['text', 'markdown'],
+              \ 'priority': -10,
               \ 'completor': function('asyncomplete#sources#look#completor'),
               \ })
         au User asyncomplete_setup call asyncomplete#register_source({
               \ 'name': 'look_good_words',
               \ 'allowlist': ['text', 'markdown'],
+              \ 'priority': -10,
               \ 'completor': function('asyncomplete#sources#look#good_words'),
               \ })
       endif
