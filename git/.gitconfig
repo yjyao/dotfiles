@@ -57,6 +57,7 @@
   cp = cherry-pick
 
   cl = clone
+  clgh = "!f() { git clone \"https://github.com/$1\" ;};f"
 
   root = rev-parse --show-toplevel
   ignore = "!${EDITOR:-vi} $(git rev-parse --show-toplevel)/.gitignore"
