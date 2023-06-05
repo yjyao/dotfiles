@@ -852,7 +852,7 @@ if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
       call writefile(['.'], tf)
       call fzf#run(fzf#wrap({
             \ 'dir': a:dir, 'options': [
-            \   '--bind', printf('-:reload:base="$(realpath "$(cat %s)/..")"; echo "$base" > %s; %s -t f -- . "$base"', shellescape(tf), shellescape(tf), s:fd_cmd),
+            \   '--bind', printf('-:reload:cwd="$(cat %s)"; base="${cwd}/.."; echo "$base" > %s; %s -t f -- . "$base"', shellescape(tf), shellescape(tf), s:fd_cmd),
             \ ]}))
     endfunc
     nnoremap <C-p> :call FzfWithUpdirHotkey(expand('%:h'))<CR>
