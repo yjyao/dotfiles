@@ -1095,6 +1095,27 @@ endif
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
+" Break words to highlight even by underscores.
+if g:HasPlug('quick-scope')
+  for motion in split('fFtT', '\zs')
+    " Using <expr> for normal mode mappings can cause problems (#80)
+    execute printf('
+          \   nnoremap <silent> <Plug>(MoreQuickScope%s) :<C-U>call quick_scope#Ready() \|
+          \   let oldiskeyword = &l:iskeyword \|
+          \   setlocal isk-=_ isk-=- isk-=: \|
+          \   execute "normal!" v:count1 . quick_scope#Aim("%s") \|
+          \   call quick_scope#Reload() \|
+          \   call quick_scope#DoubleTap() \|
+          \   :let &l:iskeyword = oldiskeyword<CR>',
+          \ motion, motion)
+  endfor
+  for motion in filter(g:qs_highlight_on_keys, "v:val =~# '^[fFtT]$'")
+      if empty(mapcheck(motion, 'nmap'))
+        execute printf('nmap <unique> %s <Plug>(MoreQuickScope%s)', motion, motion)
+      endif
+  endfor
+endif
+
 " Underline candidates.
 " The candidate highlights can blend with syntax highlights.
 " Adding underlines to them can help with identifying them.
