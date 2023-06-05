@@ -799,6 +799,13 @@ if g:iswindows
   augroup end
 endif
 
+" Automatically open/close the quickfix window when quickfix list changes.
+augroup cwindow
+  autocmd!
+  autocmd QuickfixCmdPost cgetexpr cwindow
+  autocmd QuickfixCmdPost lgetexpr cwindow
+augroup END
+
 " -----------------------------------------------------------------------------
 " Jedi-vim
 " -----------------------------------------------------------------------------
