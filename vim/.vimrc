@@ -576,8 +576,15 @@ set noerrorbells
 " are disabled completely. See https://vim.fandom.com/wiki/Disable_beeping.
 set visualbell t_vb=
 
-" F3 在工作路径中搜索（grep）
-nnoremap <F3> :silent grep! '' '%:h' \| cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+" F3 to grep. Default to the path where the focused file is at.
+func! Grep(path, ...)
+  " Runs grep in a non-blocking sub-shell.
+  " Traditionally one would use `silent grep | redraw!` but it causes the screen to flicker a bit
+  " and leaves the output in the parent shell (so you will see it after exiting vim).
+  return system(&grepprg . ' "' . join(a:000, ' ') . '" ' . expandcmd(a:path))
+endfunc
+com! -nargs=+ -complete=file_in_path -bar Grep cgetexpr Grep(<f-args>)
+nnoremap <F3> :Grep %:h<Space>
 
 " 在已打开的文件中搜索（grep）
 nmap <C-F3> :BufGrep<Space>
