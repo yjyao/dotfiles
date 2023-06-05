@@ -63,7 +63,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'prabirshrestha/asyncomplete-omni.vim'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   Plug 'prabirshrestha/asyncomplete.vim'  " async completion.
   Plug 'prabirshrestha/vim-lsp'
@@ -1307,18 +1306,6 @@ if g:HasPlug('asyncomplete.vim')
               \ 'priority': 1,
               \ }))
         au User asyncomplete_setup call s:fix_buffer_complete()
-      endif
-
-      if g:HasPlug('asyncomplete-omni.vim')
-        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-              \ 'name': 'omni',
-              \ 'allowlist': ['*'],
-              \ 'blocklist': ['c', 'cpp', 'html', 'bzl', 'python', 'gcl'],
-              \ 'completor': function('asyncomplete#sources#omni#completor'),
-              \ 'config': {
-              \   'show_source_kind': 1,
-              \ },
-              \ }))
       endif
 
       if g:HasPlug('asyncomplete-file.vim')
