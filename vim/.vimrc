@@ -1102,7 +1102,7 @@ if g:HasPlug('quick-scope')
     execute printf('
           \   nnoremap <silent> <Plug>(MoreQuickScope%s) :<C-U>call quick_scope#Ready() \|
           \   let oldiskeyword = &l:iskeyword \|
-          \   setlocal isk-=_ isk-=- isk-=: \|
+          \   setlocal isk=65-90,97-122 \|
           \   execute "normal!" v:count1 . quick_scope#Aim("%s") \|
           \   call quick_scope#Reload() \|
           \   call quick_scope#DoubleTap() \|
