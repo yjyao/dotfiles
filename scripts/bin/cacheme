@@ -2,6 +2,7 @@
 
 # Cache command output for 600 seconds.
 
+progname="$(basename "$0")"
 usage() {
   cat <<EOF
 Usage: ${progname} [OPTION]... -- [COMMAND]...
