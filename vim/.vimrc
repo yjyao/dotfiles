@@ -1256,6 +1256,9 @@ func! SetupWaikiki() abort
   setlocal concealcursor=n
 
   set suffixesadd+=.md
+
+  " Do not require capitalized sentences.
+  setlocal spellcapcheck=
 endfunc
 
 if has('autocmd')
