@@ -18,3 +18,7 @@ alias c=clip
 alias e=less
 
 alias gitdiff='git diff --no-index'
+
+# Ignore (downstream) broken pipes.
+# Allows `tee | head` for previews.
+alias tee='tee --output-error exit-nopipe'
