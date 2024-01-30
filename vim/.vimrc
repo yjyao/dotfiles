@@ -1251,6 +1251,18 @@ func! SetupWaikiki() abort
   " - `<C-x><C-]>` completes tags.
   " - With 'coc-tag' installed, fuzzy completion will also match tags.
 
+  " Enter `[[` to insert a note.
+  " This brings up fzf allowing you to search through all your notes,
+  " after selecting a result by pressing `<CR>`,
+  " the file name of the selected note will be inserted.
+  inoremap <buffer> [[ =fzf#vim#complete(fzf#wrap({
+        \ 'source': (executable('rg') ? 'rg' : 'grep') . ' --with-filename -e ^ -- ~/notes',
+        \ 'options': [
+        \  '-d', ':', '--nth', '2..',
+        \ ],
+        \ 'reducer': { lines -> '(' . split(lines[0], ':')[0] . ')' },
+        \ }))<CR>
+
   " Conceal/prettify markup characters.
   setlocal conceallevel=2
   setlocal concealcursor=n
