@@ -80,6 +80,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'wellle/context.vim'  " Freeze first line of each indentation level
   Plug 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
   Plug 'whiteinge/diffconflicts'
+  Plug 'will133/vim-dirdiff'  " Diff directories.
   Plug 'wsdjeg/vim-fetch'  " Support filepath:line:col syntax.
   Plug 'yjyao/recap.vim'
 
@@ -1209,6 +1210,15 @@ let g:axring_rings = [
 " ------------------------------------------------------------
 
 " see ~/.vim/after/plugin/speeddating.vim
+
+" ------------------------------------------------------------
+" DirDiff
+" ------------------------------------------------------------
+
+" Go to the previous/next *file* with diffs,
+" Place the cursor on the right side.
+nnoremap [C :DirDiffPrev \| 2 wincmd w<CR>
+nnoremap ]C :DirDiffNext \| 2 wincmd w<CR>
 
 " ------------------------------------------------------------
 " Waikiki --- Minimal set of wiki feature.
