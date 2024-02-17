@@ -23,6 +23,7 @@ vim
 man
 bin
 todo
+jj
 )
 
 syntaxes=()
