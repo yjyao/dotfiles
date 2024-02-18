@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+die() {
+  >&2 echo "$@"
+  exit 1
+}
+
+configs_do() {
+  &>/dev/null \
+    find -L ~/.jjconfig.toml ~/.config/jj/config.toml ~/.config/jj/extra_configs/ \
+    -name '*.toml' -exec "$@"
+}
+
+main() {
+  command -v jj &>/dev/null || die 'Command not found: jj'
+
+  [[ -f ~/.config/jj/scripts/gen_config.sh ]] ||
+    die "Required script ~/.config/jj/scripts/gen_config.sh not found."
+
+  vim $(2>/dev/null find -L \
+    ~/.jjconfig.toml ~/.config/jj/config.toml ~/.config/jj/extra_configs/ \
+    -name '*.toml' -exec printf '%q\n' {} \+ | tac) &&
+    bash ~/.config/jj/scripts/gen_config.sh
+}
+
+main "$@"
