@@ -10,3 +10,4 @@ merge-editor = 'vimdiff'
 [aliases]
 
 d = ['diff']
+rc = ['config', 'edit', '--user']
