@@ -1217,8 +1217,8 @@ let g:axring_rings = [
 
 " Go to the previous/next *file* with diffs,
 " Place the cursor on the right side.
-nnoremap [C :DirDiffPrev \| 2 wincmd w<CR>
-nnoremap ]C :DirDiffNext \| 2 wincmd w<CR>
+nnoremap [C <Cmd>DirDiffPrev<CR><Cmd>2 wincmd w<CR>
+nnoremap ]C <Cmd>DirDiffNext<CR><Cmd>2 wincmd w<CR>
 
 " ------------------------------------------------------------
 " Waikiki --- Minimal set of wiki feature.
