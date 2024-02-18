@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Shell-escape each path:
+left=$(printf '%q' "$1"); shift
+right=$(printf '%q' "$1"); shift
+vim "+DirDiff ${left} ${right}" -c "2 wincmd w" "$@"

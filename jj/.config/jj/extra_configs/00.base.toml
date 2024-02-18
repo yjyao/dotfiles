@@ -2,6 +2,11 @@
 
 name = 'Jy'
 
+[ui]
+
+diff-editor = '_vimdirdiff'
+merge-editor = 'vimdiff'
+
 [aliases]
 
 d = ['diff']
