@@ -214,6 +214,8 @@ export LESS
 export LESS_TERMCAP_so=$'\e[30;43m'
 export LESS_TERMCAP_se=$'\e[0m'
 
+export PAGER=less  # Use less as default pager.
+
 # todo/task manager. requires https://github.com/todotxt/todo.txt-cli.
 export TODOTXT_DEFAULT_ACTION=ls
 
