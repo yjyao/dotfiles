@@ -7,6 +7,23 @@ name = 'Jy'
 diff-editor = '_vimdirdiff'
 merge-editor = 'vimdiff'
 
+[template-aliases]
+
+# Change the looks of `log`, `op_log`, and `show`.
+# See https://github.com/martinvonz/jj/blob/main/cli/src/config/templates.toml.
+
+'format_short_id(id)' = 'id.shortest(4)'
+# Do not show commit id in `jj log`.
+'format_short_commit_id(id)' = ''
+# Show author's name instead of their email.
+'format_short_signature(signature)' = '''
+  if(signature.name(),
+     surround("[", "]", signature.name()),
+     name_placeholder)
+'''
+# Show the date. I don't need to know which second in the day.
+'format_timestamp(timestamp)' = 'timestamp.format("%F")'
+
 [aliases]
 
 d = ['diff']
