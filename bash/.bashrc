@@ -106,11 +106,49 @@ elif [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
-if ! command -v __git_ps1 &> /dev/null; then
+if ! command -v __git_ps1 &>/dev/null; then
   __git_ps1() {
     [ -d .git ] && git symbolic-ref --short HEAD
   }
 fi
+
+__jj_ps1() {
+  jj root &>/dev/null || return
+  declare -A colors=(
+    [blue]=34
+    [yellow]=33
+    [green]=32
+    [red]=31
+  )
+  jj_log() {
+    jj --color never log \
+      -l1 -r @ --no-graph -T "surround(\"\", \" \", $@)"
+  }
+  colored() {
+    local color="$1"; shift
+    echo -e "\001\033[${color}m\002$@\001\033[0m\002"
+  }
+  bits() {
+    local color="$1"; shift
+    echo -e "$(colored "${colors[$color]}" "$(jj_log "$@")")"
+  }
+  local ret
+  ret+="$(bits 'green'  'change_id.shortest()')"
+  ret+="$(bits 'green'  'if(empty, "✓")')"
+  ret+="$(bits 'yellow' 'if(empty, "", "!")')"
+  ret+="$(bits 'red'    'if(divergent, "Y")')"
+  ret+="$(bits 'yellow' 'if(conflict, "X")')"
+  ret+="$(bits 'blue'   'branches')"
+  echo -e "$ret"
+}
+
+__vcs_ps1() {
+  if [[ -d .jj ]]; then
+    __jj_ps1
+  elif [[ -d .git ]]; then
+    __git_ps1 '\001\033[32m\002[%s] \001\033[0m\002'
+  fi
+}
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
@@ -123,7 +161,7 @@ _PS1+='\[\033[96m\]\u@\h\[\033[0m\]'
 _PS1+=':'
 _PS1+='\[\033[96m\]\w\[\033[0m\]'
 _PS1+='\n'
-_PS1+='\[\033[32m\]$(__git_ps1 "[%s] ")\[\033[0m\]'
+_PS1+='$(__vcs_ps1)'
 _PS1+='\$ '
 _PS1+='\[\033[0:0m\]'
 PS1=$_PS1
