@@ -7,14 +7,18 @@ name = 'Jy'
 diff-editor = '_vimdirdiff'
 merge-editor = 'vimdiff'
 
+[revsets]
+
+log = "@ | ancestors(immutable_heads().., 2) | heads(immutable_heads())"
+
 [template-aliases]
 
 # Change the looks of `log`, `op_log`, and `show`.
 # See https://github.com/martinvonz/jj/blob/main/cli/src/config/templates.toml.
 
 'format_short_id(id)' = 'id.shortest(4)'
-# Do not show commit id in `jj log`.
-'format_short_commit_id(id)' = ''
+# # Do not show commit id in `jj log`.
+# 'format_short_commit_id(id)' = ''
 # Show author's name instead of their email.
 'format_short_signature(signature)' = '''
   if(signature.name(),
@@ -23,6 +27,14 @@ merge-editor = 'vimdiff'
 '''
 # Show the date. I don't need to know which second in the day.
 'format_timestamp(timestamp)' = 'timestamp.format("%F")'
+
+[revset-aliases]
+
+# Everything that's mine and local-only or part of a branch that I have checked
+# out locally.
+"wip()" = "trunk()..(branches() | (mine() ~ ..remote_branches()))"
+
+"immutable_heads()" = "trunk() | tags() | remote_branches()"
 
 [aliases]
 
