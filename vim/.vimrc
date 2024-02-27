@@ -536,6 +536,11 @@ if !g:HasPlug('vim-tmux-navigator')
   nnoremap <C-l> <C-w>l
 endif
 
+" 把 `<counter>j` 加到 jumplist 中以便 `<C-o>` 返回
+" 方便在 `relativenumber` 模式下移动
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
+nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
+
 " 标签控制
 " 使用 ctrl+Tab 切换标签
 nnoremap <C-Tab> :tabnext<CR>
