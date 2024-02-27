@@ -54,6 +54,8 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'honza/vim-snippets'  " provides a bunch of snippets
   Plug 'junegunn/fzf'  " fuzzy finder
   Plug 'junegunn/fzf.vim'  " fuzzy finder extended
+  Plug 'junegunn/goyo.vim'  " Focus writing mode. Goes with limelight.vim.
+  Plug 'junegunn/limelight.vim'  " Highlight current paragraph.
   Plug 'junegunn/vim-easy-align'
   Plug 'lervag/vimtex'  " LaTeX build / functions
   Plug 'lifepillar/vim-solarized8'  " colorscheme
@@ -1408,6 +1410,26 @@ if g:HasPlug('asyncomplete.vim')
   endif
 
 endif  " asyncomplete
+
+" ------------------------------------------------------------
+" Goyo & Limelight
+" ------------------------------------------------------------
+
+func! s:goyo_enter()
+  set scrolloff=999
+  set relativenumber
+  Limelight
+endfunc
+
+func! s:goyo_leave()
+  Limelight!
+endfunc
+
+augroup goyo_settings
+  autocmd!
+  au User GoyoEnter nested call <SID>goyo_enter()
+  au User GoyoLeave nested call <SID>goyo_leave()
+augroup end
 
 " ========================================================================= }}}
 " 编码配置
