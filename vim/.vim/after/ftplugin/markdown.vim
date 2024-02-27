@@ -42,3 +42,32 @@ let g:surround_{char2nr('m')} = "$\r$"
 let g:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
 " Code fences
 let g:surround_{char2nr('c')} = "```\1language: \1\n\r\n```"
+
+" Tables
+" ----------
+
+inoremap <buffer><silent> <Bar>   <Bar><C-o>:call <SID>align()<CR>
+
+" Stolen and modified from https://gist.github.com/tpope/287147.
+" Modifications:
+" - Uses https://github.com/junegunn/vim-easy-align
+"   instead of https://github.com/godlygeek/tabular.
+" - Operates on a paragraph level.
+"   The entire paragraph that the cursor is in must fulfill:
+"   - Has a markdown table header line (e.g., `--- | :--- | ---`)
+"   - Every line in the paragraph has columns separated by bars (`|`)
+function! s:align()
+  if !exists(':EasyAlign') | return | endif
+  let has_table_header = search(':\?-\+:\?\s*|\s*:\?-\+:\?', 'bcnp', line("'{")) > 0
+  let all_lines_in_paragraph_have_columns
+        \ =  search('^\(\s*[^|[:space:]]\+\s*\)\+$', 'bcnp', line("'{")) == 0
+        \ && search('^\(\s*[^|[:space:]]\+\s*\)\+$',  'cnp', line("'}")) == 0
+  let is_paragragh_a_table = has_table_header && all_lines_in_paragraph_have_columns
+  if !is_paragragh_a_table | return | endif
+  let line=line(".")
+  let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+  let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+  '{,'}EasyAlign *|
+  call cursor(line, 0)
+  call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'), 'e+1')
+endfunction
