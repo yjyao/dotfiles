@@ -108,7 +108,7 @@ fi
 
 if ! command -v __git_ps1 &>/dev/null; then
   __git_ps1() {
-    [ -d .git ] && git symbolic-ref --short HEAD
+    git root &>/dev/null && git symbolic-ref --short HEAD
   }
 fi
 
@@ -121,7 +121,7 @@ __jj_ps1() {
     [red]=31
   )
   jj_log() {
-    jj --color never log \
+    jj --ignore-working-copy --color never log \
       -l1 -r @ --no-graph -T "surround(\"\", \" \", $@)"
   }
   colored() {
@@ -143,9 +143,9 @@ __jj_ps1() {
 }
 
 __vcs_ps1() {
-  if [[ -d .jj ]]; then
+  if jj root &>/dev/null; then
     __jj_ps1
-  elif [[ -d .git ]]; then
+  elif git root &>/dev/null; then
     __git_ps1 '\001\033[32m\002[%s] \001\033[0m\002'
   fi
 }
@@ -227,7 +227,7 @@ fi
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --ansi'
 if command -v fd &> /dev/null; then
-  export FZF_DEFAULT_COMMAND='fd --follow --hidden --exclude ".git" --color=auto'
+  export FZF_DEFAULT_COMMAND='fd --follow --hidden --exclude ".git" --exclude ".jj" --color=auto'
   export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type directory"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type --type file"
 fi
