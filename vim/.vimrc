@@ -43,7 +43,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'SirVer/ultisnips'
   Plug 'Vimjas/vim-python-pep8-indent'
   Plug 'bkad/CamelCaseMotion'
-  Plug 'chrisbra/csv.vim'
   Plug 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'cohama/lexima.vim'  "  auto pair closer
@@ -67,7 +66,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   Plug 'prabirshrestha/asyncomplete.vim'  " async completion.
   Plug 'prabirshrestha/vim-lsp'
-  Plug 'rickhowe/diffchar.vim'
   Plug 'romainl/vim-cool'  "  auto disable search highlights
   Plug 'takac/vim-hardtime'  " prevents bad habbits
   Plug 'tenfyzhong/axring.vim'  " extends <c-a>/<c-x>, load BEFORE speeddating
@@ -161,6 +159,9 @@ endif
 
 " 光标移动到 buffer 的顶部和底部时保持 3 行距离
 set scrolloff=3
+" 横向滚动
+set sidescroll=1
+set sidescrolloff=3
 
 " 在被分割的窗口间显示空白，便于阅读
 set fillchars=vert:\ ,stl:\ ,stlnc:\
@@ -175,9 +176,6 @@ set statusline+=[%{&fileformat}] " encoding
 set statusline+=[POS=%l,%v]      " position
 set statusline+=[%p%%]           " percentage of file
 set statusline+=%=               " right align
-if g:HasPlug('csv.vim')
-  set statusline+=%=%{exists('*CSV_WCol')&&\ &ft=~'csv'?'[COL='.CSV_WCol('Name').']\ ':''}
-endif
 set statusline+=%{strftime(\"%m/%d/%y\ -\ %H:%M\")}\  " time
 " 总是显示状态行
 set laststatus=2
@@ -281,6 +279,10 @@ for d in glob(g:vimfiles_dir . '/spell/*.add', 1, 1)
   endif
 endfor
 
+" Do not treat numbers with a leading zero (`03`) as octal
+" when increasing/decreasing it with <C-a>/<C-x>.
+set nrformats-=octal
+
 " ========================================================================= }}}
 " 操作
 " ========================================================================= {{{
@@ -291,6 +293,9 @@ set nocompatible
 " 设置 leader 健
 let mapleader = "\<Space>"
 let maplocalleader = mapleader
+
+" Disable ex-mode hotkey. Use `gQ` if you really mean it.
+nnoremap Q <nop>
 
 " 保存
 " nnoremap <C-s> :update<CR>
@@ -324,6 +329,7 @@ nmap dm :if &diff \| diffoff \| else \| diffthis \| endif<CR>
 nmap du :diffupdate<CR>
 
 " 查看改动了什么（diff changes）
+" TODO: Compare this against `:help :DiffOrig`
 nmap dc :w !git diff `readlink %` -<CR>
 
 " 快速开关选项
@@ -453,6 +459,10 @@ nnoremap [q :cprev<CR>
 nnoremap ]q :cnext<CR>
 nnoremap qq :cclose<CR>
 
+" Jump to previous/next buffer.
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+
 " ------------------------------------------------------------
 " 使用 ]i 移动到下一个相同缩进行
 " 使用 [i 移动到前一个相同缩进行
@@ -547,11 +557,6 @@ endif
 " 方便在 `relativenumber` 模式下移动
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
-
-" 标签控制
-" 使用 ctrl+Tab 切换标签
-nnoremap <C-Tab> :tabnext<CR>
-nnoremap <C-S-Tab> :tabprevious<CR>
 
 com! DiffEdit w !vim - -c ":vnew % | windo diffthis"
 
@@ -1191,31 +1196,7 @@ let g:netrw_liststyle = 0 " list style
 let g:netrw_winsize = 20 " percent
 " let g:netrw_browse_split = 4 " open files in previous window
 let g:netrw_banner = 0
-let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
-
-" ------------------------------------------------------------
-" csv.vim
-" ------------------------------------------------------------
-
-" " Customize plugin mappings
-" let g:no_csv_maps = 1
-" if g:HasPlug('csv.vim')
-"   if has('autocmd')
-"     augroup csv_maps
-"       autocmd!
-"       au FileType csv nnoremap <buffer> <silent> <Leader>h :<C-U>call csv#MoveCol(-v:count1, line("."))<CR>
-"       au FileType csv nnoremap <buffer> <silent> <Leader>l :<C-U>call csv#MoveCol(v:count1, line("."))<CR>
-"       au FileType csv nnoremap <buffer> <silent> <Leader>k :<C-U>call csv#MoveCol(0, line(".")-v:count1)<CR>
-"       au FileType csv nnoremap <buffer> <silent> <Leader>j :<C-U>call csv#MoveCol(0, line(".")+v:count1)<CR>
-"       au FileType csv xnoremap <buffer> <silent> if :<C-U>call csv#MoveOver(0)<CR>
-"       au FileType csv omap <buffer> <silent> if :norm vif<cr>
-"       au FileType csv xnoremap <buffer> <silent> af :<C-U>call csv#MoveOver(1)<CR>
-"       au FileType csv omap <buffer> <silent> af :norm vaf<cr>
-"       au FileType csv xnoremap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
-"       au FileType csv omap <buffer> <silent> iL :<C-U>call csv#SameFieldRegion()<CR>
-"     augroup end
-"   endif
-" endif
+let g:netrw_bufsettings = 'nomodifiable nomodified readonly number nobuflisted nowrap'
 
 " ------------------------------------------------------------
 " axring.vim
