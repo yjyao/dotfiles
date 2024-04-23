@@ -35,6 +35,7 @@ endfunc
 if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   call plug#begin(g:vimfiles_dir . '/bundle')
 
+  Plug 'AndrewRadev/splitjoin.vim'  " Split one-liner code / join code blocks into one-liners.
   Plug 'ConradIrwin/vim-bracketed-paste'  " No need to `:set paste` before pasting from terminal.
   Plug 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
   " Plug 'Lokaltog/vim-powerline'
@@ -807,6 +808,14 @@ augroup cwindow
   autocmd QuickfixCmdPost cgetexpr cwindow
   autocmd QuickfixCmdPost lgetexpr cwindow
 augroup END
+
+" -----------------------------------------------------------------------------
+" splitjoin
+" -----------------------------------------------------------------------------
+
+" Default hotkeys are
+" - `gJ` for join
+" - `gS` to split
 
 " -----------------------------------------------------------------------------
 " Jedi-vim
