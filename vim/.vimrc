@@ -242,7 +242,7 @@ set report=0
 set selection=inclusive
 
 " Load help files under doc/
-if !empty(glob(g:vimfiles_dir . '/doc'))
+if !empty(glob(g:vimfiles_dir . '/doc/*'))
   exec 'helptags ' . g:vimfiles_dir . '/doc'
 endif
 
