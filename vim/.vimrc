@@ -628,7 +628,7 @@ com! DiffEdit w !vim - -c ":vnew % | windo diffthis"
 
 " Ranged search
 " Alternatively, select a range and then use `/\%Vpattern` to search.
-com! -nargs=* -range RSsearch /\%><line1>l\%<<line2>l<args>
+com! -nargs=* -range RSearch /\%><line1>l\%<<line2>l<args>
 xnoremap g/ <Esc>/\%V
 
 " 将文件 <EOL> 改为 UNIX 格式
