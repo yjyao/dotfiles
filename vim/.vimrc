@@ -872,11 +872,26 @@ if g:HasPlug('lexima.vim')
         \  'input_after': "''",
         \  'filetype' : 'tex',
         \ })
+
   call lexima#add_rule({
         \  'char': '<CR>',
         \  'at': '「\%#」',
-        \ 'input': '<CR>', 'input_after': '<CR>',
+        \  'input': '<CR>', 'input_after': '<CR>',
         \ })
+
+  " Raw string and format strings in python.
+  " By default single-quotes following a letter will not auto-pair
+  " because of usages like "it's", "Michael's".
+  " This rule triggers auto-pair on single-quotes after "r" and "f"
+  " for raw strings and format strings like `f'Hello, {name}'`.
+  " If necessary, improve by adding "syntax" constraints.
+  call lexima#add_rule({
+        \  'char': "'",
+        \  'at': '[rf]\%#',
+        \  'input': "'", 'input_after': "'",
+        \  'filetype': 'python',
+        \ })
+
 endif
 
 " -----------------------------------------------------------------------------
