@@ -62,7 +62,6 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
   Plug 'michaeljsmith/vim-indent-object'
   " Plug 'osyo-manga/vim-over'  " :s preview
-  Plug 'prabirshrestha/asyncomplete-buffer.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
@@ -83,6 +82,7 @@ if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
   Plug 'whiteinge/diffconflicts'
   Plug 'will133/vim-dirdiff'  " Diff directories.
   Plug 'wsdjeg/vim-fetch'  " Support filepath:line:col syntax.
+  Plug 'yjyao/asyncomplete-buffer.vim'
   Plug 'yjyao/recap.vim'
 
   " end-of-local-plugins
@@ -1359,19 +1359,12 @@ if g:HasPlug('asyncomplete.vim')
       autocmd!
 
       if g:HasPlug('asyncomplete-buffer.vim')
-        " Fix for https://github.com/prabirshrestha/asyncomplete-buffer.vim/issues/17.
-        function! s:fix_buffer_complete() abort
-          let l:info = asyncomplete#get_source_info('buffer')
-          call l:info.on_event(l:info, {}, 'BufWinEnter')
-          call l:info.on_event(l:info, {}, 'BufEnter')
-        endfunction
         au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
               \ 'name': 'buffer',
               \ 'allowlist': ['*'],
               \ 'completor': function('asyncomplete#sources#buffer#completor'),
               \ 'priority': 1,
               \ }))
-        au User asyncomplete_setup call s:fix_buffer_complete()
       endif
 
       if g:HasPlug('asyncomplete-file.vim')
