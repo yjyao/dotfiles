@@ -241,6 +241,7 @@ set viminfo+=!
 " 命令行模式下补全、模糊大小写
 set wildmenu
 set wildignorecase fileignorecase
+set wildoptions+=fuzzy
 
 " 每次命令行命令后告诉我们共更改了文件多少行内容
 " 如 :s 之后会得到如 "3 substitutions on 1 line" 的提示
