@@ -13,13 +13,13 @@ setlocal suffixesadd=.tex
 " ----------
 
 " Quotes
-let g:surround_{char2nr('q')} = "`\r'"
-let g:surround_{char2nr('Q')} = "``\r''"
+let b:surround_{char2nr('q')} = "`\r'"
+let b:surround_{char2nr('Q')} = "``\r''"
 " Emphasis
-let g:surround_{char2nr('e')} = "\\emph{\r}"
+let b:surround_{char2nr('e')} = "\\emph{\r}"
 " Math
-let g:surround_{char2nr('m')} = "$\r$"
-let g:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
+let b:surround_{char2nr('m')} = "$\r$"
+let b:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
 " Pass selection as argument to command.
 " Only applies the command if none-empty.
 " Example:
@@ -27,4 +27,4 @@ let g:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
 "  OLD TEXT  COMMAND  INPUT  NEW TEXT
 "  hello     ysif     emph   \emph{hello}
 "  hello     ysif            hello
-let g:surround_{char2nr('f')} = "\1command: \r..*\r\\\\&{\1\r\1\r..*\r}\1"
+let b:surround_{char2nr('f')} = "\1command: \r..*\r\\\\&{\1\r\1\r..*\r}\1"

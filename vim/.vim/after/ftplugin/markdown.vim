@@ -30,18 +30,18 @@ onoremap <buffer> <silent> iS :normal ViS<CR>
 " ----------
 
 " Emphasis
-let g:surround_{char2nr('e')} = "*\r*"
-let g:surround_{char2nr('E')} = "**\r**"
+let b:surround_{char2nr('e')} = "*\r*"
+let b:surround_{char2nr('E')} = "**\r**"
 " Strikethru
-let g:surround_{char2nr('s')} = "~~\r~~"
+let b:surround_{char2nr('s')} = "~~\r~~"
 " URL/link
-let g:surround_{char2nr('u')} = "[\r](\1url: \1)"
-let g:surround_{char2nr('U')} = "[\1label: \1](\r)"
+let b:surround_{char2nr('u')} = "[\r](\1url: \1)"
+let b:surround_{char2nr('U')} = "[\1label: \1](\r)"
 " Math
-let g:surround_{char2nr('m')} = "$\r$"
-let g:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
+let b:surround_{char2nr('m')} = "$\r$"
+let b:surround_{char2nr('M')} = "\\[\n\t\r\n\\]"
 " Code fences
-let g:surround_{char2nr('c')} = "```\1language: \1\n\r\n```"
+let b:surround_{char2nr('c')} = "```\1language: \1\n\r\n```"
 
 " Tables
 " ----------
@@ -64,7 +64,7 @@ function! s:align()
         \ && search('^\(\s*[^|[:space:]]\+\s*\)\+$',  'cnp', line("'}")) == 0
   let is_paragragh_a_table = has_table_header && all_lines_in_paragraph_have_columns
   if !is_paragragh_a_table | return | endif
-  let line=line(".")
+  let line=line('.')
   let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
   let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
   '{,'}EasyAlign *|

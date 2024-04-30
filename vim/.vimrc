@@ -1,4 +1,5 @@
-" 辅助变量配置 {{{
+" 辅助变量配置
+" ========================================================================= {{{
 let g:iswindows = 0
 let g:islinux = 0
 if has('win32') || has('win64') || has('win95') || has('win16')
@@ -27,102 +28,161 @@ func! SystemNoNull(cmd)
 endfunc
 
 " ========================================================================= }}}
-" vim-plug - Load plugins
-" ========================================================================= {{{
-" *** Keep this at the top of file. ***
-" https://github.com/junegunn/vim-plug
-
-if !empty(glob(g:vimfiles_dir . '/autoload/plug.vim'))
-  call plug#begin(g:vimfiles_dir . '/bundle')
-
-  Plug 'AndrewRadev/splitjoin.vim'  " Split one-liner code / join code blocks into one-liners.
-  Plug 'ConradIrwin/vim-bracketed-paste'  " No need to `:set paste` before pasting from terminal.
-  Plug 'JikkuJose/vim-visincr'  " quickly create consecutive numbers
-  " Plug 'Lokaltog/vim-powerline'
-  " Plug 'Mark--Karkat'
-  Plug 'SirVer/ultisnips'
-  Plug 'Vimjas/vim-python-pep8-indent'
-  Plug 'bkad/CamelCaseMotion'
-  Plug 'christoomey/vim-sort-motion'  " vim-object-friendly sorting motion
-  Plug 'christoomey/vim-tmux-navigator'
-  Plug 'cohama/lexima.vim'  "  auto pair closer
-  " Plug 'davidhalter/jedi-vim'  "  python autocomplete. 'pip install jedi' required
-  Plug 'derekwyatt/vim-fswitch'  " switch between source/code files
-  " Plug 'fatih/vim-go'
-  Plug 'fcpg/vim-waikiki'  " Wiki system: Link and tag handling.
-  Plug 'hiterm/asyncomplete-look'  " Dictionary completion.
-  Plug 'honza/vim-snippets'  " provides a bunch of snippets
-  Plug 'junegunn/fzf'  " fuzzy finder
-  Plug 'junegunn/fzf.vim'  " fuzzy finder extended
-  Plug 'junegunn/goyo.vim'  " Focus writing mode. Goes with limelight.vim.
-  Plug 'junegunn/limelight.vim'  " Highlight current paragraph.
-  Plug 'junegunn/vim-easy-align'
-  Plug 'lervag/vimtex'  " LaTeX build / functions
-  Plug 'lifepillar/vim-solarized8'  " colorscheme
-  Plug 'mattn/emmet-vim'  " https://emmet.io: fast HTML coding
-  Plug 'michaeljsmith/vim-indent-object'
-  " Plug 'osyo-manga/vim-over'  " :s preview
-  Plug 'prabirshrestha/asyncomplete-file.vim'
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-  Plug 'prabirshrestha/asyncomplete.vim'  " async completion.
-  Plug 'prabirshrestha/vim-lsp'
-  Plug 'romainl/vim-cool'  "  auto disable search highlights
-  Plug 'takac/vim-hardtime'  " prevents bad habbits
-  Plug 'tenfyzhong/axring.vim'  " extends <c-a>/<c-x>, load BEFORE speeddating
-  Plug 'tpope/vim-commentary'  " motions for commenting code
-  Plug 'tpope/vim-markdown'
-  Plug 'tpope/vim-repeat'  " make `.` repeat some plugin motions. just keep
-  Plug 'tpope/vim-speeddating'  " extends <c-a>/<c-x> to work with dates
-  Plug 'tpope/vim-surround'  " motions for surrounding text with paren/etc.
-  Plug 'unblevable/quick-scope'  " highlight cues for `f` and `t`
-  Plug 'vim-scripts/closetag.vim'  " close HTML tags with <C-BS>
-  Plug 'wellle/context.vim'  " Freeze first line of each indentation level
-  Plug 'wellle/targets.vim'  " objects like arg; search-ahaed paren-objects
-  Plug 'whiteinge/diffconflicts'
-  Plug 'will133/vim-dirdiff'  " Diff directories.
-  Plug 'wsdjeg/vim-fetch'  " Support filepath:line:col syntax.
-  Plug 'yjyao/asyncomplete-buffer.vim'
-  Plug 'yjyao/recap.vim'
-
-  " end-of-local-plugins
-
-  let b:extra_plugins = g:vimfiles_dir . '/plugins.vim'
-  if filereadable(expand(b:extra_plugins))
-    exec 'source '.b:extra_plugins
-  endif
-
-  call plug#end()
-
-  " Don't use `PlugUpgrade`, instead update the git submodule
-  "   $ git submodule update --remote vim/.vim/vim-plug/
-  delc PlugUpgrade
-
-endif  " if has vim-plug
-
-" Always keep the plugin list sorted.
-if has('autocmd')
-  augroup sort_plugins
-    autocmd!
-    au BufUnload .vimrc execute 'normal mzgg' | setlocal nofoldenable | 0/plug#begin/+2,0/end-of-local-plugins/-2 sort /^\s*\("\s*\)\?/ | update | normal `z
-  augroup end
-endif
-
-func! g:HasPlug(name)
-  " The vim-plug manager defines `g:plugs`.
-  " A plugin is present if it is registered under vim-plug *and*
-  " its runtimepath is non-empty (it is downloaded/installed).
-  return exists('g:plugs')
-        \ && has_key(g:plugs, a:name)
-        \ && !empty(glob(expand(g:plugs[a:name]['dir']) . '/*'))
-endfunc
-
-" ========================================================================= }}}
 " Built-in optional packages
 " ========================================================================= {{{
 
 packadd! matchit  " More pair match patterns for `%`.
 packadd! cfilter  " Filter quicklist.
+
+" ========================================================================= }}}
+" Packager - Plugin Installer
+" ========================================================================= {{{
+" https://github.com/kristijanhusak/vim-packager
+
+" TIP: To install all plugins on a clean machine, run
+"     $ vim --clean '+source ~/.vimrc' +PlugUpdate '+qall!'
+
+exec 'set packpath^='.g:vimfiles_dir
+func! s:get_packager() abort
+  if !empty(globpath(&packpath, '/pack/*/opt/vim-packager'))
+    return
+  endif
+  " Download vim-packager into the first directory in `&packpath`.
+  let best_packpath = substitute(&packpath, ',.*', '', '')
+  call system(
+        \ 'git clone '.
+        \ 'https://github.com/kristijanhusak/vim-packager '.
+        \ best_packpath.'/pack/packager/opt/vim-packager')
+endfunc
+func! s:packager_init() abort
+  call <SID>get_packager()
+  packadd vim-packager
+  " plugin-list#begin
+
+  " " Benchmark vim startup time. (Fancier `vi --startuptime`.)
+  " call packager#add('dstein64/vim-startuptime')
+
+  " Snippet triggering system.
+  call packager#add('SirVer/ultisnips')
+  " Provides many snippets.
+  call packager#add('honza/vim-snippets')
+
+  " Auto-complete family.
+  call packager#add('hiterm/asyncomplete-look') " Dictionary completion.
+  call packager#add('prabirshrestha/asyncomplete-file.vim')
+  call packager#add('prabirshrestha/asyncomplete-lsp.vim')
+  call packager#add('prabirshrestha/asyncomplete-ultisnips.vim')
+  call packager#add('prabirshrestha/asyncomplete.vim')
+  call packager#add('prabirshrestha/vim-lsp')
+  call packager#add('yjyao/asyncomplete-buffer.vim')
+
+  " Vim operators:
+  " - `gJ` to split one-liner code.
+  " - `gK` to join code blocks into one-liners.
+  call packager#add('AndrewRadev/splitjoin.vim')
+  " No need to `:set paste` before pasting from terminal.
+  call packager#add('ConradIrwin/vim-bracketed-paste')
+  " Quickly create consecutive numbers.
+  call packager#add('JikkuJose/vim-visincr')
+  call packager#add('Vimjas/vim-python-pep8-indent')
+  call packager#add('bkad/CamelCaseMotion')
+  " Vim operator that sorts lines.
+  call packager#add('christoomey/vim-sort-motion')
+  call packager#add('christoomey/vim-tmux-navigator')
+  call packager#add('cohama/lexima.vim') " Auto pair closer
+  " Jump between header/implementation files.
+  call packager#add('derekwyatt/vim-fswitch')
+  " Wiki system: Link and tag handling.
+  call packager#add('fcpg/vim-waikiki')
+  call packager#add('junegunn/fzf') " fuzzy finder
+  call packager#add('junegunn/fzf.vim') " fuzzy finder extended
+  call packager#add('junegunn/vim-easy-align')
+  call packager#add('lervag/vimtex') " LaTeX utils.
+  call packager#add('lifepillar/vim-solarized8') " Colorscheme.
+  " https://emmet.io: fast HTML creation.
+  call packager#add('mattn/emmet-vim')
+  call packager#add('michaeljsmith/vim-indent-object')
+  " Character-level diff.
+  call packager#add('rickhowe/diffchar.vim', { 'commit': '0187321' })
+  " Auto disable search highlights.
+  call packager#add('romainl/vim-cool')
+  call packager#add('takac/vim-hardtime') " Stop bad habbits.
+  " Vim operator that comments code.
+  call packager#add('tpope/vim-commentary')
+  call packager#add('tpope/vim-markdown')
+  " Make `.` repeat some plugin motions.
+  call packager#add('tpope/vim-repeat')
+  " Vim operator that surronds text objects with parens/etc.
+  call packager#add('tpope/vim-surround')
+  " Highlight cues for `f` and `t`.
+  call packager#add('unblevable/quick-scope')
+  " Close HTML tags with <C-BS>.
+  call packager#add('vim-scripts/closetag.vim')
+  " Pin the first line of each indentation level as reference.
+  call packager#add('wellle/context.vim')
+  " Objects like arg, search-ahaed paren-objects.
+  call packager#add('wellle/targets.vim')
+  " Consolidate conflict markers into 2-pane diff.
+  call packager#add('whiteinge/diffconflicts')
+  " Diff directories.
+  call packager#add('will133/vim-dirdiff')
+  " Support filepath:line:col syntax.
+  call packager#add('wsdjeg/vim-fetch')
+  call packager#add('yjyao/recap.vim')
+
+  " Extends <c-a>/<c-x>, load BEFORE speeddating.
+  call packager#add('tenfyzhong/axring.vim')
+  " Extends <c-a>/<c-x> to work with dates.
+  call packager#add('tpope/vim-speeddating')
+
+  " Focus writing mode. Goes with limelight.vim.
+  call packager#add('junegunn/goyo.vim')
+  " Highlight current paragraph.
+  call packager#add('junegunn/limelight.vim')
+
+  " plugin-list#end
+endfunc
+com! -nargs=* -bar PlugInstall call s:packager_init() | call packager#install(<args>)
+com! -nargs=* -bar PlugUpdate  call s:packager_init() | call packager#update(<args>)
+com! -bar PlugClean  call s:packager_init() | call packager#clean()
+com! -bar PlugStatus call s:packager_init() | call packager#status()
+
+" Sort `packager#add` lines
+" within their own blocks
+" while keeping empty lines and comment lines.
+func! s:sort_plugins() abort
+  let pos = getpos('.')
+  let oldfoldenable = &foldenable
+  setlocal nofoldenable
+  " Mark all linebreaks with "§BR§".
+  1/plugin-list#begin/,1/plugin-list#end/ s/$/§BR§/g
+  1/plugin-list#end/ | let end = line('.')
+  1/plugin-list#begin/
+  while search('^§BR§$', 'W', end) > 0
+    let blockend = search('^§BR§$', 'nW', end) - 1
+    if blockend <= 0 | break | endif
+    " Mark begin and end of block.
+    exec line('.') . 's/^/§BOB§/'
+    exec blockend  . 's/^/§EOB§/'
+    " Join all comment or continuation lines.
+    1/§BOB§/,1/§EOB§/ s/^\s*["\\]\s.*\zs\n//e
+    1/§BOB§/,1/§EOB§/ sort /.*packager#add/
+    " Remove the block marks.
+    1/plugin-list#begin/,1/plugin-list#end/ s/§BOB§\|§EOB§//ge
+  endwhile
+  " Restore the linebreaks.
+  1/plugin-list#begin/,1/plugin-list#end/ s/§BR§\n\?/\r/ge
+  call setpos('.', pos)
+  let &foldenable = oldfoldenable
+endfunc
+
+" Always keep the plugin list sorted.
+if has('autocmd')
+  augroup sort_plugins
+    autocmd!
+    au BufWritePre .vimrc silent call <SID>sort_plugins()
+  augroup end
+endif
 
 " ========================================================================= }}}
 " 界面配置
@@ -543,21 +603,19 @@ set backspace=indent,eol,start
 " set whichwrap+=<,>,h,l
 
 " 文件切换控制
-if g:HasPlug('fzf.vim')
-  nmap gb :Buffers<CR>
-elseif g:HasPlug('ctrlp.vim')
-  nmap gb :CtrlPBuffer<CR>
-else
-  nmap gb :ls<CR>:buffer<space>
-endif
+try
+  " Requires fzf.vim
+  nnoremap gb :Buffers<CR>
+catch
+  nnoremap gb :ls<CR>:buffer<space>
+endtry
 
 " 使用 ctrl+j,k,h,l 在分割的视窗间跳动
-if !g:HasPlug('vim-tmux-navigator')
-  nnoremap <C-j> <C-w>j
-  nnoremap <C-k> <C-w>k
-  nnoremap <C-h> <C-w>h
-  nnoremap <C-l> <C-w>l
-endif
+" vim-tmux-navigator extends this to also jump between tmux panes.
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
 " 把 `<counter>j` 加到 jumplist 中以便 `<C-o>` 返回
 " 方便在 `relativenumber` 模式下移动
@@ -567,7 +625,16 @@ nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 com! DiffEdit w !vim - -c ":vnew % | windo diffthis"
 
 " Ranged search
+" Alternatively, select a range and then use `/\%Vpattern` to search.
 com! -nargs=* -range RSsearch /\%><line1>l\%<<line2>l<args>
+xnoremap g/ <Esc>/\%V
+
+" 将文件 <EOL> 改为 UNIX 格式
+func! s:unix_eol()
+  e ++ff=dos | setlocal ff=unix | update
+  %s/\r//ge
+endfunc
+com! UnixEOL call <SID>unix_eol()
 
 " ========================================================================= }}}
 " 别名、缩写、自动纠错
@@ -777,31 +844,8 @@ if has('autocmd')
 endif  " has('autocmd')
 
 " ========================================================================= }}}
-" 自定义函数
-" ========================================================================= {{{
-
-" ------------------------------------------------------------
-" 包围选中的文本
-
-func! WrapTextWith(left, right)
-  exe "norm `<i \<Esc>r".a:left."`>la \<Esc>r".a:right
-endfunc
-
-" ------------------------------------------------------------
-" 将文件 <EOL> 改为 UNIX 格式
-
-func! UnixEOL()
-  e ++ff=dos | setlocal ff=unix | update
-  exe '%s+\r++ge'
-endfunc
-
-" ========================================================================= }}}
-" 插件配置
-" ========================================================================= {{{
-
-" -----------------------------------------------------------------------------
 " QuickFix
-" -----------------------------------------------------------------------------
+" ========================================================================= {{{
 
 " QuickFix 中文支持
 " windows 默认编码为 cp936，而 Gvim(Vim) 内部编码为 utf-8，所以常常输出为乱码
@@ -830,386 +874,11 @@ augroup cwindow
   autocmd!
   autocmd QuickfixCmdPost cgetexpr cwindow
   autocmd QuickfixCmdPost lgetexpr cwindow
-augroup END
-
-" -----------------------------------------------------------------------------
-" splitjoin
-" -----------------------------------------------------------------------------
-
-" Default hotkeys are
-" - `gJ` for join
-" - `gS` to split
-
-" -----------------------------------------------------------------------------
-" Jedi-vim
-" -----------------------------------------------------------------------------
-" python 补全
-
-" Disable goto (typing) stubs shortcut (Defaults to <Leader>s, conflicting with
-" our save shortcut).
-let g:jedi#goto_stubs_command = ""
-
-" -----------------------------------------------------------------------------
-" lexima
-" -----------------------------------------------------------------------------
-
-imap <C-h> <BS>
-cmap <C-h> <BS>
-
-if g:HasPlug('lexima.vim')
-  call lexima#add_rule({
-        \  'char': '<CR>', 'at': '{\%#}',
-        \  'input' : '%<CR>', 'input_after': '<CR>',
-        \  'filetype' : 'tex',
-        \ })
-  call lexima#add_rule({
-        \  'char': '<CR>', 'at': '\[\%#]',
-        \  'input' : '%<CR>', 'input_after': '<CR>',
-        \  'filetype' : 'tex',
-        \ })
-  call lexima#add_rule({
-        \  'char': '``',
-        \  'input_after': "''",
-        \  'filetype' : 'tex',
-        \ })
-
-  call lexima#add_rule({
-        \  'char': '<CR>',
-        \  'at': '「\%#」',
-        \  'input': '<CR>', 'input_after': '<CR>',
-        \ })
-
-  " Raw string and format strings in python.
-  " By default single-quotes following a letter will not auto-pair
-  " because of usages like "it's", "Michael's".
-  " This rule triggers auto-pair on single-quotes after "r" and "f"
-  " for raw strings and format strings like `f'Hello, {name}'`.
-  " If necessary, improve by adding "syntax" constraints.
-  call lexima#add_rule({
-        \  'char': "'",
-        \  'at': '[rf]\%#',
-        \  'input': "'", 'input_after': "'",
-        \  'filetype': 'python',
-        \ })
-
-endif
-
-" -----------------------------------------------------------------------------
-" fzf
-" -----------------------------------------------------------------------------
-
-let $FZF_DEFAULT_OPTS = '--layout=default --info=inline --bind "ctrl-j:ignore,ctrl-k:ignore"'
-
-" Use the <C-p> convention from ctrlp.vim to trigger file search.
-if g:HasPlug('fzf') && !g:HasPlug('ctrlp.vim')
-
-  " Press dash `-` to go up one directory.
-  if executable('fd')
-    let s:fd_cmd = 'fd'
-  elseif executable('fdfind')
-    let s:fd_cmd = 'fdfind'
-  endif
-  if exists('s:fd_cmd')
-    func! FzfWithUpdirHotkey(dir)
-      let tf = tempname()
-      call writefile(['.'], tf)
-      call fzf#run(fzf#wrap({
-            \ 'dir': a:dir, 'options': [
-            \   '--bind', printf('-:reload:cwd="$(cat %s)"; base="${cwd}/.."; echo "$base" > %s; %s -t f -- . "$base"', shellescape(tf), shellescape(tf), s:fd_cmd),
-            \ ]}))
-    endfunc
-    nnoremap <C-p> :call FzfWithUpdirHotkey(expand('%:h'))<CR>
-  else
-    nnoremap <C-p> :FZF %:h<CR>
-  endif
-
-  augroup fzf_window
-    autocmd!
-    " Fix <C-w> for backward-kill-word.
-    au FileType fzf tnoremap <buffer> <c-w> <c-w>.
-  augroup end
-
-  " NOTE: This currently does not support directory changes within the fzf
-  " invocation. https://github.com/junegunn/fzf.vim/issues/338 provides
-  " workarounds. Check it out if interested.
-
-endif
-
-" Put fzf.vim options below this line.
-
-let g:fzf_preview_window = []  " Disable preview windows.
-
-" -----------------------------------------------------------------------------
-" fswitch
-" -----------------------------------------------------------------------------
-
-" hotkey: goto related file
-if g:HasPlug('vim-fswitch')
-  nnoremap <silent> gr :FSHere<CR>
-
-  augroup related_file
-    autocmd!
-    au BufEnter *.cc let b:fswitchdst = 'h,hh'
-    au BufEnter *.h let b:fswitchdst = 'c,cc,cpp'
-  augroup end
-
-else
-  nnoremap gr :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
-endif
-
-" -----------------------------------------------------------------------------
-" emmet-vim
-" -----------------------------------------------------------------------------
-" HTML/CSS 代码快速编写神器
-
-" don't automatically install emmet.
-" to list all filetypes with emmet enabled, run
-"     $ grep -lr EmmetInstall ~/.vim/ | grep plugin/
-let g:user_emmet_install_global = 0
-
-let g:user_emmet_leader_key = '<C-e>'
-
-" -----------------------------------------------------------------------------
-" ultisnips
-" -----------------------------------------------------------------------------
-" Snippet 插件
-" 需要 +python
-" 使用 vim-snippets 中的 (La)TeX 的标题结构模板（如 cha, sec, etc.）时，需要
-" `pip install unicode`
-
-" Trigger configuration.
-" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-inoremap <C-j> <C-o>:echo 'Not in a snippet'<CR>
-inoremap <C-k> <C-o>:echo 'Not in a snippet'<CR>
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit = 'vertical'
-
-" 添加自己的 snippets
-let g:UltiSnipsSnippetsDir = g:vimfiles_dir . '/UltiSnips'
-
-" set quoting style in python.snippets provided by vim-snippets
-let g:ultisnips_python_quoting_style = 'single'
-
-inoremap <C-l> <Esc>:Snippets<CR>
-com! Snippets :call GetAllSnippets()
-" https://stackoverflow.com/questions/58081390/why-doesnt-ultisnips-listing-of-available-snippets-work#tab-top
-func! GetAllSnippets()
-  call UltiSnips#SnippetsInCurrentScope(1)
-  let list = []
-  for [key, info] in items(g:current_ulti_dict_info)
-    let parts = split(info.location, ':')
-    call add(list, {
-          \ "text": key,
-          \ "filename": parts[0],
-          \ "lnum": parts[1],
-          \ "context": info.description,
-          \ })
-  endfor
-  call setqflist([], ' ', { 'title': 'Snippets', 'items' : list})
-
-  " Open Quickfix list as soon as it is populated.
-  cwindow
-endfunc
-
-" ------------------------------------------------------------
-" vim-markdown
-" ------------------------------------------------------------
-
-" 'java' needs to come *before* 'html': https://vi.stackexchange.com/a/18407.
-let g:markdown_fenced_languages = [
-      \ 'java',
-      \ 'html',
-      \ 'python',
-      \ 'bash=sh',
-      \ 'sql',
-      \ 'c',
-      \ 'ocaml',
-      \ ]
-let g:markdown_syntax_conceal = 0
-let g:vim_markdown_folding_disabled = 1  " Slows down startup.
-
-" ------------------------------------------------------------
-" vimtex
-" ------------------------------------------------------------
-
-" use latexmk to compile LaTeX docs, require perl installed on machine
-
-let g:vimtex_compiler_latexmk = {
-      \ 'continuous' : 0,
-      \ 'options' : [
-      \   '-xelatex',
-      \   '-pdflatex=xelatex',
-      \   '-shell-escape',
-      \   '-src-specials',
-      \   '-synctex=1',
-      \   '-interaction=nonstopmode',
-      \   '-file-line-error',
-      \ ],
-      \ }
-
-if !executable('latexmk')
-  let g:vimtex_compiler_enabled = 0
-endif
-let g:tex_flavor = 'latex'
-let g:tex_indent_items = 0
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_FormatDependency_pdf = 'pdf'
-let g:vimtex_view_method = 'general'
-let g:vimtex_enabled = 1
-let g:vimtex_complete_img_use_tail = 1
-if executable('SumatraPDF')
-  " use SumatraPDF to view PDF, SumatraPDF required
-  let g:vimtex_view_general_viewer = 'SumatraPDF'
-  let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
-  let g:vimtex_view_general_options_latexmk = '-reuse-instance'
-elseif executable('xdg-open')
-  let g:vimtex_view_general_viewer = 'xdg-open'
-elseif executable('open')
-  let g:vimtex_view_general_viewer = 'open'
-else
-  let g:vimtex_view_general_viewer = ''
-  let g:vimtex_view_enabled = 0
-endif
-
-" list of modifiers of pairs / delimiters to toggle
-let g:vimtex_delim_toggle_mod_list = [
-      \ ['\bigl', '\bigr'],
-      \ ['\Bigl', '\Bigr'],
-      \ ['\biggl', '\biggr'],
-      \ ['\Biggl', '\Biggr'],
-      \]
-"       \ ['\left', '\right'],
-
-let g:vimtex_indent_delims = {
-      \ 'open' : ['{', '['],
-      \ 'close' : ['}', ']'],
-      \ 'close_indented' : 0,
-      \ 'include_modified_math' : 1,
-      \ }
-
-" ------------------------------------------------------------
-" vim-easy-align
-" ------------------------------------------------------------
-
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-
-" ------------------------------------------------------------
-" CamelCaseMotion
-" ------------------------------------------------------------
-
-" Use <Leader>[wbe] to move around in CamelCase and snake_case words.
-" Also supports text object so one can ci<Leader>w
-
-nmap <silent> <Leader>w <Plug>CamelCaseMotion_w
-nmap <silent> <Leader>b <Plug>CamelCaseMotion_b
-nmap <silent> <Leader>e <Plug>CamelCaseMotion_e
-nmap <silent> <Leader>ge <Plug>CamelCaseMotion_ge
-
-" CamelCase text objects
-omap <silent> i<Leader>w <Plug>CamelCaseMotion_ie
-xmap <silent> i<Leader>w <Plug>CamelCaseMotion_ie
-omap <silent> a<Leader>w <Plug>CamelCaseMotion_iw
-xmap <silent> a<Leader>w <Plug>CamelCaseMotion_iw
-
-" ------------------------------------------------------------
-" vim-surround
-" ------------------------------------------------------------
-
-" quotes
-let g:surround_{char2nr('q')} = "'\r'"
-let g:surround_{char2nr('Q')} = '"\r"'
-" Chinese quotes.
-" Windows doesn't like the unicode characters. Wrap this in autocommand to
-" workaround it.
-if has('autocmd')
-  augroup windows_complains_unicode
-    autocmd!
-    "y" for 引号. "k" for 括号
-    au VimEnter *
-          \ let g:surround_{char2nr('y')} = "「\r」" |
-          \ let g:surround_{char2nr('Y')} = "『\r』" |
-          \ let g:surround_{char2nr('k')} = "（\r）" |
-          \ let g:surround_{char2nr('K')} = "【\r】"
-  augroup end
-endif
-
-" ------------------------------------------------------------
-" quick scope
-" ------------------------------------------------------------
-
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
-" Break words to highlight even by underscores.
-if g:HasPlug('quick-scope')
-  for motion in split('fFtT', '\zs')
-    " Using <expr> for normal mode mappings can cause problems (#80)
-    execute printf('
-          \   nnoremap <silent> <Plug>(MoreQuickScope%s) :<C-U>call quick_scope#Ready() \|
-          \   let oldiskeyword = &l:iskeyword \|
-          \   setlocal isk=65-90,97-122 \|
-          \   execute "normal!" v:count1 . quick_scope#Aim("%s") \|
-          \   call quick_scope#Reload() \|
-          \   call quick_scope#DoubleTap() \|
-          \   :let &l:iskeyword = oldiskeyword<CR>',
-          \ motion, motion)
-  endfor
-  for motion in filter(g:qs_highlight_on_keys, "v:val =~# '^[fFtT]$'")
-      if empty(mapcheck(motion, 'nmap'))
-        execute printf('nmap <unique> %s <Plug>(MoreQuickScope%s)', motion, motion)
-      endif
-  endfor
-endif
-
-" Underline candidates.
-" The candidate highlights can blend with syntax highlights.
-" Adding underlines to them can help with identifying them.
-func! SetQuickScopeHighlights()
-  highlight QuickScopePrimary guifg='#40ffff' gui=underline ctermfg=4 cterm=underline
-  highlight QuickScopeSecondary guifg='#ff80ff' gui=underline ctermfg=9 cterm=underline
-endfunc
-call SetQuickScopeHighlights()
-augroup qs_colors
-  autocmd!
-  au ColorScheme * call SetQuickScopeHighlights()
 augroup end
 
-" ------------------------------------------------------------
-" hardtime
-" ------------------------------------------------------------
-
-let g:hardtime_default_on = 1
-let g:list_of_normal_keys = [
-      \ 'h', 'j', 'k', 'l', '-', '+',
-      \ '<UP>', '<DOWN>', '<LEFT>', '<RIGHT>',
-      \ 'e', 'w', 'b',
-      \ ]
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_maxcount = 3
-
-" ------------------------------------------------------------
-" targets
-" ------------------------------------------------------------
-
-if has('autocmd')
-  augroup Targets
-    autocmd!
-    au User targets#mappings#user call targets#mappings#extend({
-          \ 'b': {'pair': [{'o':'(', 'c':')'}]}
-          \ })
-  augroup end
-endif
-let g:targets_nl = ['n', 'N']
-" Only seek if next/last targets touch current line
-let g:targets_seekRanges = 'cr cb cB lc ac Ac lr rr ll lb ar ab lB Ar aB Ab AB rb rB al Al'
-
-" ------------------------------------------------------------
+" ========================================================================= }}}
 " netrw
-" ------------------------------------------------------------
+" ========================================================================= {{{
 
 " TODO: i prefer `3` (tree style) but that causes errors when opening symlinks.
 " change to `3` after https://github.com/vim/vim/pull/3609 is merged.
@@ -1218,230 +887,6 @@ let g:netrw_winsize = 20 " percent
 " let g:netrw_browse_split = 4 " open files in previous window
 let g:netrw_banner = 0
 let g:netrw_bufsettings = 'nomodifiable nomodified readonly number nobuflisted nowrap'
-
-" ------------------------------------------------------------
-" axring.vim
-" ------------------------------------------------------------
-
-let g:axring_rings = [
-      \ ['true', 'false'],
-      \ ['verbose', 'debug', 'info', 'warn', 'error', 'fatal'],
-      \ ]
-
-" ------------------------------------------------------------
-" speeddating
-" ------------------------------------------------------------
-
-" see ~/.vim/after/plugin/speeddating.vim
-
-" ------------------------------------------------------------
-" DirDiff
-" ------------------------------------------------------------
-
-" Go to the previous/next *file* with diffs,
-" Place the cursor on the right side.
-nnoremap [C <Cmd>DirDiffPrev<CR><Cmd>2 wincmd w<CR>
-nnoremap ]C <Cmd>DirDiffNext<CR><Cmd>2 wincmd w<CR>
-
-" ------------------------------------------------------------
-" Waikiki --- Minimal set of wiki feature.
-" ------------------------------------------------------------
-
-com! WikiIndex edit ~/notes/index.md
-" Creates a new note. Named with the current timestamp.
-com! WikiNew exec "edit ~/notes/note-" . strftime("%s") . ".md"
-
-let g:waikiki_roots = ['~/notes']
-let g:waikiki_default_maps = 0
-
-" Use dashes in place of spaces in filenames.
-let g:waikiki_space_replacement = '-'
-
-" Expand the word under cursor with `g:waikiki_word_regex` instead of simple
-" <cword> when creating new pages.
-let g:waikiki_use_word_regex = 1
-let g:waikiki_word_regex = '\(\.\?[-+0-9A-Za-z_]\+\)\+'
-
-" Custom waikiki mappings.
-func! SetupWaikiki() abort
-  nmap <buffer> zl <Plug>(waikikiFollowLink)
-  vmap <buffer> zl <Plug>(waikikiFollowLink)
-  nmap <buffer> <C-w>zl <Plug>(waikikiFollowLinkSplit)
-  vmap <buffer> <C-w>zl <Plug>(waikikiFollowLinkSplit)
-  nmap <buffer> zh <Plug>(waikikiGoUp)
-
-  nmap <buffer> <LocalLeader>l <Plug>(waikikiNextLink)
-  nmap <buffer> <LocalLeader>L <Plug>(waikikiPrevLink)
-
-  nmap <buffer> <LocalLeader>x <Plug>(waikikiToggleListItem)
-
-  " Generate/refresh tags.
-  nmap <buffer> <LocalLeader>t <Plug>(waikikiTags)
-  " Tips:
-  " - `g]` lists references of the tag under cursor.
-  " - With 'junegunn/fzf.vim' installed, search for tags with `:Tags`.
-  "   Otherwise use the builtin `:tags`.
-  " - `<C-x><C-]>` completes tags.
-  " - With 'coc-tag' installed, fuzzy completion will also match tags.
-
-  " Enter `[[` to insert a note.
-  " This brings up fzf allowing you to search through all your notes,
-  " after selecting a result by pressing `<CR>`,
-  " the file name of the selected note will be inserted.
-  inoremap <buffer> [[ =fzf#vim#complete(fzf#wrap({
-        \ 'source': (executable('rg') ? 'rg' : 'grep') . ' --with-filename -e ^ -- ~/notes',
-        \ 'options': [
-        \  '-d', ':', '--nth', '2..',
-        \ ],
-        \ 'reducer': { lines -> '(' . split(lines[0], ':')[0] . ')' },
-        \ }))<CR>
-
-  " Conceal/prettify markup characters.
-  setlocal conceallevel=2
-  setlocal concealcursor=n
-
-  set suffixesadd+=.md
-
-  " Do not require capitalized sentences.
-  setlocal spellcapcheck=
-endfunc
-
-if has('autocmd')
-  augroup Waikiki  " Do NOT change! Group name defined by vim-waikiki.
-    autocmd!
-    au User setup call SetupWaikiki()
-  augroup end
-endif
-
-" ------------------------------------------------------------
-" asyncomplete.vim
-" ------------------------------------------------------------
-
-if g:HasPlug('vim-lsp')
-
-  let g:lsp_async_completion = 1
-  let g:lsp_diagnostics_enabled = 0  " no diagnostic highlights
-
-  function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    " if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gX <plug>(lsp-code-action)
-    " nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    " nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    " nmap <buffer> gr <plug>(lsp-references)
-    " nmap <buffer> gi <plug>(lsp-implementation)
-    " nmap <buffer> gt <plug>(lsp-type-definition)
-    " nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-document-diagnostics)
-    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
-
-    " let g:lsp_format_sync_timeout = 1000
-    " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-
-    " refer to doc to add more commands
-  endfunction
-
-  if has('autocmd')
-    augroup lsp_install
-      autocmd!
-      " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-      au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-    augroup end
-  endif
-
-endif
-
-if g:HasPlug('asyncomplete.vim')
-
-  set shortmess+=c
-
-  " Required to prevent conflicts between the auto-insertion and the plugin.
-  set completeopt-=longest
-  set completeopt+=noinsert
-
-  let g:asyncomplete_auto_popup = 1
-
-  " Start suggesting completions after you type three characters.
-  " This reduces annoyance.
-  let g:asyncomplete_min_chars = 3
-
-  let g:asyncomplete_preprocessor = [function('asyncomplete#preprocessor#default_preprocessor')]
-
-  if has('autocmd')
-    augroup register_asyncomplete_sources
-      autocmd!
-
-      if g:HasPlug('asyncomplete-buffer.vim')
-        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-              \ 'name': 'buffer',
-              \ 'allowlist': ['*'],
-              \ 'completor': function('asyncomplete#sources#buffer#completor'),
-              \ 'priority': 1,
-              \ }))
-      endif
-
-      if g:HasPlug('asyncomplete-file.vim')
-        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-              \ 'name': 'file',
-              \ 'allowlist': ['*'],
-              \ 'priority': 10,
-              \ 'completor': function('asyncomplete#sources#file#completor')
-              \ }))
-      endif
-
-      if g:HasPlug('asyncomplete-ultisnips.vim')
-        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-              \ 'name': 'ultisnips',
-              \ 'allowlist': ['*'],
-              \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-              \ }))
-      endif
-
-      " Dictionary.
-      if g:HasPlug('asyncomplete-look')
-        au User asyncomplete_setup call asyncomplete#register_source({
-              \ 'name': 'look',
-              \ 'allowlist': ['text', 'markdown'],
-              \ 'priority': -10,
-              \ 'completor': function('asyncomplete#sources#look#completor'),
-              \ })
-        au User asyncomplete_setup call asyncomplete#register_source({
-              \ 'name': 'look_good_words',
-              \ 'allowlist': ['text', 'markdown'],
-              \ 'priority': -10,
-              \ 'completor': function('asyncomplete#sources#look#good_words'),
-              \ })
-      endif
-
-    augroup end  " End of register_asyncomplete_sources
-  endif
-
-endif  " asyncomplete
-
-" ------------------------------------------------------------
-" Goyo & Limelight
-" ------------------------------------------------------------
-
-func! s:goyo_enter()
-  set scrolloff=999
-  set relativenumber
-  Limelight
-endfunc
-
-func! s:goyo_leave()
-  Limelight!
-endfunc
-
-augroup goyo_settings
-  autocmd!
-  au User GoyoEnter nested call <SID>goyo_enter()
-  au User GoyoLeave nested call <SID>goyo_leave()
-augroup end
 
 " ========================================================================= }}}
 " 编码配置
