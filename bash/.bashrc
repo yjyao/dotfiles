@@ -89,6 +89,12 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
+# Save multiline commands in history
+# on multiple lines
+# instead of concatenated with semicolons.
+# (Manual linebreaks created with lack-slashes WON'T work.)
+shopt -s cmdhist lithist
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
