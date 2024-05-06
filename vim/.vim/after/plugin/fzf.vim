@@ -20,9 +20,11 @@ endif
 " Use https://github.com/sharkdp/fd if available.
 func! s:source_cmd(dir)
   let using_fd = $FZF_DEFAULT_COMMAND =~ '\<fd\(find\)\?\>'
-  return using_fd
-        \ ? printf($FZF_DEFAULT_COMMAND . ' -x realpath --relative-base "%s" \{\} \; -- "%s"', a:dir, a:dir)
-        \ : printf('find -L "%s" -type f "!" -path "*/.git/*" "!" -path "*/.jj/*" -exec realpath --relative-base "%s" \{\} \;', a:dir, a:dir)
+  let cmd = using_fd
+        \ ? printf($FZF_DEFAULT_COMMAND . ' -x realpath --relative-base %s \{\} \; -- %s', a:dir, a:dir)
+        \ : printf('find -L %s -type f "!" -path "*/.git/*" "!" -path "*/.jj/*" -exec realpath --relative-base %s \{\} \;', a:dir, a:dir)
+  echom '$ ' . cmd
+  return cmd
 endfunc
 
 " Commands used to find project roots.
@@ -56,7 +58,7 @@ func! s:fzf(dir)
         \       'cwd="$(cat '.tf.')"; ' .
         \       'base="${cwd}/.."; ' .
         \       'echo "$base" > '.tf.'; ' .
-        \       <SID>source_cmd('$base') . ' | ' .
+        \       <SID>source_cmd('"$base"') . ' | ' .
         \       printf('grep -v "$(realpath --relative-base %s %s)"', '"$base"', expand('%:p:S')),
         \  '--bind',
         \    'load:transform-prompt:' .
