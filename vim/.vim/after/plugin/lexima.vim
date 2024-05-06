@@ -1,13 +1,10 @@
 " Maybe turn on `g:lexima_ctrlh_as_backspace`?
 
-" Lazy load this after vim enters
+" Load lexima rules asynchronously
 " to cut down vim startup time.
 " Calling `lexima#add_rule` forces vim
 " to load the lexima scripts at startup time.
-augroup init_lexima_rules
-  autocmd!
-  autocmd VimEnter * silent call <SID>init_lexima_rules()
-augroup end
+call timer_start(20, {t -> <SID>init_lexima_rules()})
 
 func! s:init_lexima_rules()
 
