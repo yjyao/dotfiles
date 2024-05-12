@@ -115,31 +115,44 @@ fi
 __jj_ps1() {
   jj root &>/dev/null || return
   declare -A colors=(
-    [blue]=34
-    [yellow]=33
-    [green]=32
     [red]=31
+    [green]=32
+    [yellow]=33
+    [blue]=34
+    [magenta]=35
+    [cyan]=36
+    [white]=37
   )
   jj_log() {
     jj --ignore-working-copy --color never log \
-      -l1 -r @ --no-graph -T "surround(\"\", \" \", $@)"
+      -l1 -r @ --no-graph -T "$@"
+  }
+  surround() {
+    local before="$1"; shift
+    local after="$1"; shift
+    local text="$@"; shift
+    [[ $text ]] && echo "${before}${text}${after}"
   }
   colored() {
-    local color="$1"; shift
-    echo -e "\001\033[${color}m\002$@\001\033[0m\002"
+    local color=$"\001\033[$1m\002"; shift
+    local reset=$"\001\033[0m\002"
+    surround "$color" "$reset" "$@"
   }
   bits() {
     local color="$1"; shift
     echo -e "$(colored "${colors[$color]}" "$(jj_log "$@")")"
   }
-  local ret
-  ret+="$(bits 'green'  'change_id.shortest()')"
-  ret+="$(bits 'green'  'if(empty, "✓")')"
-  ret+="$(bits 'yellow' 'if(empty, "", "!")')"
-  ret+="$(bits 'red'    'if(divergent, "Y")')"
-  ret+="$(bits 'yellow' 'if(conflict, "X")')"
-  ret+="$(bits 'blue'   'branches')"
-  echo -e "$ret"
+  local change status
+  change+="$(surround '' ' -> ' "$(bits 'green' '
+    if(!description, parents.map(|c| coalesce(
+          c.tags(),
+          c.branches(),
+          c.change_id().shortest())).join("+"))')")"
+  change+="$(bits 'green'  'if(empty,  change_id.shortest())')"
+  change+="$(bits 'yellow' 'if(!empty, change_id.shortest() ++ "*")')"
+  status+="$(bits 'red'    'if(divergent, "Y")')"
+  status+="$(bits 'yellow' 'if(conflict,  "X")')"
+  echo "[${change}$(surround ':' '' "$status")]"
 }
 
 __vcs_ps1() {
@@ -157,12 +170,13 @@ esac
 
 _PS1='${debian_chroot:+($debian_chroot)}'
 _PS1+='\n'
-_PS1+='\[\033[96m\]\u@\h\[\033[0m\]'
-_PS1+=':'
-_PS1+='\[\033[96m\]\w\[\033[0m\]'
-_PS1+='\n'
+_PS1+='\[$(tput setaf 242)\]#-- \[\033[0m\]'
+[[ $SSH_CLIENT || $SSH_TTY || $SSH_CONNECTION ]] &&
+  _PS1+='\[$(tput setaf 242)\]\u@\h\[\033[0m\] '
+_PS1+='\[\033[34m\]\w\[\033[0m\] '
 _PS1+='$(__vcs_ps1)'
-_PS1+='\$ '
+_PS1+='\n'
+_PS1+='$([[ ${PIPESTATUS[-1]} != 0 ]] && echo "\[\033[31m\]" || echo "\[\033[32m\]")\$\[\033[0m\] '
 _PS1+='\[\033[0:0m\]'
 PS1=$_PS1
 
