@@ -140,6 +140,8 @@ func! s:packager_init() abort
   " Highlight current paragraph.
   call packager#add('junegunn/limelight.vim')
 
+  doautocmd User InitPackager
+
   " plugin-list#end
 endfunc
 com! -nargs=* -bar PlugInstall call s:packager_init() | call packager#install(<args>)
