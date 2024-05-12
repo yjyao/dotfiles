@@ -286,6 +286,12 @@ endfor
 " when increasing/decreasing it with <C-a>/<C-x>.
 set nrformats-=octal
 
+" Trigger focus-events on terminal.
+let &t_fe = "\<Esc>[?1004h"
+let &t_fd = "\<Esc>[?1004l"
+exec "set <FocusGained>=\<Esc>[I"
+exec "set <FocusLost>=\<Esc>[O"
+
 " ========================================================================= }}}
 " 操作
 " ========================================================================= {{{
