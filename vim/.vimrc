@@ -371,8 +371,8 @@ nnoremap Q <nop>
 nnoremap <Leader>s :update<CR>
 
 " 使用 kj / Ctrl-c 退出到命令模式（同 Esc）
-inoremap kj <Esc>
-inoremap <C-c> <Esc>
+imap kj <Esc>
+imap <C-c> <Esc>
 
 " Emacs mode <Home>/<End> keys in insert mode.
 inoremap <C-a> <Home>
@@ -591,12 +591,25 @@ endfunction
 " ------------------------------------------------------------
 
 " 使用方向键以在被折叠的行间移动
+func! s:phantom_ctrl_o(motion)
+  let s:eventignore=&eventignore
+  set eventignore+=InsertLeave,InsertEnter
+  return "\<C-o>" . a:motion
+endfunc
+function! s:stop_phantom_ctrl_o()
+  let &eventignore=s:eventignore
+  return "\<Left>\<Right>" | " Workaround for missing screen update.
+endfunction
+inoremap <expr> <SID>stop_phantom_ctrl_o <SID>stop_phantom_ctrl_o()
+
 nnoremap <Up> gk
 vnoremap <Up> gk
-inoremap <Up> <C-o>gk
+inoremap <expr> <SID>up_visual_line <SID>phantom_ctrl_o('gk')
+inoremap <script> <Up> <SID>up_visual_line<SID>stop_phantom_ctrl_o
 nnoremap <Down> gj
 vnoremap <Down> gj
-inoremap <Down> <C-o>gj
+inoremap <expr> <SID>down_visual_line <SID>phantom_ctrl_o('gj')
+inoremap <script> <Up> <SID>up_visual_line<SID>stop_phantom_ctrl_o
 
 " 使回退键（backspace）正常跨行
 set backspace=indent,eol,start
