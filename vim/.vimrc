@@ -580,12 +580,16 @@ endfunc
 
 nnoremap [d <Plug>(unimpaired-context-previous)
 nnoremap ]d <Plug>(unimpaired-context-next)
+xnoremap [d <Plug>(unimpaired-context-previous)
+xnoremap ]d <Plug>(unimpaired-context-next)
+onoremap [d <Plug>(unimpaired-context-previous)
+onoremap ]d <Plug>(unimpaired-context-next)
 
 nnoremap <silent> <Plug>(unimpaired-context-previous) :<C-U>call <SID>Context(1)<CR>
 nnoremap <silent> <Plug>(unimpaired-context-next)     :<C-U>call <SID>Context(0)<CR>
 
 function! s:Context(reverse) abort
-  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+  call search('^\(@@ .* @@\|[<=>|%+]\{7}[<=>|%+]\@!\)', a:reverse ? 'bW' : 'W')
 endfunction
 
 " ------------------------------------------------------------
