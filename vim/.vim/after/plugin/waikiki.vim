@@ -53,21 +53,32 @@ func! s:init_waikiki() abort
   "
   inoremap <buffer> [[ [](<C-r>=<SID>wiki_new_note_path(':~:.')<CR>)<C-o>T[
 
+  func! s:fzf()
+    return fzf#wrap({
+          \ 'source': (executable('rg') ? 'rg' : 'grep -r') . ' --with-filename -e ^ -- ' . <SID>wiki_root(),
+          \ 'options': [
+          \   '--tac',
+          \   '-d', ':',
+          \   '--with-nth', '2..',
+          \   '--preview', 'cat {1}',
+          \   '--bind', 'focus:transform-preview-label:echo [ {1} ]',
+          \ ],
+          \ 'reducer': { lines -> fnamemodify(      split(lines[0], ':')[0], ':~:.') },
+          \ 'sink*':   { lines -> execute('edit ' . split(lines[0], ':')[0]) },
+          \ })
+  endfunc
+
   " Enter `((` to insert a note file.
   " This brings up fzf for you to search through all your notes,
   " after selecting a line,
   " the file name will be inserted.
-  inoremap <buffer> (( <C-r>=fzf#vim#complete(fzf#wrap({
-        \ 'source': (executable('rg') ? 'rg' : 'grep -r') . ' --with-filename -e ^ -- ' . <SID>wiki_root(),
-        \ 'options': [
-        \   '--tac',
-        \   '-d', ':',
-        \   '--with-nth', '2..',
-        \   '--preview', 'cat {1}',
-        \   '--bind', 'focus:transform-preview-label:echo [ {1} ]',
-        \ ],
-        \ 'reducer': { lines -> fnamemodify(split(lines[0], ':')[0], ':~:.') },
-        \ }))<CR>
+  inoremap <buffer> (( <C-r>=fzf#vim#complete(<SID>fzf())<CR>
+
+  " Since my notes have random file names,
+  " jumping between files using file names no longer makes sense.
+  " Remap <C-p> to search the note content instead.
+  " nnoremap <buffer> <C-p> <Cmd>echom fzf#vim#complete(<SID>fzf())<CR>
+  nnoremap <buffer> <C-p> <Cmd>call fzf#run(<SID>fzf())<CR>
 
   " Conceal/prettify markup characters.
   setlocal conceallevel=2
