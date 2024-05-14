@@ -113,54 +113,43 @@ if ! command -v __git_ps1 &>/dev/null; then
 fi
 
 __jj_ps1() {
-  jj root &>/dev/null || return
-  declare -A colors=(
-    [red]=31
-    [green]=32
-    [yellow]=33
-    [blue]=34
-    [magenta]=35
-    [cyan]=36
-    [white]=37
-  )
-  jj_log() {
-    jj --ignore-working-copy --color never log \
-      -l1 -r @ --no-graph -T "$@"
-  }
-  surround() {
-    local before="$1"; shift
-    local after="$1"; shift
-    local text="$@"; shift
-    [[ $text ]] && echo "${before}${text}${after}"
-  }
-  colored() {
-    local color=$"\001\033[$1m\002"; shift
-    local reset=$"\001\033[0m\002"
-    surround "$color" "$reset" "$@"
-  }
-  bits() {
-    local color="$1"; shift
-    echo -e "$(colored "${colors[$color]}" "$(jj_log "$@")")"
-  }
-  local change status
-  change+="$(surround '' ' -> ' "$(bits 'green' '
-    if(!description, parents.map(|c| coalesce(
-          c.tags(),
-          c.branches(),
-          c.change_id().shortest())).join("+"))')")"
-  change+="$(bits 'green'  'if(empty,  change_id.shortest())')"
-  change+="$(bits 'yellow' 'if(!empty, change_id.shortest() ++ "*")')"
-  status+="$(bits 'red'    'if(divergent, "Y")')"
-  status+="$(bits 'yellow' 'if(conflict,  "X")')"
-  echo "[${change}$(surround ':' '' "$status")]"
+  local ret="$(jj --ignore-working-copy --color never log -l1 -r @ --no-graph --config-toml "
+  [template-aliases]
+  'colored(color, txt)' = '''
+    surround('\x01\e[' ++ color ++ 'm\x02', '\x01\e[0m\x02', txt)
+  '''
+  'red(txt)'     = '''colored('31', txt)'''
+  'green(txt)'   = '''colored('32', txt)'''
+  'yellow(txt)'  = '''colored('33', txt)'''
+  'blue(txt)'    = '''colored('34', txt)'''
+  'magenta(txt)' = '''colored('35', txt)'''
+  'cyan(txt)'    = '''colored('36', txt)'''
+  'white(txt)'   = '''colored('37', txt)'''
+  " -T '
+  concat(
+    "[",
+    surround("", " -> ",
+      if(!description,  green(separate("+",
+        parents.map(|c| coalesce(
+        c.tags(), c.branches(), c.change_id().shortest())
+        ))))),
+    if(empty,
+      green(change_id.shortest()),
+      yellow(change_id.shortest() ++ "*")),
+    surround(":", "", concat(
+      if(divergent, red("Y")),
+      if(conflict,  yellow("X")),
+    )),
+    "]",
+  )' 2>/dev/null)"
+  [[ $ret ]] && echo -e "$ret"
 }
 
 __vcs_ps1() {
-  if jj root &>/dev/null; then
-    __jj_ps1
-  elif git root &>/dev/null; then
+  local jj_ps1="$(__jj_ps1)"
+  [[ $jj_ps1 ]] &&
+    echo "$jj_ps1" ||
     __git_ps1 '\001\033[32m\002[%s] \001\033[0m\002'
-  fi
 }
 
 # set a fancy prompt (non-color, unless we know we "want" color)
