@@ -16,49 +16,39 @@ let g:asyncomplete_preprocessor = [function('asyncomplete#preprocessor#default_p
 
 func! s:register_sources()
 
-  if exists('*asyncomplete#sources#buffer#completor')
-    call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-          \ 'name': 'buffer',
-          \ 'allowlist': ['*'],
-          \ 'completor': function('asyncomplete#sources#buffer#completor'),
-          \ 'priority': 1,
-          \ }))
-  endif
+  call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+        \ 'name': 'buffer',
+        \ 'allowlist': ['*'],
+        \ 'completor': function('asyncomplete#sources#buffer#completor'),
+        \ 'priority': 1,
+        \ }))
 
-  if exists('*asyncomplete#sources#file#completor')
-    call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-          \ 'name': 'file',
-          \ 'allowlist': ['*'],
-          \ 'priority': 10,
-          \ 'completor': function('asyncomplete#sources#file#completor')
-          \ }))
-  endif
+  call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+        \ 'name': 'file',
+        \ 'allowlist': ['*'],
+        \ 'priority': 10,
+        \ 'completor': function('asyncomplete#sources#file#completor')
+        \ }))
 
-  if exists('*asyncomplete#sources#ultisnips#completor')
-    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-          \ 'name': 'ultisnips',
-          \ 'allowlist': ['*'],
-          \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-          \ }))
-  endif
+  call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+        \ 'name': 'ultisnips',
+        \ 'allowlist': ['*'],
+        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+        \ }))
 
   " Dictionary.
-  if exists('*asyncomplete#sources#look#completor')
-    call asyncomplete#register_source({
-          \ 'name': 'look',
-          \ 'allowlist': ['text', 'markdown'],
-          \ 'priority': -10,
-          \ 'completor': function('asyncomplete#sources#look#completor'),
-          \ })
-  endif
-  if exists('*asyncomplete#sources#look#good_words')
-    call asyncomplete#register_source({
-          \ 'name': 'look_good_words',
-          \ 'allowlist': ['text', 'markdown'],
-          \ 'priority': -10,
-          \ 'completor': function('asyncomplete#sources#look#good_words'),
-          \ })
-  endif
+  call asyncomplete#register_source({
+        \ 'name': 'look',
+        \ 'allowlist': ['text', 'markdown'],
+        \ 'priority': -10,
+        \ 'completor': function('asyncomplete#sources#look#completor'),
+        \ })
+  call asyncomplete#register_source({
+        \ 'name': 'look_good_words',
+        \ 'allowlist': ['text', 'markdown'],
+        \ 'priority': -10,
+        \ 'completor': function('asyncomplete#sources#look#good_words'),
+        \ })
 
 endfunc
 
