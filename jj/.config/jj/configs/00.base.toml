@@ -34,8 +34,6 @@ log = "@ | ancestors(immutable_heads().., 2) | heads(immutable_heads())"
 # out locally.
 "wip()" = "trunk()..(branches() | (mine() ~ ..remote_branches()))"
 
-"immutable_heads()" = "trunk() | tags() | remote_branches()"
-
 [aliases]
 
 d = ['diff']
