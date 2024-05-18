@@ -30,9 +30,20 @@ log = "@ | ancestors(immutable_heads().., 2) | heads(immutable_heads())"
 
 [revset-aliases]
 
+# If @ is non-empty, return @.
+# If @ is empty on top of a non-empty parent, return the parent.
+# Useful for getting git head or current cl in a clean working directory.
+'head' = '(latest(ancestors(@, 2) ~empty(), 1))'
+
+# @ if it has a description else parent.
+# This aims to return the targeted change regardless of whether i'm using
+# "edit" mode or "working directory" mode.
+# Useful for rebasing or interdiffing.
+'base' = '(latest(ancestors(@, 2) & description(glob:"?*"), 1))'
+
 # Everything that's mine and local-only or part of a branch that I have checked
 # out locally.
-"wip()" = "trunk()..(branches() | (mine() ~ ..remote_branches()))"
+'wip()' = 'trunk()..(branches() | (mine() ~ ..remote_branches()))'
 
 [aliases]
 
