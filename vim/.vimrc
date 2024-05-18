@@ -57,10 +57,14 @@ endfunc
 func! s:packager_init() abort
   call <SID>get_packager()
   packadd vim-packager
+  " Add the package manager itself
+  " so that `:PlugClean` won't clean it.
+  call packager#add('kristijanhusak/vim-packager', {'type': 'opt'})
+
   " plugin-list#begin
 
-  " " Benchmark vim startup time. (Fancier `vi --startuptime`.)
-  " call packager#add('dstein64/vim-startuptime')
+  " Benchmark vim startup time. (Fancier `vi --startuptime`.)
+  call packager#add('dstein64/vim-startuptime', {'type': 'opt'})
 
   " Snippet triggering system.
   call packager#add('SirVer/ultisnips')
