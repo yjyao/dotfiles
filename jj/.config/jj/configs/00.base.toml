@@ -30,6 +30,9 @@ log = "@ | ancestors(immutable_heads().., 2) | heads(immutable_heads())"
 
 [revset-aliases]
 
+# A new commit that is empty (contains no changes) and has no description.
+'bare' = 'empty() & ~description(glob:"?*")'
+
 # If @ is non-empty, return @.
 # If @ is empty on top of a non-empty parent, return the parent.
 # Useful for getting git head or current cl in a clean working directory.
