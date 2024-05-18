@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+watch -tcwn.5 '
+  jj --no-pager --ignore-working-copy --color always st
+  printf " \n"
+  jj --no-pager --ignore-working-copy --color always log
+'
