@@ -10,7 +10,7 @@ snippet url "URL" w
 [$1]($2)$0
 endsnippet
 
-snippet "^\s*([-+*]|1.) " "List item should start on tabstops" wrA
+snippet "^\s*([-+*]|1\.) " "List item should start on tabstops" wrA
 `!p
 tabstop = int(vim.current.window.buffer.options['tabstop'])
 snip.rv = match.group(0) + (' ' *
