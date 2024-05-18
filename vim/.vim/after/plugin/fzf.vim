@@ -44,25 +44,31 @@ func! s:project_root()
   return expand('%:p:h')
 endfunc
 
+func! s:edit_files_relative_to_path(...)
+  let root = readfile(a:1)[0]
+  exec 'edit ' . simplify(root . '/' . a:2)
+endfunc
+
 " Press dash `-` to go up one directory.
 func! s:fzf(dir)
-  let tf = tempname()
-  call writefile(['.'], tf)
-  let tf = shellescape(tf)
+  let cwd_f = tempname()
+  call writefile([a:dir], cwd_f)
+  let cwd = shellescape(cwd_f)
   call fzf#run(fzf#wrap({
         \ 'dir': a:dir,
+        \ 'sink': function(expand('<SID>').'edit_files_relative_to_path', [cwd_f]),
         \ 'options': [
         \   '--bind',
         \     '-:reload:' .
-        \       'cwd="$(cat '.tf.')"; ' .
-        \       'base="${cwd}/.."; ' .
-        \       'echo "$base" > '.tf.'; ' .
-        \       <SID>source_cmd('"$base"') . ' | ' .
-        \       printf('grep -v "$(realpath --relative-base %s %s)"', '"$base"', expand('%:p:S')),
+        \       'cwd="$(cat '.cwd.')"; ' .
+        \       'cwd="${cwd}/.."; ' .
+        \       'echo "$cwd" > '.cwd.'; ' .
+        \       <SID>source_cmd('"$cwd"') . ' | ' .
+        \       printf('grep -v "$(realpath --relative-base %s %s)"', '"$cwd"', expand('%:p:S')),
         \  '--bind',
         \    'load:transform-prompt:' .
         \      'printf "%s > " "$(' .
-        \        'realpath "$(cat '.tf.')" | ' .
+        \        'realpath "$(cat '.cwd.')" | ' .
         \        'sed "s:$HOME:~:"' .
         \      ')"',
         \ ]}))
