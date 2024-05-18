@@ -28,17 +28,19 @@ func! s:source_cmd(dir)
 endfunc
 
 " Commands used to find project roots.
-let g:rooter_commands = ['git root', 'hg root', 'jj root']
+if !exists('g:rooter_commands')
+  let g:rooter_commands = g:default_rooter_commands
+endif
 
 func! s:project_root()
-  let cmds = join(map(g:rooter_commands, 'v:val . " 2>/dev/null &"'), ' ')
-  let root = systemlist(
-        \ 'cd ' . expand('%:p:h:S') . '; ' .
-        \ cmds . ' ' .
-        \ 'wait')
-  if !empty(root)
-    return root[0]
-  endif
+  for cmd in g:rooter_commands
+    let root = systemlist('cd ' . expand('%:p:h:S') . '; '. cmd . ' 2>/dev/null')
+    echom 'hey ' . cmd
+    echom root
+    if !empty(root)
+      return root[0]
+    endif
+  endfor
   return expand('%:p:h')
 endfunc
 
@@ -49,9 +51,6 @@ func! s:fzf(dir)
   let tf = shellescape(tf)
   call fzf#run(fzf#wrap({
         \ 'dir': a:dir,
-        \ 'source':
-        \   <SID>source_cmd(shellescape(a:dir)) . ' | ' .
-        \   printf('grep -v "$(realpath --relative-base %s %s)"', shellescape(a:dir), expand('%:p:S')),
         \ 'options': [
         \   '--bind',
         \     '-:reload:' .
