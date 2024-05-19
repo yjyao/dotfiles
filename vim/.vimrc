@@ -111,6 +111,8 @@ func! s:packager_init() abort
   " Auto disable search highlights.
   call packager#add('romainl/vim-cool')
   call packager#add('takac/vim-hardtime') " Stop bad habbits.
+  " Vim operator for exchanging/swapping text.
+  call packager#add('tommcdo/vim-exchange')
   " Vim operator that comments code.
   call packager#add('tpope/vim-commentary')
   call packager#add('tpope/vim-markdown')
