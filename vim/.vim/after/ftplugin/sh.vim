@@ -1,3 +1,34 @@
+" textobj-functioncall
+" ----------
+
+" Override function call patterns.
+let b:textobj_functioncall_patterns = [
+      \ {
+      \   'header': '\$',
+      \   'bra': '(',
+      \   'ket': ')',
+      \   'footer': '',
+      \ },
+      \ ]
+
+" Create new text object for variables.
+let b:var_patterns = [
+      \ {
+      \   'header': '\$',
+      \   'bra': '{',
+      \   'ket': '}',
+      \   'footer': '',
+      \ },
+      \ ]
+onoremap <buffer><silent> iv
+      \ :<C-u>call textobj#functioncall#i('o', b:var_patterns)<CR>
+xnoremap <buffer><silent> iv
+      \ :<C-u>call textobj#functioncall#i('x', b:var_patterns)<CR>
+onoremap <buffer><silent> av
+      \ :<C-u>call textobj#functioncall#a('o', b:var_patterns)<CR>
+xnoremap <buffer><silent> av
+      \ :<C-u>call textobj#functioncall#a('x', b:var_patterns)<CR>
+
 " vim-surround
 " ----------
 

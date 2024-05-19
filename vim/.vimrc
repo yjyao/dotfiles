@@ -103,6 +103,7 @@ func! s:packager_init() abort
   call packager#add('junegunn/vim-easy-align')
   call packager#add('lervag/vimtex') " LaTeX utils.
   call packager#add('lifepillar/vim-solarized8') " Colorscheme.
+  call packager#add('machakann/vim-textobj-functioncall')
   " https://emmet.io: fast HTML creation.
   call packager#add('mattn/emmet-vim')
   call packager#add('michaeljsmith/vim-indent-object')
