@@ -90,6 +90,7 @@ func! s:packager_init() abort
   call packager#add('JikkuJose/vim-visincr')
   call packager#add('Vimjas/vim-python-pep8-indent')
   call packager#add('bkad/CamelCaseMotion')
+  call packager#add('chrisbra/Colorizer')
   " Vim operator that sorts lines.
   call packager#add('christoomey/vim-sort-motion')
   call packager#add('christoomey/vim-tmux-navigator')
@@ -459,6 +460,10 @@ cmap <C-v> <C-r>+
 " Emacs mode <Home>/<End> keys in command line mode.
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
+if &term =~ 'tmux' || &term =~ 'screen'
+  cnoremap <Esc>[1;5D <C-Left>
+  cnoremap <Esc>[1;5C <C-Right>
+endif
 
 " 删除所有行尾多余的空白（空格或 tab ）
 nmap <F12> :call ClearTrailingSpaces()<CR>
