@@ -18,15 +18,14 @@ or work environments.
 
 To install everything,
 you can clone this repo to the *correct location*
-and run the installation script
-at https://gist.github.com/df68976f158edceb63008d85a12333b1.
+and run the installation script.
 You should read the script before running an arbitrary script you found online.
 Putting all that together,
 here is the command:
 
 ```bash
 git clone --recursive -j5 https://github.com/yjyao/dotfiles.git ~/dotfiles/yjyao &&
-    curl https://gist.githubusercontent.com/raw/df68976f158edceb63008d85a12333b1 | bash
+    ~/dotfiles/yjyao/install-all-dotfiles.sh
 ```
 
 You might need to remove (preferably with backups) conflict files.
@@ -38,7 +37,7 @@ or added new files to `~/dotfiles/yjyao`,
 you can run the install script again to update:
 
 ```bash
-curl https://gist.githubusercontent.com/raw/df68976f158edceb63008d85a12333b1 | bash
+~/dotfiles/yjyao/install-all-dotfiles.sh
 ```
 
 To learn about how this works,
@@ -82,13 +81,22 @@ here are some options:
     ln -s jj ~/dotfiles/default/jj
     ```
 
+If you don't need any dotfiles from this repo,
+but simply would like to use a similar folder structure
+to manage your dotfiles,
+you can run the installation script directly:
+
+```bash
+curl https://raw.githubusercontent.com/yjyao/dotfiles/install-all-dotfiles.sh | bash
+```
+
 If you need to store the dotfile repos
 in a directory other than `~/dotfiles`,
 you can overwrite `DOTFILE_REPO_ROOT_DIR`
 when executing the install script.
 For more details,
 check the comments at the top
-of the [install script](https://gist.github.com/df68976f158edceb63008d85a12333b1).
+of the install script.
 
 ### The Simple Way
 
