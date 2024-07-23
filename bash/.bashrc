@@ -234,6 +234,8 @@ if [ -f ~/.fzf.bash ]; then
     bind -x '"\t": fzf_bash_completion'
     export FZF_COMPLETION_AUTO_COMMON_PREFIX=true
     export FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=true
+    # Fixes stty bug: https://github.com/lincheney/fzf-tab-completion/issues/40#issuecomment-893835455.
+    PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}stty '$(stty -g)'"
   fi
 fi
 
