@@ -15,6 +15,8 @@ let g:asyncomplete_min_chars = 3
 let g:asyncomplete_preprocessor = [function('asyncomplete#preprocessor#default_preprocessor')]
 
 func! s:register_sources()
+  inoremap <C-P> <Plug>(asyncomplete_force_refresh)
+  inoremap <C-N> <Plug>(asyncomplete_force_refresh)
 
   call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
         \ 'name': 'buffer',
