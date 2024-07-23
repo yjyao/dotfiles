@@ -30,6 +30,7 @@ merged_repo="${root}/.merged-repo"
 # Clean up: remove existent links and the merged repo.
 # This cleans up repos that are removed.
 if [[ -d "${merged_repo}" ]]; then
+  (cd "${repos}" && stow --target "${merged_repo}" */)
   (cd "${merged_repo}" && stow --target "${HOME}" --delete */)
   rm -rf "${merged_repo}"
 fi
@@ -37,7 +38,7 @@ fi
 mkdir -p "${repos}" "${merged_repo}"
 
 # Merge repos into the merged repo.
-(cd "${repos}" && stow --no-folding --target "${merged_repo}" --restow */)
+(cd "${repos}" && stow --target "${merged_repo}" --restow */)
 
 # Install the packages under the merged repo at home.
 (cd "${merged_repo}" && stow --target "${HOME}" --restow */)
