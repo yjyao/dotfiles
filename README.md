@@ -87,7 +87,7 @@ to manage your dotfiles,
 you can run the installation script directly:
 
 ```bash
-curl https://raw.githubusercontent.com/yjyao/dotfiles/install-all-dotfiles.sh | bash
+curl https://raw.githubusercontent.com/yjyao/dotfiles/main/install-all-dotfiles.sh | bash
 ```
 
 If you need to store the dotfile repos
