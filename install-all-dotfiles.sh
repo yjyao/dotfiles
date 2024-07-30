@@ -37,7 +37,7 @@ fi
 mkdir -p "${repos}" "${merged_repo}"
 
 # Merge repos into the merged repo.
-(cd "${repos}" && stow --target "${merged_repo}" --restow */)
+(cd "${repos}" && stow --no-folding --target "${merged_repo}" --restow */)
 
 # Install the packages under the merged repo at home.
 (cd "${merged_repo}" && stow --target "${HOME}" --restow */)
