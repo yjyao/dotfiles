@@ -76,9 +76,9 @@ func! s:packager_init() abort
   call packager#add('prabirshrestha/asyncomplete-file.vim')
   call packager#add('prabirshrestha/asyncomplete-lsp.vim')
   call packager#add('prabirshrestha/asyncomplete-ultisnips.vim')
-  call packager#add('prabirshrestha/asyncomplete.vim')
   call packager#add('prabirshrestha/vim-lsp')
   call packager#add('yjyao/asyncomplete-buffer.vim')
+  call packager#add('yjyao/asyncomplete.vim')
 
   " Vim operators:
   " - `gJ` to split one-liner code.
