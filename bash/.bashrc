@@ -227,7 +227,15 @@ fi
 export _Z_DATA=~/.z.data
 [ -f ~/.z/z.sh ] && source ~/.z/z.sh  # https://github.com/rupa/z
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f ~/.fzf.bash ]; then
+  source ~/.fzf.bash
+  if [ -f ~/.fzf-tab-completion/bash/fzf-bash-completion.sh ]; then
+    source ~/.fzf-tab-completion/bash/fzf-bash-completion.sh
+    bind -x '"\t": fzf_bash_completion'
+    export FZF_COMPLETION_AUTO_COMMON_PREFIX=true
+    export FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=true
+  fi
+fi
 
 # Add extra fzf complete supports
 if command -v _fzf_dir_completion &> /dev/null; then
