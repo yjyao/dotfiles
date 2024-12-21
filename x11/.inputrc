@@ -36,3 +36,5 @@ set keymap emacs
 TAB: menu-complete
 # shift-tab
 "\e[Z": menu-complete-backward
+
+"\C-w": backward-kill-word
