@@ -81,6 +81,8 @@ func! s:packager_init() abort
   call packager#add('yjyao/asyncomplete-buffer.vim')
   call packager#add('yjyao/asyncomplete.vim')
 
+  call packager#add('kana/vim-operator-user')
+
   " Vim operators:
   " - `gJ` to split one-liner code.
   " - `gK` to join code blocks into one-liners.
