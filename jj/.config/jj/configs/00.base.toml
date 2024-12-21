@@ -9,6 +9,11 @@ default-command = 'log'
 diff-editor = '_vimdirdiff'
 merge-editor = 'vimdiff'
 
+[colors]
+
+"working_copy empty" = "bright white"
+"working_copy empty description placeholder" = "bright white"
+
 [revsets]
 
 log = "@ | ancestors(immutable_heads().., 2) | heads(immutable_heads())"
