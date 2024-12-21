@@ -111,6 +111,7 @@ func! s:packager_init() abort
   " https://emmet.io: fast HTML creation.
   call packager#add('mattn/emmet-vim')
   call packager#add('michaeljsmith/vim-indent-object')
+  call packager#add('powerman/vim-plugin-AnsiEsc')
   " Character-level diff.
   call packager#add('rickhowe/diffchar.vim', { 'commit': '0187321' })
   " Auto disable search highlights.
