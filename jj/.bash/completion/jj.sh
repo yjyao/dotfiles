@@ -3,7 +3,7 @@ command -v jj &>/dev/null || exit
 
 source <(jj util completion bash)
 
-: ${FZF_JJ_REVSET_COMPLETION_TRIGGER:=&&}
+: ${FZF_JJ_REVSET_COMPLETION_TRIGGER:=@}
 
 _fzf_complete_jj() {
   local cur prev complete_type
@@ -20,12 +20,6 @@ _fzf_complete_jj() {
     "${FZF_COMPLETION_TRIGGER:-**}"       ) complete_type='paths' ;;
   esac
 
-  template_for_review=$(jj config get templates.log)
-  export LOG=$(jj --ignore-working-copy --color=always log -T "concat(
-    '<cid>', if(divergent, commit_id.short(4), change_id.short(4)), '<cid> ',
-    $template_for_review
-  )")
-
   case $complete_type in
 
     paths)
@@ -33,8 +27,15 @@ _fzf_complete_jj() {
       ;;
 
     revs)
+      template_for_review=$(jj --ignore-working-copy config get templates.log)
+      export LOG=$(jj --ignore-working-copy --color=always log -T "concat(
+        '<cid>', if(divergent, commit_id.short(4), change_id.short(4)), '<cid> ',
+        $template_for_review
+      )")
+
       FZF_COMPLETION_TRIGGER="$cur" _fzf_complete \
         -0 -1 \
+        --no-sort \
         --multi \
         --preview '
           echo "$LOG" |
@@ -45,9 +46,7 @@ _fzf_complete_jj() {
             "
           jj --ignore-working-copy --color=always show -s {1}
           ' \
-        -- "$@" < <(
-                  jj --ignore-working-copy --color=always log --no-graph -T 'concat(if(divergent, commit_id.short(4), change_id.short(4)), " ", builtin_log_oneline)'
-        )
+        -- "$@" < <(echo "$LOG" | sed -En 's/.*<cid>(.*)<cid>/\1/p')
       ;;
 
     # bookmarks)
@@ -68,7 +67,7 @@ _fzf_complete_jj() {
           --no-sort -- "$@" < <(
           for r in "${COMPREPLY[@]}"; do
             if [[ $r = "[FILESETS]..." ]]; then
-              jj log -r @ -T '' --no-graph --name-only
+              jj --ignore-working-copy log -r @ -T '' --no-graph --name-only
             else
               echo "$r"
             fi
@@ -82,11 +81,14 @@ _fzf_complete_jj() {
 
 _fzf_complete_jj_post() {
   input="$(cat | awk '{print $1}')"
-  if (( $(echo "$input" | wc -l) == 1 )); then
-    echo "$input"
-    return
-  fi
-  echo "$input" | paste -sd'|' | xargs printf "'%s'"
+  case $(echo "$input" | wc -l) in
+    1 ) echo "$input"
+      ;;
+    2 ) echo "$input" | tac | awk '{printf "%s%s", sep, $0; sep="::"}'
+      ;;
+    * ) echo "$input" | tac | paste -sd'|' | xargs printf "'%s'"
+      ;;
+  esac
 }
 
 complete -o bashdefault -o default -F _fzf_complete_jj jj
