@@ -72,6 +72,7 @@ func! s:packager_init() abort
   call packager#add('honza/vim-snippets')
 
   " Auto-complete family.
+
   call packager#add('hiterm/asyncomplete-look') " Dictionary completion.
   call packager#add('prabirshrestha/asyncomplete-file.vim')
   call packager#add('prabirshrestha/asyncomplete-lsp.vim')
@@ -599,6 +600,10 @@ onoremap ]d <Plug>(unimpaired-context-next)
 
 nnoremap <silent> <Plug>(unimpaired-context-previous) :<C-U>call <SID>Context(1)<CR>
 nnoremap <silent> <Plug>(unimpaired-context-next)     :<C-U>call <SID>Context(0)<CR>
+vnoremap <silent> <Plug>(unimpaired-context-previous) :<C-U>exe 'normal! gv'<Bar>call <SID>Context(1)<CR>
+vnoremap <silent> <Plug>(unimpaired-context-next)     :<C-U>exe 'normal! gv'<Bar>call <SID>Context(0)<CR>
+onoremap <silent> <Plug>(unimpaired-context-previous) :<C-U>exe 'normal! -V'<Bar>call <SID>Context(1)<CR>
+onoremap <silent> <Plug>(unimpaired-context-next)     :<C-U>exe 'normal! +V'<Bar>call <SID>Context(0)<CR>
 
 function! s:Context(reverse) abort
   call search('^\(@@ .* @@\|[<=>|%+]\{7}[<=>|%+]\@!\)', a:reverse ? 'bW' : 'W')
