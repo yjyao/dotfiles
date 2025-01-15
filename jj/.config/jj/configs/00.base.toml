@@ -4,6 +4,8 @@ name = 'Jy'
 
 [ui]
 
+default-command = 'log'
+
 diff-editor = '_vimdirdiff'
 merge-editor = 'vimdiff'
 
