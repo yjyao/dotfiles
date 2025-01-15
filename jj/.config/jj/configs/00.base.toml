@@ -65,3 +65,11 @@ changes = ['log', '--no-graph', '-T', 'surround(change_id.short(6), "", "\n")']
 
 # modified files
 mf = ['log', '--no-graph', '--name-only', '-T', '', '-r', 'head']
+
+hud = ['util', 'exec', '--', 'bash', '-c', '''
+watch -tcwn.5 '
+  jj --no-pager --ignore-working-copy --color always st
+  printf " \n"
+  jj --no-pager --ignore-working-copy --color always log
+'
+''', '']
