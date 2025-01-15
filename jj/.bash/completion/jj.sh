@@ -5,8 +5,11 @@ source <(jj util completion bash)
 
 : ${FZF_JJ_REVSET_COMPLETION_TRIGGER:=@}
 
+complete -o bashdefault -o default -F _fzf_complete_jj jj
+complete -o bashdefault -o default -F _fzf_complete_jj j
+
 _fzf_complete_jj() {
-  local cur prev complete_type
+  local cur prev complete_type aliases
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
@@ -27,8 +30,8 @@ _fzf_complete_jj() {
       ;;
 
     revs)
-      template_for_review=$(jj --ignore-working-copy config get templates.log)
-      export LOG=$(jj --ignore-working-copy --color=always log -T "concat(
+      template_for_review=$(_jji config get templates.log)
+      export LOG=$(_jji --color=always log -T "concat(
         '<cid>', if(divergent, commit_id.short(4), change_id.short(4)), '<cid> ',
         $template_for_review
       )")
@@ -44,7 +47,7 @@ _fzf_complete_jj() {
               s/^ (.*<cid>.*"{1}"\b.*<cid>)/>\1/
               s/<cid>.*<cid> //g
             "
-          jj --ignore-working-copy --color=always show -s {1}
+          _jji --color=always show -s {1}
           ' \
         -- "$@" < <(echo "$LOG" | sed -En 's/.*<cid>(.*)<cid>/\1/p')
       ;;
@@ -58,7 +61,14 @@ _fzf_complete_jj() {
     #   ;;
 
     *)
-      _jj "$@"
+      _jj "$@"  # Generate jj's built-in `COMPREPLY`.
+
+      # Suggest the aliases if the current line doesn't have a subcommand.
+      # That's when the line before the cursor
+      # contains exactly 1 non-option arguments: the jj command itself.
+      (( $(_non_option_arguments "${COMP_WORDS[@]:0:COMP_CWORD}" | wc -l) == 1 )) &&
+        COMPREPLY=("${COMPREPLY[@]}" $(_jj_aliases))
+
       if [[ ${#COMPREPLY[@]} = 0 ]]; then
         _fzf_path_completion
       else
@@ -67,11 +77,12 @@ _fzf_complete_jj() {
           --no-sort -- "$@" < <(
           for r in "${COMPREPLY[@]}"; do
             if [[ $r = "[FILESETS]..." ]]; then
-              jj --ignore-working-copy log -r @ -T '' --no-graph --name-only
+              _jji log -r @ -T '' --no-graph --name-only
             else
               echo "$r"
             fi
           done
+          echo "${aliases}"
         )
       fi
       ;;
@@ -91,5 +102,15 @@ _fzf_complete_jj_post() {
   esac
 }
 
-complete -o bashdefault -o default -F _fzf_complete_jj jj
-complete -o bashdefault -o default -F _fzf_complete_jj j
+_jji() {
+  jj --ignore-working-copy "$@"
+}
+export -f _jji
+
+_jj_aliases() {
+  _jji config list -T 'name ++ "\n"' 'aliases' | cut -d'.' -f2
+}
+
+_non_option_arguments() {
+  printf '%s\0' "$@" | grep -vz -e '^-' | tr '\0' '\n'
+}
