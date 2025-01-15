@@ -55,9 +55,12 @@ log = "@ | ancestors(immutable_heads().., 2) | heads(immutable_heads())"
 
 [aliases]
 
+rc = ['util', 'exec', '--', 'bash', '-c', '''
+"${EDITOR:-vi}" "${JJ_CONFIG?}"
+''', '']
+
 d = ['diff']
 lg = ['log']
-rc = ['config', 'edit', '--user']
 changes = ['log', '--no-graph', '-T', 'surround(change_id.short(6), "", "\n")']
 
 # modified files
