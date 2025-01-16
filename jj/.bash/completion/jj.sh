@@ -39,6 +39,8 @@ _fzf_complete_jj() {
       FZF_COMPLETION_TRIGGER="$cur" _fzf_complete \
         -0 -1 \
         --no-sort \
+        --exact \
+        --tiebreak=begin \
         --multi \
         --preview '
           echo "$LOG" |
