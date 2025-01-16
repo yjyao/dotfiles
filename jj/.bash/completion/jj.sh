@@ -42,6 +42,7 @@ _fzf_complete_jj() {
         --exact \
         --tiebreak=begin \
         --multi \
+        --read0 \
         --preview '
           echo "$LOG" |
             sed -E "
@@ -52,13 +53,23 @@ _fzf_complete_jj() {
           _jji --color=always show -s {1}
           ' \
         -- "$@" < <(
-                  echo "$LOG" |
-                    sed 's/^.*<cid>/<cid>/' |
-                    tr -d '\n' |
-                    sed -E 's/<cid>/\n<cid>/g' |
-                    tail +2 |
-                    sed -E 's!<cid>(.*)</cid>!\1!g'
-                  )
+          echo "$LOG" |
+            sed -En 's!.*<cid>(.*)</cid>.*!\1!p' |
+            xargs -n1 -- bash -c '
+              _jji --color=always log --no-graph -r "$1" -T "
+                concat(
+                  separate(
+                    \" \",
+                    pad_end(4, \"$1\"),
+                    if(!mine, author.name()),
+                    if(current_working_copy, label(\"working_copy\", \"@\")),
+                    bookmarks,
+                    tags,
+                    description.first_line(),
+                  ),
+                  \"\0\",
+                )"' _
+          )
       ;;
 
     # bookmarks)
