@@ -19,8 +19,8 @@ _fzf_complete_jj() {
     -b|--bookmark) complete_type='bookmarks' ;;
   esac
   [[ ! $complete_type ]] && case $cur in
-    "${FZF_JJ_REVSET_COMPLETION_TRIGGER}" ) complete_type='revs'  ;;
-    "${FZF_COMPLETION_TRIGGER:-**}"       ) complete_type='paths' ;;
+    *"${FZF_JJ_REVSET_COMPLETION_TRIGGER}" ) complete_type='revs'  ;;
+    *"${FZF_COMPLETION_TRIGGER:-**}"       ) complete_type='paths' ;;
   esac
 
   case $complete_type in
@@ -36,7 +36,8 @@ _fzf_complete_jj() {
         $template_for_review
       )")
 
-      FZF_COMPLETION_TRIGGER="$cur" _fzf_complete \
+      [[ $cur =~ @$ ]] && local trigger='@'
+      FZF_COMPLETION_TRIGGER="$trigger" _fzf_complete \
         -0 -1 \
         --no-sort \
         --exact \
