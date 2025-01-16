@@ -30,9 +30,9 @@ _fzf_complete_jj() {
       ;;
 
     revs)
-      template_for_review=$(_jji config get templates.log)
+      local template_for_review=$(_jji config get templates.log)
       export LOG=$(_jji --color=always log -T "concat(
-        '<cid>', if(divergent, commit_id.short(4), change_id.short(4)), '<cid> ',
+        '<cid>', raw_escape_sequence(if(divergent, commit_id.shortest(), change_id.shortest())), \"</cid>  \",
         $template_for_review
       )")
 
@@ -44,12 +44,19 @@ _fzf_complete_jj() {
           echo "$LOG" |
             sed -E "
               s/^/  /
-              s/^ (.*<cid>.*"{1}"\b.*<cid>)/>\1/
-              s/<cid>.*<cid> //g
+              s!^ (.*<cid>"{1}"</cid>)!>\1!
+              s!<cid>.*</cid>\s*!!g
             "
           _jji --color=always show -s {1}
           ' \
-        -- "$@" < <(echo "$LOG" | sed -En 's/.*<cid>(.*)<cid>/\1/p')
+        -- "$@" < <(
+                  echo "$LOG" |
+                    sed 's/^.*<cid>/<cid>/' |
+                    tr -d '\n' |
+                    sed -E 's/<cid>/\n<cid>/g' |
+                    tail +2 |
+                    sed -E 's!<cid>(.*)</cid>!\1!g'
+                  )
       ;;
 
     # bookmarks)
