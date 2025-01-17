@@ -87,6 +87,9 @@ func! s:packager_init() abort
   " - `gJ` to split one-liner code.
   " - `gK` to join code blocks into one-liners.
   call packager#add('AndrewRadev/splitjoin.vim')
+
+  " Diff selected regions.
+  call packager#add('AndrewRadev/linediff.vim')
   " No need to `:set paste` before pasting from terminal.
   call packager#add('ConradIrwin/vim-bracketed-paste')
   " Quickly create consecutive numbers.
