@@ -1,29 +1,31 @@
 # Requires https://github.com/martinvonz/jj.
 command -v jj &>/dev/null || exit
 
-source <(jj util completion bash)
+source <(COMPLETE=bash jj)
 
 : ${FZF_JJ_REVSET_COMPLETION_TRIGGER:=@}
+: ${FZF_JJ_COMPLETION_NOSPACE:=}
 
-complete -o bashdefault -o default -F _fzf_complete_jj jj
-complete -o bashdefault -o default -F _fzf_complete_jj j
+complete -o bashdefault -o default -o nospace -o nosort -F _fzf_complete_jj jj
+complete -o bashdefault -o default -o nospace -o nosort -F _fzf_complete_jj j
 
 _fzf_complete_jj() {
-  local cur prev complete_type aliases
+  local cur prev
+  __fzf_complete_jj_type=
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
   case $prev in
     -r|--revision|--revisions|-A|--insert-after|-B|--insert-before|--from|--to|--into|-s|--source|-d|--destination)
-      complete_type='revs' ;;
-    -b|--bookmark) complete_type='bookmarks' ;;
+      __fzf_complete_jj_type='revs' ;;
+    -b|--bookmark) __fzf_complete_jj_type='bookmarks' ;;
   esac
-  [[ ! $complete_type ]] && case $cur in
-    *"${FZF_JJ_REVSET_COMPLETION_TRIGGER}" ) complete_type='revs'  ;;
-    *"${FZF_COMPLETION_TRIGGER:-**}"       ) complete_type='paths' ;;
+  [[ ! $__fzf_complete_jj_type ]] && case $cur in
+    *"${FZF_JJ_REVSET_COMPLETION_TRIGGER}" ) __fzf_complete_jj_type='revs'  ;;
+    *"${FZF_COMPLETION_TRIGGER:-**}"       ) __fzf_complete_jj_type='paths' ;;
   esac
 
-  case $complete_type in
+  case $__fzf_complete_jj_type in
 
     paths)
       _fzf_path_completion
@@ -92,7 +94,8 @@ _fzf_complete_jj() {
     #   ;;
 
     *)
-      _jj "$@"  # Generate jj's built-in `COMPREPLY`.
+      command -v _clap_complete_jj &>/dev/null && jj_completion_command=_clap_complete_jj || jj_completion_command=_jj
+      SUPPRESS_SPACE=1 "${jj_completion_command}" "$@"  # Generate jj's built-in `COMPREPLY`.
 
       # Suggest the aliases if the current line doesn't have a subcommand.
       # That's when the line before the cursor
@@ -110,19 +113,37 @@ _fzf_complete_jj() {
             if [[ $r = "[FILESETS]..." ]]; then
               _jji log -r @ -T '' --no-graph --name-only
             else
-              echo "$r"
+              echo "${r}"
             fi
           done
-          echo "${aliases}"
         )
       fi
       ;;
 
   esac
+  compopt -o nospace;
 }
 
 _fzf_complete_jj_post() {
-  input="$(cat | awk '{print $1}')"
+  local input="$(cat)"
+
+  if [[ $FZF_JJ_COMPLETION_NOSPACE || $input =~ [=:/]$ ]]; then
+    local xspace=''
+  else
+    local xspace=' '
+  fi
+
+  if [[ ! $input ]]; then
+    [[ "${COMP_WORDS[COMP_CWORD]}" ]] && echo "${COMP_WORDS[COMP_CWORD]}"
+    return
+  fi
+
+  if [[ $__fzf_complete_jj_type != revs ]]; then
+    echo "${input}${xspace}"
+    return
+  fi
+
+  input="$(awk '{print $1}' <<< "$input")"
   case $(echo "$input" | wc -l) in
     1 ) echo "$input"
       ;;
