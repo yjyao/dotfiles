@@ -396,6 +396,8 @@ inoremap <C-e> <End>
 noremap gl $
 noremap gh ^
 
+nnoremap gct :tabclose<CR>
+
 " 搜索并落在结果的最后。用于和其他操作配合
 " `df<char>` 或 `cf<char>` 往往不够精准。需要数一下目标是第几个 `<char>`。这时
 " 候 `d/<pattern><CR>` 则方便得多（有高亮辅助。准确定位）
