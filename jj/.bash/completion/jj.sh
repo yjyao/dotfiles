@@ -31,10 +31,29 @@ _fzf_complete_jj() {
 
     revs)
       local template_for_review=$(_jji config get templates.log)
-      export LOG=$(_jji --color=always log -T "concat(
-        '<cid>', raw_escape_sequence(if(divergent, commit_id.shortest(), change_id.shortest())), \"</cid>  \",
-        $template_for_review
-      )")
+      export LOG=$(_jji --color=always log -T "
+        concat(
+          '<cid>',
+          raw_escape_sequence(if(divergent, commit_id.shortest(), change_id.shortest())),
+          '</cid>  ',
+          $template_for_review
+        )")
+      export LOG_ONELINE=$(_jji --color=always log --no-graph -T "
+                concat(
+                  separate(' ',
+                    concat(
+                      '<cid>',
+                      raw_escape_sequence(if(divergent, commit_id.shortest(), change_id.shortest())),
+                      '</cid>',
+                    ),
+                    if(!mine, author.name()),
+                    if(current_working_copy, label('working_copy', '@')),
+                    bookmarks,
+                    tags,
+                    description.first_line(),
+                  ),
+                  '</eol>',
+                )")
 
       [[ $cur =~ @$ ]] && local trigger='@'
       FZF_COMPLETION_TRIGGER="$trigger" _fzf_complete \
@@ -43,7 +62,6 @@ _fzf_complete_jj() {
         --exact \
         --tiebreak=begin \
         --multi \
-        --read0 \
         --preview '
           echo "$LOG" |
             sed -E "
@@ -56,20 +74,12 @@ _fzf_complete_jj() {
         -- "$@" < <(
           echo "$LOG" |
             sed -En 's!.*<cid>(.*)</cid>.*!\1!p' |
-            xargs -n1 -- bash -c '
-              _jji --color=always log --no-graph -r "$1" -T "
-                concat(
-                  separate(
-                    \" \",
-                    pad_end(4, \"$1\"),
-                    if(!mine, author.name()),
-                    if(current_working_copy, label(\"working_copy\", \"@\")),
-                    bookmarks,
-                    tags,
-                    description.first_line(),
-                  ),
-                  \"\0\",
-                )"' _
+            xargs -n1 bash -c '
+              printf "%-4s" "$1"
+              <<< "$LOG_ONELINE" \
+              sed -E "s!.*<cid>$1</cid>!!
+                      s!</eol>.*!!
+                      s!<cid>(.*)</cid>!\1!"' _
           )
       ;;
 
