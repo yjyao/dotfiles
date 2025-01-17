@@ -27,12 +27,8 @@ command -v fzf &>/dev/null || exit
 
 if command -v jj &>/dev/null; then
 
-  # Gets modified files in JJ repo.
-  __hotkeys_jj_modified_files() {
-    jj log --name-only --no-graph -T '' -r 'base::@ ~ immutable_heads()' | awk '!seen[$0]++'
-  } 2>/dev/null
   __hotkeys_jj_modified_files_selector() {
-    __hotkeys_jj_modified_files |
+    jj mf 2>/dev/null |
       fzf -0 -1 --multi --query "$(_get_readline_word_before_cursor)" |
       xargs
   }
