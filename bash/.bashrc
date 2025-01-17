@@ -119,8 +119,11 @@ if ! command -v __git_ps1 &>/dev/null; then
 fi
 
 __jj_ps1() {
-  local ret="$(jj --ignore-working-copy --color never log -l1 -r @ --no-graph --config-toml "
+  local ret="$(jj --ignore-working-copy --color never log -r @ --no-graph --config-file <(echo "
   [template-aliases]
+  'repr(c)' = '''
+  concat(c.change_id().shortest(), if(c.immutable(), '='), surround('(', ')', coalesce(c.tags(), c.bookmarks())))
+  '''
   'colored(color, txt)' = '''
     surround('\x01\e[' ++ color ++ 'm\x02', '\x01\e[0m\x02', txt)
   '''
@@ -131,22 +134,31 @@ __jj_ps1() {
   'magenta(txt)' = '''colored('35', txt)'''
   'cyan(txt)'    = '''colored('36', txt)'''
   'white(txt)'   = '''colored('37', txt)'''
-  " -T '
+  'dimmed(txt)'  = '''colored('97', txt)'''
+  ") -T '
   concat(
-    "[",
-    surround("", " -> ",
-      if(!description,  green(separate("+",
-        parents.map(|c| coalesce(
-        c.tags(), c.branches(), c.change_id().shortest())
-        ))))),
-    if(empty,
-      green(change_id.shortest()),
-      yellow(change_id.shortest() ++ "*")),
-    surround(":", "", concat(
-      if(divergent, red("Y")),
-      if(conflict,  yellow("X")),
-    )),
-    "]",
+    pad_end(35,
+      concat(
+        "[",
+        if(!description, surround("", " -> ",
+          green(separate(" + ", parents.map(|c| repr(c)))))),
+        if(empty,
+          green(repr(self)),
+          yellow(repr(self) ++ "*")),
+        surround(":", "", concat(
+          if(divergent, red("Y")),
+          if(conflict,  yellow("X")),
+        )),
+        "]",
+      ),
+    ),
+    dimmed(
+      truncate_end(
+        65,
+        indent("  ", coalesce(description.first_line(), parents.map(|c| c.description().first_line()))),
+        "..."
+      )
+    ),
   )' 2>/dev/null)"
   [[ $ret ]] && echo -e "$ret"
 }
