@@ -90,7 +90,7 @@ func! s:packager_init() abort
   " Quickly create consecutive numbers.
   call packager#add('JikkuJose/vim-visincr')
   call packager#add('Vimjas/vim-python-pep8-indent')
-  call packager#add('bkad/CamelCaseMotion')
+  call packager#add('chaoren/vim-wordmotion')
   call packager#add('chrisbra/Colorizer')
   " Vim operator that sorts lines.
   call packager#add('christoomey/vim-sort-motion')
