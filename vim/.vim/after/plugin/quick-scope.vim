@@ -12,9 +12,7 @@ for motion in split('fFtT', '\zs')
         \ motion, motion)
 endfor
 for motion in filter(g:qs_highlight_on_keys, "v:val =~# '^[fFtT]$'")
-    if empty(mapcheck(motion, 'nmap'))
-      execute printf('nmap <unique> %s <Plug>(MoreQuickScope%s)', motion, motion)
-    endif
+  execute printf('nmap %s <Plug>(MoreQuickScope%s)', motion, motion)
 endfor
 
 " Underline candidates.
