@@ -30,7 +30,8 @@ merged_repo="${root}/.merged-repo"
 # Clean up: remove existent links and the merged repo.
 # This cleans up repos that are removed.
 if [[ -d "${merged_repo}" ]]; then
-  (cd "${repos}" && stow --target "${merged_repo}" */)
+  (cd "${merged_repo}" && stow --target "${HOME}" --no-folding -R */)
+  (cd "${repos}" && stow --target "${merged_repo}" --no-folding */)
   (cd "${merged_repo}" && stow --target "${HOME}" --delete */)
   rm -rf "${merged_repo}"
 fi
