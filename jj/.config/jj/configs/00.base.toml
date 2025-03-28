@@ -9,6 +9,10 @@ default-command = 'log'
 diff-editor = '_vimdirdiff'
 merge-editor = 'vimdiff'
 
+[diff]
+
+color-words.conflict = "pair"
+
 [colors]
 
 "working_copy empty" = "bright white"
