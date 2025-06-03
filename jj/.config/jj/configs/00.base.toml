@@ -71,7 +71,7 @@ changes = ['log', '--no-graph', '-T', 'surround(change_id.short(6), "", "\n")']
 # `jj mf -r x` for modified files at revset `x`.
 mf = ['util', 'exec', '--', 'bash', '-c', '''
 [[ $@ =~ -r ]] || eval set -- -r active "$@"
-jj diff --name-only "$@" | awk '!seen[$0]++'
+jj diff --name-only "$@"
 ''', '']
 
 hud = ['util', 'exec', '--', 'bash', '-c', '''
