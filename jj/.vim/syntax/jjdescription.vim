@@ -1,3 +1,7 @@
+unlet! b:current_syntax
+runtime! syntax/markdown.vim
+let b:current_syntax = 'jjdescription'
+
 " \C - Always match case. Only treat uppercase "JJ" as comment marker.
 syn match JjdescriptionOneLineComment /\C^JJ: .*/ contains=JjdescriptionFileAdd,JjdescriptionFileChange,JjdescriptionFileDelete
 syn match JjdescriptionFileAdd /\C^JJ:\s\+\zsA\>/ contained
