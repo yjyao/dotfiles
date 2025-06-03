@@ -4,4 +4,6 @@ setlocal tw=0 nowrap
 setlocal omnifunc=htmlcomplete#CompleteTags
 
 " Requires emmet-vim.
-EmmetInstall
+if exists(':EmmetInstall')
+  EmmetInstall
+endif
