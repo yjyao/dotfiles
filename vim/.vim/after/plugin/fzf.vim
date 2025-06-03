@@ -5,12 +5,6 @@ let g:fzf_preview_window = []  " Disable preview windows.
 " Use the <C-p> convention from ctrlp.vim to trigger file search.
 nnoremap <C-p> <Cmd>call <SID>fzf(<SID>project_root())<CR>
 
-augroup fzf_window
-  autocmd!
-  " Fix <C-w> for backward-kill-word.
-  au FileType fzf tnoremap <buffer> <c-w> <c-w>.
-augroup end
-
 if $FZF_DEFAULT_COMMAND =~ '\<fd\(find\)\?\>'
   let $FZF_DEFAULT_COMMAND .= ' --type f .'
 elseif !exists('$FZF_DEFAULT_COMMAND')
@@ -23,7 +17,6 @@ func! s:source_cmd(dir)
   let cmd = using_fd
         \ ? printf($FZF_DEFAULT_COMMAND . ' -x realpath --relative-base %s \{\} \; -- %s', a:dir, a:dir)
         \ : printf('find -L %s -type f "!" -path "*/.git/*" "!" -path "*/.jj/*" -exec realpath --relative-base %s \{\} \;', a:dir, a:dir)
-  echom '$ ' . cmd
   return cmd
 endfunc
 
@@ -35,8 +28,6 @@ endif
 func! s:project_root()
   for cmd in g:rooter_commands
     let root = systemlist('cd ' . expand('%:p:h:S') . '; '. cmd . ' 2>/dev/null')
-    echom 'hey ' . cmd
-    echom root
     if !empty(root)
       return root[0]
     endif
@@ -58,6 +49,10 @@ func! s:fzf(dir)
         \ 'dir': a:dir,
         \ 'sink': function(expand('<SID>').'edit_files_relative_to_path', [cwd_f]),
         \ 'options': [
+        \   '--bind',
+        \     'ctrl-w:backward-kill-word',
+        \   '--bind',
+        \     '%:reload:'.'echo '.expand('%:p:h:S').' > '.cwd.';'.<SID>source_cmd(expand('%:p:h:S')),
         \   '--bind',
         \     '-:reload:' .
         \       'cwd="$(cat '.cwd.')"; ' .
