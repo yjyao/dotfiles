@@ -11,9 +11,11 @@ for motion in split('fFtT', '\zs')
         \   :let &l:iskeyword = oldiskeyword<CR>',
         \ motion, motion)
 endfor
-for motion in filter(g:qs_highlight_on_keys, "v:val =~# '^[fFtT]$'")
-  execute printf('nmap %s <Plug>(MoreQuickScope%s)', motion, motion)
-endfor
+if exists("g:qs_highlight_on_keys")
+  for motion in filter(g:qs_highlight_on_keys, "v:val =~# '^[fFtT]$'")
+    execute printf('nmap %s <Plug>(MoreQuickScope%s)', motion, motion)
+  endfor
+endif
 
 " Underline candidates.
 " The candidate highlights can blend with syntax highlights.
