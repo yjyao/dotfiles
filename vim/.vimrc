@@ -119,7 +119,6 @@ func! s:packager_init() abort
   call packager#add('rickhowe/diffchar.vim', { 'commit': '0187321' })
   " Auto disable search highlights.
   call packager#add('romainl/vim-cool')
-  call packager#add('takac/vim-hardtime') " Stop bad habbits.
   " Vim operator for exchanging/swapping text.
   call packager#add('tommcdo/vim-exchange')
   " Vim operator that comments code.
